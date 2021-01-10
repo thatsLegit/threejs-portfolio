@@ -1,0 +1,62 @@
+html, body {
+    height: 100%;
+    margin: 0;
+}
+#c {
+    /* position: fixed; if you want to use the canvas as a bg */
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+#info {
+    position: absolute;
+    left: 1em;
+    top: 1em;
+    background: rgba(0,0,0,.8);
+    padding: .5em;
+    color: white;
+    font-family: monospace;
+}
+  
+/* loading textures progress bar */
+#loading {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#loading .progress {
+  margin: 1.5em;
+  border: 1px solid black;
+  width: 50vw;
+}
+#loading .progressbar {
+  margin: 2px;
+  background: blue;
+  height: 1em;
+  transform-origin: top left;
+  transform: scaleX(0);
+}
+#loading .progressTitle {
+  text-align: center;
+  font-weight: bold; 
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+/* camera examples */
+.split {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+}
+.split>div {
+  width: 100%;
+  height: 100%;
+}
