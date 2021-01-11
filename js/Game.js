@@ -65,16 +65,6 @@ class Game {
         texture.encoding = THREE.sRGBEncoding;
         this._scene.background = texture;
 
-        // const plane = new THREE.Mesh( //could be used for collision detection ?
-        //     new THREE.PlaneGeometry(1000, 1000, 10, 10),
-        //     new THREE.MeshStandardMaterial({
-        //         color: 0x808080,
-        //         }));
-        // plane.castShadow = false;
-        // plane.receiveShadow = true;
-        // plane.rotation.x = -Math.PI / 2;
-        // this._scene.add(plane);
-
         this._mixers = [];
         this._previousRAF = null;
 

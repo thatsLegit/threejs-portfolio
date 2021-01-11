@@ -57,12 +57,6 @@ class CharacterController {
         }
         //default beginning state
         this._stateMachine.SetState('idle');
-
-        // let BBox = new THREE.Box3().setFromObject(model);
-        // BBox.min.sub(model.position);
-        // BBox.max.sub(model.position);
-        // const helper = new THREE.Box3Helper( BBox, 0xffff00 );
-        // this._params.scene.add( helper );
     }
   
     Update(timeInSeconds) { //called on each frame
@@ -74,7 +68,7 @@ class CharacterController {
             if(this._params.cameraControl.enabled == false) {
                 this._params.cameraControl.target.set(
                     this._position.x, 
-                    this._position.y + 20, 
+                    this._position.y + 30, 
                     this._position.z
                     );
                 this._params.cameraControl.update();

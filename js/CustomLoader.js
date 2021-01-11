@@ -23,42 +23,20 @@ class CustomLoader {
 
         this._envModelsManager = new THREE.LoadingManager();
         this._envModelsLoader = new GLTFLoader(this._envModelsManager);
-        this._envModels = {
-            knight: { 
-                url: '../resources/blender_models/characters/knight/KnightCharacter.glb', //model (gltf) is then added
-                animIdx: 3 
+        this._envModels = { //model (gltf) is then added
+            animated: {
+                knight: { url: '../resources/blender_models/characters/knight/KnightCharacter.glb'},
+                treasureChest: { url: '../resources/blender_models/treasure-chest/scene.gltf'}
             },
-            rain: { 
-                url: '../resources/blender_models/rain/scene.gltf',
-                animIdx: 0
-            },
-            platform: { 
-                url: '../resources/blender_models/platform/desert/scene.gltf',
-                animIdx: null
-            },
-            iceWorld: { 
-                url: '../resources/blender_models/iceWorld/ice.glb',
-                animIdx: null
-            },
-            bridge: { 
-                url: '../resources/blender_models/iceWorld/bridge.glb',
-                animIdx: null
-            },
-            trees: { 
-                url: '../resources/blender_models/forest/trees/trees.glb',
-                animIdx: null
-            },
-            foliage: { 
-                url: '../resources/blender_models/forest/foliage/foliage.glb',
-                animIdx: null
-            },
-            arch: { 
-                url: '../resources/blender_models/forest/arch/arch.glb',
-                animIdx: null
-            },
-            treasureChest: { 
-                url: '../resources/blender_models/treasure-chest/scene.gltf',
-                animIdx: 0
+            static: {
+                platform: { url: '../resources/blender_models/platform/desert/scene.gltf'},
+                smallPlatform: { url: '../resources/blender_models/platform/small/smallPlatform.glb'},
+                iceWorld: { url: '../resources/blender_models/iceWorld/ice.glb'},
+                bridge: { url: '../resources/blender_models/iceWorld/bridge.glb'},
+                trees: { url: '../resources/blender_models/forest/trees/trees.glb'},
+                foliage: { url: '../resources/blender_models/forest/foliage/foliage.glb'},
+                arch: { url: '../resources/blender_models/forest/arch/arch.glb'},
+                ship: { url: '../resources/blender_models/ship/ship.glb'}
             }
         };
 
@@ -100,7 +78,6 @@ class CustomLoader {
             this._OnProgress(null, 1, 1);
             this._LoadEnvModels.call(this);
         });
-
     }
     _LoadEnvModels() {
         this._envModelsManager.onStart = () => {progressTitle.textContent = "Loading environment..."};
@@ -108,11 +85,14 @@ class CustomLoader {
         this._envModelsManager.onProgress = this._OnProgress;
         this._envModelsManager.onError = () => {progressTitle.textContent = "Oops, environment models coudln't have been loaded :/. Try later."};
 
-        for (let model of Object.values(this._envModels)) {
-            this._envModelsLoader.load(model.url, gltf => {
-                model.gltf = gltf;
-            });
-        }
+        Object.values(this._envModels).forEach((m, idx) => {
+            const type = idx == 0 ? 'animated' : 'static';
+            for (let model in m) {
+                this._envModelsLoader.load(this._envModels[type][model].url, gltf => {
+                    this._envModels[type][model].gltf = gltf;
+                });
+            }
+        });
     }
     _LoadCharacterModel() {
         this._characterModelManager.onStart = () => {progressTitle.textContent = "Loading character..."};
@@ -126,8 +106,7 @@ class CustomLoader {
         this._characterAnimationsManager.onStart = () => {progressTitle.textContent = "Loading character animations..."};
         this._characterAnimationsManager.onLoad = () => {
             loadingElem.style.display = 'none';
-            let _APP = new Game(this); //game launch
-            window.addEventListener('resize', _APP._OnWindowResize.bind(_APP));
+            this._LaunchGame();
         };
         this._characterAnimationsManager.onProgress = this._OnProgress;
         this._characterAnimationsManager.onError = () => {progressTitle.textContent = "Oops, character animations coudln't have been loaded :/. Try later."};
@@ -138,6 +117,10 @@ class CustomLoader {
                 a => this._charAnimations[animName].anim = a
             );
         }
+    }
+    _LaunchGame() {
+        let _APP = new Game(this); //game launch
+        window.addEventListener('resize', _APP._OnWindowResize.bind(_APP));
     }
 }
 

@@ -15,164 +15,86 @@ class EnvController {
     }
 
     _Init() {
-        for (let modelName in this._params.customLoader._envModels) {
+        const statics = this._params.customLoader._envModels.static;
+        for (let modelName in statics) {
             switch (modelName) {
                 case 'platform':
-                    this._Platform.call(this, this._params.customLoader._envModels[modelName]);
+                    this._SetModel.call(this, statics[modelName], 100, new THREE.Vector3(0, -245, 0));
+                    break;
+                case 'smallPlatform':
+                    this._SetModel.call(this, statics[modelName], 60, new THREE.Vector3(40, -50, -720), null, true);
                     break;
                 case 'iceWorld':
-                    this._IceWorld.call(this, this._params.customLoader._envModels[modelName]);
+                    this._SetModel.call(this, statics[modelName], 0.35, new THREE.Vector3(-30, -21, 70), null, true, true);
                     break;
                 case 'bridge':
-                    this._Bridge.call(this, this._params.customLoader._envModels[modelName]);
+                    this._SetModel.call(this, statics[modelName], 5, new THREE.Vector3(-30, -28, 70));
                     break;
                 case 'trees':
-                    this._Trees.call(this, this._params.customLoader._envModels[modelName]);
+                    this._SetModel.call(this, statics[modelName], 0.1, new THREE.Vector3(-150, 0, 0), null, true, true);
                     break;
                 case 'arch':
-                    this._Arch.call(this, this._params.customLoader._envModels[modelName]);
+                    this._SetModel.call(this, statics[modelName], 100, new THREE.Vector3(40, 0, -350), new THREE.Vector3(0, Math.PI/2, 0), true, true);
+                    break;
+                case 'foliage':
+                    this._SetModel.call(this, statics[modelName], 0.1);
+                    break;
+                case 'ship':
+                    this._SetModel.call(this, statics[modelName], 5, new THREE.Vector3(0, 100, 1300), new THREE.Vector3(0, -Math.PI/2, 0), false, true);
                     break;
                 default:
                     break;
             }
         };
     }
-    _Platform(model) {
+    _SetModel(model, scalar = null, initWorldPos = null, rotation = null, receiveSh = false, castSh = false) {
         const clonedScene = SkeletonUtils.clone(model.gltf.scene);
         const root = new THREE.Object3D();
         root.add(clonedScene);
         this._params.scene.add(root);
 
-        root.scale.setScalar(100);
-        root.position.set(0, -245, 0);
-
-        root.updateMatrixWorld();
-
-        let BBox = new THREE.Box3().setFromObject(root);
-        const helper = new THREE.Box3Helper( BBox, 0xffff00 );
-        this._params.scene.add( helper );
-    }
-    _IceWorld(model) {
-        const clonedScene = SkeletonUtils.clone(model.gltf.scene);
-        const root = new THREE.Object3D();
-        root.add(clonedScene);
-        this._params.scene.add(root);
-
-        //adding shadows to every element in the scene
-        root.traverse((obj) => {
-            if (obj.castShadow !== undefined) {
-                obj.castShadow = true;
-                obj.receiveShadow = true;
-            }
-        });
-        root.scale.setScalar(0.35);
-        root.position.set(-30, -21, 70);
-
-        root.updateMatrixWorld();
-
-        let BBox = new THREE.Box3().setFromObject(root);
-        const helper = new THREE.Box3Helper( BBox, 0xffff00 );
-        this._params.scene.add( helper );
-    }
-    _Bridge(model) {
-        const clonedScene = SkeletonUtils.clone(model.gltf.scene);
-        const root = new THREE.Object3D();
-        root.add(clonedScene);
-        this._params.scene.add(root);
-
-        root.scale.setScalar(5);
-        root.position.set(-30, -28, 70);
-
-        root.updateMatrixWorld();
-
-        let BBox = new THREE.Box3().setFromObject(root);
-        const helper = new THREE.Box3Helper( BBox, 0xffff00 );
-        this._params.scene.add( helper );
-    }
-    _Trees(model) {
-        const clonedScene = SkeletonUtils.clone(model.gltf.scene);
-        const root = new THREE.Object3D();
-        root.add(clonedScene);
-        this._params.scene.add(root);
-
-        //adding shadows to every element in the scene
-        root.traverse((obj) => {
-            if (obj.castShadow !== undefined) {
-                obj.castShadow = true;
-                obj.receiveShadow = true;
-            }
-        });
-        root.scale.setScalar(0.1);
-        root.position.set(-150, 0, 0);
-
-        root.updateMatrixWorld();
-
-        let BBox = new THREE.Box3().setFromObject(root);
-        const helper = new THREE.Box3Helper( BBox, 0xffff00 );
-        this._params.scene.add( helper );
-    }
-    _Foliage(model) {
-        const clonedScene = SkeletonUtils.clone(model.gltf.scene);
-        const root = new THREE.Object3D();
-        root.add(clonedScene);
-        this._params.scene.add(root);
-
-        root.scale.setScalar(0.1);
-        // root.position.set(-150, 0, 0);
-
-        root.updateMatrixWorld();
-
-        let BBox = new THREE.Box3().setFromObject(root);
-        const helper = new THREE.Box3Helper( BBox, 0xffff00 );
-        this._params.scene.add( helper );
-    }
-    _Arch(model) {
-        const clonedScene = SkeletonUtils.clone(model.gltf.scene);
-        const root = new THREE.Object3D();
-        root.add(clonedScene);
-        this._params.scene.add(root);
-
-        //adding shadows to every element in the scene
-        root.traverse((obj) => {
-            if (obj.castShadow !== undefined) {
-                obj.castShadow = true;
-                obj.receiveShadow = true;
-            }
-        });
-        root.scale.setScalar(100);
-        root.rotation.y = Math.PI/2;
-        root.position.set(40, 0, -350);
-
-        root.updateMatrixWorld();
-
-        let BBox = new THREE.Box3().setFromObject(root);
-        const helper = new THREE.Box3Helper( BBox, 0xffff00 );
-        this._params.scene.add( helper );
+        if(receiveSh || castSh) {
+            root.traverse(obj => {
+                castSh && (obj.castShadow = true);
+                receiveSh && (obj.receiveShadow = true);
+            });
+        }
+        
+        scalar && root.scale.setScalar(scalar);
+        rotation && root.rotation.setFromVector3(rotation);
+        initWorldPos && root.position.copy(initWorldPos);
+        
+        console.log(this._params.scene);
     }
 }
 
 export default EnvController;
 
-
-
-//shadows
-//scale
-//later: animations
-//later: collisions
-
 // console.log(dumpObject(root).join('\n'));
 // const base = root.getObjectByName('AguaSuelo01_M_AguaSombra_0'); //the base of the platform is at (0,0,0)
 // console.log(base.getWorldPosition());
 
-// Object.values(this._customLoader._envModels).forEach((model, ndx) => {
+// _SmallPlatform(model){
 //     const clonedScene = SkeletonUtils.clone(model.gltf.scene);
 //     const root = new THREE.Object3D();
 //     root.add(clonedScene);
-//     this._scene.add(root);
-//     root.position.x = (ndx - 3) * 3;
-// });
+//     this._params.scene.add(root);
 
-// if(typeof model.animIdx !== 'number') return; //no animation available
+//     //adding shadows to every element in the scene
+//     root.traverse((obj) => {
+//         if (obj.castShadow !== undefined) {
+//             obj.receiveShadow = true;
+//         }
+//     });
+//     root.scale.setScalar(60);
+//     root.position.set(40, -50, -720);
+
+//     root.updateMatrixWorld();
+
+//     // let BBox = new THREE.Box3().setFromObject(root);
+//     // const helper = new THREE.Box3Helper( BBox, 0xffff00 );
+//     // this._params.scene.add( helper );
+// }
 
 // const mixer = new THREE.AnimationMixer(clonedScene);
 // this._mixers.push(mixer);
