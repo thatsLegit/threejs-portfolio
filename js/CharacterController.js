@@ -55,6 +55,14 @@ class CharacterController {
                 action: action
             };
         }
+
+        let BBox = new THREE.Box3().setFromObject(model);
+        console.log(BBox);
+        // BBox.min.sub(new THREE.Vector3(20,0,0));
+        // BBox.max.sub(new THREE.Vector3(10,0,0));
+        const helper = new THREE.Box3Helper( BBox, 0xffff00 );
+        this._params.scene.add( helper );
+
         //default beginning state
         this._stateMachine.SetState('idle');
     }

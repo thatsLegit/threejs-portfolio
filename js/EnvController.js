@@ -63,8 +63,6 @@ class EnvController {
         scalar && root.scale.setScalar(scalar);
         rotation && root.rotation.setFromVector3(rotation);
         initWorldPos && root.position.copy(initWorldPos);
-        
-        console.log(this._params.scene);
     }
 }
 
@@ -90,11 +88,12 @@ export default EnvController;
 //     root.position.set(40, -50, -720);
 
 //     root.updateMatrixWorld();
-
-//     // let BBox = new THREE.Box3().setFromObject(root);
-//     // const helper = new THREE.Box3Helper( BBox, 0xffff00 );
-//     // this._params.scene.add( helper );
-// }
+   
+// let BBox = new THREE.Box3().setFromObject(model);
+// BBox.min.sub(model.position);
+// BBox.max.sub(model.position);
+// const helper = new THREE.Box3Helper( BBox, 0xffff00 );
+// this._params.scene.add( helper );
 
 // const mixer = new THREE.AnimationMixer(clonedScene);
 // this._mixers.push(mixer);
