@@ -22,7 +22,7 @@ class EnvController {
                     this._SetModel.call(this, statics[modelName], 100, new THREE.Vector3(0, -245, 0));
                     break;
                 case 'smallPlatform':
-                    this._SetModel.call(this, statics[modelName], 60, new THREE.Vector3(40, -50, -720), null, true);
+                    this._SetModel.call(this, statics[modelName], 60, new THREE.Vector3(40, -55, -720), null, true);
                     break;
                 case 'iceWorld':
                     this._SetModel.call(this, statics[modelName], 0.35, new THREE.Vector3(-30, -21, 70), null, true, true);

@@ -169,6 +169,8 @@ function main() {
         mouse.y = - (e.clientY / window.innerHeight) * 2 + 1;
     });
 
+    console.log(mouse);
+
     function openBox(containerObj) {
         const [plane1, plane2, plane3, plane4, plane5, plane6] = containerObj;
         

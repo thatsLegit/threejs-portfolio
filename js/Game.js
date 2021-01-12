@@ -11,6 +11,7 @@ const canvas = document.querySelector('#c');
 class Game {
     constructor(customLoader) {
         this._customLoader = customLoader;
+        this._ground = [];
         this._Initialize();
     }
 
@@ -65,6 +66,69 @@ class Game {
         texture.encoding = THREE.sRGBEncoding;
         this._scene.background = texture;
 
+        {
+            //let's make triangles, planes and sphere to define the walkable surface
+            {
+                const plane = new THREE.Mesh(
+                    new THREE.PlaneGeometry(740, 600),
+                    new THREE.MeshStandardMaterial({color: 0x808080}));
+                plane.rotation.x = -Math.PI / 2;
+                const box = new THREE.Box3().setFromObject(plane);
+                this._ground.push(box);
+            }
+            {
+                const plane = new THREE.Mesh(
+                    new THREE.PlaneGeometry(115, 800),
+                    new THREE.MeshStandardMaterial({color: 0x808080, side: THREE.DoubleSide}));
+                plane.rotation.x = -Math.PI / 2;
+                plane.position.set(30, 3, 800);
+                const box = new THREE.Box3().setFromObject(plane);
+                this._ground.push(box);
+            }
+            {
+                const plane = new THREE.Mesh(
+                    new THREE.PlaneGeometry(120, 375),
+                    new THREE.MeshStandardMaterial({color: 0x808080, side: THREE.DoubleSide}));
+                plane.rotation.x = -Math.PI / 2;
+                plane.position.set(40, 3, -500);
+                const box = new THREE.Box3().setFromObject(plane);
+                this._ground.push(box);
+            }
+            {
+                const sphere = new THREE.Sphere(new THREE.Vector3(43, 0, -720), 54);
+                this._ground.push(sphere);
+            }
+            // starting from the top
+            {
+                let v1 = new THREE.Vector3(-370, 0, 300); //haut
+                let v2 = new THREE.Vector3(-500, 0, 0);
+                let v3 = new THREE.Vector3(-370, 0, -300);
+                let triangle = new THREE.Triangle( v1, v2, v3 );
+                this._ground.push(triangle);
+            }
+            {
+                let v1 = new THREE.Vector3(-370, 0, -300); //gauche
+                let v2 = new THREE.Vector3(0, 0, -400);
+                let v3 = new THREE.Vector3(370, 0, -300);
+                let triangle = new THREE.Triangle( v1, v2, v3 );
+                this._ground.push(triangle);
+            }
+            {
+                let v1 = new THREE.Vector3(370, 0, -300); //bas
+                let v2 = new THREE.Vector3(500, 0, 0);
+                let v3 = new THREE.Vector3(370, 0, 300);
+                let triangle = new THREE.Triangle( v1, v2, v3 );
+                this._ground.push(triangle);
+            } 
+            {
+                let v1 = new THREE.Vector3(-370, 0, 300); //droite
+                let v2 = new THREE.Vector3(0, 0, 400);
+                let v3 = new THREE.Vector3(370, 0, 300);
+                let triangle = new THREE.Triangle( v1, v2, v3 );
+                this._ground.push(triangle);
+            }
+        }
+
         this._mixers = [];
         this._previousRAF = null;
 
@@ -78,7 +142,8 @@ class Game {
             camera: this._camera,
             scene: this._scene,
             cameraControl: this._cameraControl,
-            customLoader: this._customLoader
+            customLoader: this._customLoader,
+            ground: this._ground
         });
 
         this._thirdPersonCamera = new ThirdPersonCamera({
@@ -86,7 +151,6 @@ class Game {
             target: this._controls
         });
     }
-
     _InitEnv() {
         this._environment = new EnvController({
             scene: this._scene,
@@ -125,3 +189,47 @@ class Game {
 }
 
 export default Game;
+
+
+// const pointsArray = [
+//     [
+//         new THREE.Vector2(10, 405),
+//         new THREE.Vector2(-365, 300),
+//         new THREE.Vector2(-500, 0),
+//         new THREE.Vector2(-365, -300),
+//         new THREE.Vector2(3, -401),
+//         new THREE.Vector2(370, -300)
+//     ],
+//     [
+//         new THREE.Vector2(10, 405),
+//         new THREE.Vector2(370, -300),
+//         new THREE.Vector2(500, 0),
+//         new THREE.Vector2(370, 300)
+//     ]
+// ];
+// pointsArray.forEach(points => {
+//     let shape = new THREE.Shape(points);
+//     let geometry = new THREE.ShapeGeometry(shape);
+//     console.log(geometry);
+//     let material = new THREE.MeshBasicMaterial({color: 0x00ff00});
+//     let mesh = new THREE.Mesh(geometry, material);
+//     mesh.rotation.x = -Math.PI/2;
+//     mesh.position.y = 1;
+//     mesh.visible = true;
+//     this._ground.add(mesh);
+// });
+// this._scene.add(this._ground);
+
+
+//strategy:
+// using chararcter's box3 with intersection with planes and triangles representing the surface of the island
+// the box3 is defined using:
+
+// .setFromCenterAndSize ( center : Vector3, size : Vector3 ) : this
+// center, - Desired center position of the box. this._target basically with an offset to y
+// size - Desired x, y and z dimensions of the box.
+
+// Centers this box on center and sets this box's width, height and depth to the values specified
+// in size
+
+//raycasting can not be used as it uses camera and mouse clicks which doesn't really apply here

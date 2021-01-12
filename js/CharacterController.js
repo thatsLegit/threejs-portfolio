@@ -56,19 +56,28 @@ class CharacterController {
             };
         }
 
-        let BBox = new THREE.Box3().setFromObject(model);
-        console.log(BBox);
-        // BBox.min.sub(new THREE.Vector3(20,0,0));
-        // BBox.max.sub(new THREE.Vector3(10,0,0));
-        const helper = new THREE.Box3Helper( BBox, 0xffff00 );
-        this._params.scene.add( helper );
-
         //default beginning state
         this._stateMachine.SetState('idle');
     }
   
     Update(timeInSeconds) { //called on each frame
         if (!this._target) return;
+
+        //setting character's "hit box" based on its position
+        this._characterBox = new THREE.Box3().setFromCenterAndSize(new THREE.Vector3(0,20,0).add(this._target.position), new THREE.Vector3(10,45,10));
+
+        //0,1,2 planes, 3 sphere, ...triangles
+        const intersects = this._params.ground.some((elem, idx) => {
+            if(idx == 0 || idx == 1 || idx == 2) {
+                if (this._characterBox.intersectsBox(elem)) return true;
+            } else if(idx == 3) {
+                if (this._characterBox.intersectsSphere(elem)) return true;
+            } else {
+                if (this._characterBox.intersectsTriangle(elem)) return true;
+            }
+        });
+
+        !intersects ? console.log('you are dead !') : console.log('you are on the island.');
     
         this._stateMachine.Update(timeInSeconds, this._input); //update the current state (FSM)
 
