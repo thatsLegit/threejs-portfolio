@@ -48,6 +48,7 @@ class CharacterControllerInput {
     _onKeyUp(event) {
         switch(event.key) {
             case 'w': // w
+            case 'W': // w
             this._keys.forward = false;
             break;
             case 'a': // a

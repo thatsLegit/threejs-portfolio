@@ -61,7 +61,8 @@ class CustomLoader {
             run:  { url: '../resources/blender_models/characters/megan/animations/run.fbx' },
             idle:    { url: '../resources/blender_models/characters/megan/animations/idle.fbx' },
             openingALid:  { url: '../resources/blender_models/characters/megan/animations/openingALid.fbx' },
-            closingALid:  { url: '../resources/blender_models/characters/megan/animations/closingALid.fbx' }
+            closingALid:  { url: '../resources/blender_models/characters/megan/animations/closingALid.fbx' },
+            falling:  { url: '../resources/blender_models/characters/megan/animations/falling.fbx' }
         }
     }
 

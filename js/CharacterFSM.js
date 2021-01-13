@@ -1,5 +1,6 @@
 import FiniteStateMachine from './FiniteStateMachine.js';
-import {IdleState, WalkState, WalkBackwardsState, RunState, OpenLidState, CloseLidState} from './states.js';
+import {IdleState, WalkState, WalkBackwardsState, RunState, 
+    OpenLidState, CloseLidState, FallingState} from './states.js';
 
 
 class CharacterFSM extends FiniteStateMachine {
@@ -16,6 +17,7 @@ class CharacterFSM extends FiniteStateMachine {
         this._AddState('run', RunState);
         this._AddState('openingALid', OpenLidState);
         this._AddState('closingALid', CloseLidState);
+        this._AddState('falling', FallingState);
     }
 };
 

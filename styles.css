@@ -29,8 +29,8 @@ html, body {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0,0,0,0.6); /* Black background with opacity */
   z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
+  background-color: black;
 }
 .overlay-content {
   position: relative;
@@ -50,13 +50,13 @@ html, body {
 }
 /* used in tankSystem example */
 #info {
-    position: absolute;
-    left: 1em;
-    top: 1em;
-    background: rgba(0,0,0,.8);
-    padding: .5em;
-    color: white;
-    font-family: monospace;
+  position: absolute;
+  left: 1em;
+  top: 1em;
+  background: rgba(0,0,0,.8);
+  padding: .5em;
+  color: white;
+  font-family: monospace;
 }
   
 /* loading textures progress bar */

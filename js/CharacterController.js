@@ -4,6 +4,9 @@ import CharacterFSM from './CharacterFSM.js';
 import CharacterControllerProxy from './CharacterControllerProxy.js';
 import CharacterControllerInput from './CharacterControllerInput.js';
 
+const overlay = document.querySelector('.overlay');
+const overlayContent = document.querySelector('.overlay-content');
+
 
 class CharacterController {
     constructor(params) {
@@ -20,9 +23,9 @@ class CharacterController {
 
     _Init(params) {
         this._params = params;
-        this._decceleration = new THREE.Vector3(-0.0005, -0.0001, -5.0);
-        this._acceleration = new THREE.Vector3(1, 1, 150.0);
-        this._velocity = new THREE.Vector3(0, 0, 0);
+        this._decceleration = new THREE.Vector3(-0.001, -0.0001, -10);
+        this._acceleration = new THREE.Vector3(3, 1, 400);
+        this._velocity = new THREE.Vector3();
         this._position = new THREE.Vector3();
 
         this._animations = {};
@@ -64,7 +67,7 @@ class CharacterController {
         if (!this._target) return;
 
         //setting character's "hit box" based on its position
-        this._characterBox = new THREE.Box3().setFromCenterAndSize(new THREE.Vector3(0,20,0).add(this._target.position), new THREE.Vector3(10,45,10));
+        this._characterBox = new THREE.Box3().setFromCenterAndSize(new THREE.Vector3(0, 20, 0).add(this._target.position), new THREE.Vector3(10, 45, 10));
 
         //0,1,2 planes, 3 sphere, ...triangles
         const intersects = this._params.ground.some((elem, idx) => {
@@ -77,9 +80,40 @@ class CharacterController {
             }
         });
 
-        !intersects ? console.log('you are dead !') : console.log('you are on the island.');
-    
-        this._stateMachine.Update(timeInSeconds, this._input); //update the current state (FSM)
+        //update the current state (FSM)
+        if(!intersects && this._stateMachine._currentState.Name != 'falling') {
+            // make the game over menu progressively appear
+            overlay.style.opacity = 0;
+            overlay.style.display = "block";
+
+            //set the state to falling
+            this._stateMachine.SetState('falling');
+
+            //add an event listener on mouse click for the game to restart
+            overlayContent.addEventListener('click', reset.bind(this));
+
+            let iteration = 1;
+            const interval = setInterval(opacityHanlder, 25);
+
+            function opacityHanlder() {
+                const overlayComputedStyle = window.getComputedStyle(overlay);
+                const overlayOpacity = overlayComputedStyle.getPropertyValue('opacity');
+                if(overlayOpacity == 0.65) clearInterval(interval);
+                overlay.style.opacity = 0.01 * iteration;
+                iteration++;
+            }
+            function reset() {
+                this._stateMachine.SetState('idle');
+                this._target.position.set(0, 0, 0);
+                this._velocity.set(0, 0, 0);
+                overlay.style.opacity = 0;
+                overlay.style.display = "none";
+                iteration = 1;
+            }
+        } else {
+            //normal mode of updating the FSM
+            this._stateMachine.Update(timeInSeconds, this._input); 
+        }
 
         if(this._input._keys.freeCamera) {
             if(this._params.cameraControl.enabled == false) {
@@ -94,8 +128,7 @@ class CharacterController {
         } else {
             this._params.cameraControl.enabled = false
         }
-    
-        //then it's all about moving the model
+
         const velocity = this._velocity;
         const frameDecceleration = new THREE.Vector3(
             velocity.x * this._decceleration.x,
@@ -109,6 +142,7 @@ class CharacterController {
         velocity.add(frameDecceleration);
     
         const controlObject = this._target;
+
         const _Q = new THREE.Quaternion();
         const _A = new THREE.Vector3();
         const _R = controlObject.quaternion.clone();
@@ -124,6 +158,9 @@ class CharacterController {
     
         if (this._input._keys.forward) velocity.z += acc.z * timeInSeconds;
         if (this._input._keys.backward) velocity.z -= acc.z * timeInSeconds;
+        if (this._stateMachine._currentState.Name == 'falling') {
+            velocity.y -= acc.y * timeInSeconds * 50
+        }; //falling or jumping...
         if (this._input._keys.left) {
             _A.set(0, 1, 0);
             _Q.setFromAxisAngle(_A, Math.PI * timeInSeconds * this._acceleration.y);
@@ -135,7 +172,7 @@ class CharacterController {
             _R.multiply(_Q);
         }
     
-        controlObject.quaternion.copy(_R);
+        controlObject.quaternion.copy(_R); //inject new rotation into character
     
         const oldPosition = new THREE.Vector3();
         oldPosition.copy(controlObject.position);
@@ -147,17 +184,25 @@ class CharacterController {
         const sideways = new THREE.Vector3(1, 0, 0);
         sideways.applyQuaternion(controlObject.quaternion);
         sideways.normalize();
+
+        const downward = new THREE.Vector3(0, 1, 0);
+        downward.applyQuaternion(controlObject.quaternion);
+        downward.normalize();
     
         sideways.multiplyScalar(velocity.x * timeInSeconds);
         forward.multiplyScalar(velocity.z * timeInSeconds);
+        downward.multiplyScalar(velocity.y * timeInSeconds);
     
-        controlObject.position.add(forward); //modify this
+        controlObject.position.add(forward); //updates the position and rotation of the character
         controlObject.position.add(sideways);
+        controlObject.position.add(downward);
     
-        this._position.copy(controlObject.position);
+        this._position.copy(controlObject.position.clone().sub(downward)); //updates the camera position
     
+        //update character model's animation
         if (this._mixer) this._mixer.update(timeInSeconds);
     }
 };
+
 
 export default CharacterController;
