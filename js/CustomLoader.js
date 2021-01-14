@@ -8,6 +8,7 @@ import Game from './Game.js';
 const progressBarElem = document.querySelector('.progressbar');
 const progressTitle = document.querySelector('.progressTitle');
 const loadingElem = document.querySelector('#loading');
+const controlsContainer = document.querySelector('#controls-container');
 
 class CustomLoader {
     constructor() {
@@ -107,6 +108,7 @@ class CustomLoader {
         this._characterAnimationsManager.onStart = () => {progressTitle.textContent = "Loading character animations..."};
         this._characterAnimationsManager.onLoad = () => {
             loadingElem.style.display = 'none';
+            controlsContainer.style.display = 'block';
             this._LaunchGame();
         };
         this._characterAnimationsManager.onProgress = this._OnProgress;

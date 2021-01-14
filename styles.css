@@ -48,6 +48,43 @@ html, body {
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   text-shadow: 5px 5px 10px black;
 }
+
+/* controls indications */
+#controls-container {
+  display: none;
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  height: 200px;
+}
+.controls-text {
+  position: relative;
+  font-size: 1.5em;
+  font-family:'Times New Roman', Times, serif;
+  font-weight: bold;
+  color: white;
+  text-shadow: 2px 2px 5px black;
+  -webkit-text-stroke-width: 0.25px;
+  -webkit-text-stroke-color: black;
+}
+#controls-title {
+  height: 7.5%;
+}
+.controls-button {
+  color: black;
+  background-color: white;
+  font-size: 1em;
+  box-shadow: 1px 1px 2px black;
+  border-radius: 5px;
+  border: 0.5px solid black ;
+}
+.controls-button-text {
+  text-align: center;
+  padding: 3px;
+  position: relative;
+  text-shadow: 0.05px 0.05px 0.25px black;
+}
+
 /* used in tankSystem example */
 #info {
   position: absolute;
