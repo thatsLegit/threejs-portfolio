@@ -10,11 +10,13 @@
 
 <body>
     <div class="container">
+        <!-- game over screen overlay -->
         <div class="overlay">
             <div class="overlay-content" >
                 <p id="try-again-text">Try again</p>
             </div>
         </div>
+        <!-- controls indication in the bottom left corner -->
         <div id="controls-container">
             <p class="controls-text" id="controls-title" >Controls:</p>
             <div style="display: flex; flex-direction: column; justify-content: space-between; height: 70%;" >
@@ -57,6 +59,12 @@
                     <div class="controls-text" >Game action</div>
                 </div>
             </div>
+        </div>
+        <!-- character selection screen -->
+        <div id="character-selection">
+            <div id="character-selection-title">Select your character :</div>
+            <canvas id="character-selection-canvas"></canvas>
+            <button id="character-selection-validate">Validate</button>
         </div>
         <canvas id="c"></canvas> <!-- allows responsive design -->
         <!-- <div class="split">

@@ -37,20 +37,22 @@ class CharacterController {
   
     _PrepareModels() {
         //model
+        const charName = this._params.charName;
         const customLoader = this._params.customLoader;
-        const model = customLoader._characterModel.Megan.fbx;
+        const model = customLoader._characterModel[charName].fbx;
 
         model.scale.setScalar(0.25);
         model.traverse(c => c.castShadow = true);
 
         this._target = model;
+        this._target.position.copy(new THREE.Vector3());
         this._params.scene.add(this._target);
 
         this._mixer = new THREE.AnimationMixer(this._target);
 
         //animations/states
-        for (const animName in customLoader._charAnimations) {
-            const clip = customLoader._charAnimations[animName].anim.animations[0];
+        for (const animName in customLoader._charAnimations[charName]) {
+            const clip = customLoader._charAnimations[charName][animName].anim.animations[0];
             const action = this._mixer.clipAction(clip);
 
             this._animations[animName] = {
@@ -66,7 +68,7 @@ class CharacterController {
     Update(timeInSeconds) { //called on each frame
         if (!this._target) return;
 
-        //setting character's "hit box" based on its position
+        //setting character's "hit box" based on its position (change it if you change character model scale)
         this._characterBox = new THREE.Box3().setFromCenterAndSize(new THREE.Vector3(0, 20, 0).add(this._target.position), new THREE.Vector3(10, 45, 10));
 
         //0,1,2 planes, 3 sphere, ...triangles

@@ -9,8 +9,9 @@ import EnvController from './EnvController.js';
 const canvas = document.querySelector('#c');
 
 class Game {
-    constructor(customLoader) {
+    constructor(customLoader, charName) {
         this._customLoader = customLoader;
+        this._charName = charName;
         this._ground = [];
         this._Initialize();
     }
@@ -139,6 +140,7 @@ class Game {
 
     _InitCharacter() {
         this._controls = new CharacterController({
+            charName : this._charName,
             camera: this._camera,
             scene: this._scene,
             cameraControl: this._cameraControl,
@@ -190,38 +192,7 @@ class Game {
 
 export default Game;
 
-
-// const pointsArray = [
-//     [
-//         new THREE.Vector2(10, 405),
-//         new THREE.Vector2(-365, 300),
-//         new THREE.Vector2(-500, 0),
-//         new THREE.Vector2(-365, -300),
-//         new THREE.Vector2(3, -401),
-//         new THREE.Vector2(370, -300)
-//     ],
-//     [
-//         new THREE.Vector2(10, 405),
-//         new THREE.Vector2(370, -300),
-//         new THREE.Vector2(500, 0),
-//         new THREE.Vector2(370, 300)
-//     ]
-// ];
-// pointsArray.forEach(points => {
-//     let shape = new THREE.Shape(points);
-//     let geometry = new THREE.ShapeGeometry(shape);
-//     console.log(geometry);
-//     let material = new THREE.MeshBasicMaterial({color: 0x00ff00});
-//     let mesh = new THREE.Mesh(geometry, material);
-//     mesh.rotation.x = -Math.PI/2;
-//     mesh.position.y = 1;
-//     mesh.visible = true;
-//     this._ground.add(mesh);
-// });
-// this._scene.add(this._ground);
-
-
-//strategy:
+//collision strategy:
 // using chararcter's box3 with intersection with planes and triangles representing the surface of the island
 // the box3 is defined using:
 

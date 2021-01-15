@@ -2,13 +2,17 @@ import * as THREE from "../node_modules/three/build/three.module.js";
 import {GLTFLoader} from '../node_modules/three/examples/jsm/loaders/GLTFLoader.js';
 import {FBXLoader} from '../node_modules/three/examples/jsm/loaders/FBXLoader.js';
 
+import CharacterSelection from './CharacterSelectionScene.js';
 import Game from './Game.js';
 
 
 const progressBarElem = document.querySelector('.progressbar');
 const progressTitle = document.querySelector('.progressTitle');
 const loadingElem = document.querySelector('#loading');
+
 const controlsContainer = document.querySelector('#controls-container');
+const characterSelection = document.querySelector('#character-selection');
+const canvas = document.querySelector('#c');
 
 class CustomLoader {
     constructor() {
@@ -44,11 +48,11 @@ class CustomLoader {
         this._characterModelManager = new THREE.LoadingManager();
         this._characterLoader = new FBXLoader(this._characterModelManager);
         this._characterModel = {
-            Megan: {
+            megan: {
                 url:'../resources/blender_models/characters/megan/megan.fbx', //model (fbx) is then added
                 gender: 'female'
             },
-            Brian: {
+            brian: {
                 url:'../resources/blender_models/characters/brian/brian.fbx',
                 gender: 'male'
             }
@@ -57,13 +61,24 @@ class CustomLoader {
         this._characterAnimationsManager = new THREE.LoadingManager();
         this._charAnimationsLoader = new FBXLoader(this._characterAnimationsManager);
         this._charAnimations = {
-            walk:    { url: '../resources/blender_models/characters/megan/animations/walk.fbx' }, //anim is then added
-            walkingBackwards:    { url: '../resources/blender_models/characters/megan/animations/walkingBackwards.fbx' },
-            run:  { url: '../resources/blender_models/characters/megan/animations/run.fbx' },
-            idle:    { url: '../resources/blender_models/characters/megan/animations/idle.fbx' },
-            openingALid:  { url: '../resources/blender_models/characters/megan/animations/openingALid.fbx' },
-            closingALid:  { url: '../resources/blender_models/characters/megan/animations/closingALid.fbx' },
-            falling:  { url: '../resources/blender_models/characters/megan/animations/falling.fbx' }
+            megan: {
+                walk:    { url: '../resources/blender_models/characters/megan/animations/walk.fbx' }, //anim is then added
+                walkingBackwards:    { url: '../resources/blender_models/characters/megan/animations/walkingBackwards.fbx' },
+                run:  { url: '../resources/blender_models/characters/megan/animations/run.fbx' },
+                idle:    { url: '../resources/blender_models/characters/megan/animations/idle.fbx' },
+                openingALid:  { url: '../resources/blender_models/characters/megan/animations/openingALid.fbx' },
+                closingALid:  { url: '../resources/blender_models/characters/megan/animations/closingALid.fbx' },
+                falling:  { url: '../resources/blender_models/characters/megan/animations/falling.fbx' }
+            },
+            brian: {
+                walk:    { url: '../resources/blender_models/characters/brian/animations/walk.fbx' }, //anim is then added
+                walkingBackwards:    { url: '../resources/blender_models/characters/brian/animations/walkingBackwards.fbx' },
+                run:  { url: '../resources/blender_models/characters/brian/animations/run.fbx' },
+                idle:    { url: '../resources/blender_models/characters/brian/animations/idle.fbx' },
+                openingALid:  { url: '../resources/blender_models/characters/brian/animations/openingALid.fbx' },
+                closingALid:  { url: '../resources/blender_models/characters/brian/animations/closingALid.fbx' },
+                falling:  { url: '../resources/blender_models/characters/brian/animations/falling.fbx' }
+            }
         }
     }
 
@@ -98,31 +113,49 @@ class CustomLoader {
     }
     _LoadCharacterModel() {
         this._characterModelManager.onStart = () => {progressTitle.textContent = "Loading character..."};
-        this._characterModelManager.onLoad = this._LoadCharacterAnimations.bind(this);
+        this._characterModelManager.onLoad = () => {
+            loadingElem.style.display = 'none';
+            characterSelection.style.display = 'flex';
+            this._LaunchCharacterSelection();
+        };
         this._characterModelManager.onProgress = this._OnProgress;
         this._characterModelManager.onError = () => {progressTitle.textContent = "Oops, character model coudln't have been loaded :/. Try later."};
 
-        this._characterLoader.load(this._characterModel.Megan.url, fbx => {this._characterModel.Megan.fbx = fbx});
+        for (let modelName in this._characterModel) {
+            this._characterLoader.load(
+                this._characterModel[modelName].url, 
+                fbx => {this._characterModel[modelName].fbx = fbx}
+            );
+        }
     }
-    _LoadCharacterAnimations() {
-        this._characterAnimationsManager.onStart = () => {progressTitle.textContent = "Loading character animations..."};
+    _LoadCharacterAnimations(charName) {
+        this._characterAnimationsManager.onStart = () => {
+            characterSelection.style.display = 'none';
+            loadingElem.style.display = 'flex';
+            progressTitle.textContent = "Loading character animations..."
+        };
         this._characterAnimationsManager.onLoad = () => {
             loadingElem.style.display = 'none';
             controlsContainer.style.display = 'block';
-            this._LaunchGame();
+            canvas.style.display = 'block';
+            this._LaunchGame(charName);
         };
         this._characterAnimationsManager.onProgress = this._OnProgress;
         this._characterAnimationsManager.onError = () => {progressTitle.textContent = "Oops, character animations coudln't have been loaded :/. Try later."};
 
-        for (let animName in this._charAnimations) {
+        for (let animName in this._charAnimations[charName]) {
             this._charAnimationsLoader.load(
-                this._charAnimations[animName].url, 
-                a => this._charAnimations[animName].anim = a
+                this._charAnimations[charName][animName].url, 
+                a => this._charAnimations[charName][animName].anim = a
             );
         }
     }
-    _LaunchGame() {
-        let _APP = new Game(this); //game launch
+    _LaunchCharacterSelection() {
+        let _SELECTION = new CharacterSelection(this); //character selection launch
+        window.addEventListener('resize', _SELECTION._OnWindowResize.bind(_SELECTION));
+    }
+    _LaunchGame(charName) {
+        let _APP = new Game(this, charName); //character selection launch
         window.addEventListener('resize', _APP._OnWindowResize.bind(_APP));
     }
 }
