@@ -30,8 +30,7 @@ class CustomLoader {
         this._envModelsLoader = new GLTFLoader(this._envModelsManager);
         this._envModels = { //model (gltf) is then added
             animated: {
-                knight: { url: '../resources/blender_models/characters/knight/KnightCharacter.glb'},
-                treasureChest: { url: '../resources/blender_models/treasure-chest/scene.gltf'}
+                treasureChest: { url: '../resources/blender_models/treasure-chest/treasureChest.glb'}
             },
             static: {
                 platform: { url: '../resources/blender_models/platform/desert/scene.gltf'},
@@ -89,8 +88,9 @@ class CustomLoader {
     _startLoading() {this._LoadTexture()};
 
     _LoadTexture() {
-        this._OnProgress(null, 0, 1); //no progress callback on TextureLoader so we do it manually
+        loadingElem.style.display = 'flex';
         progressTitle.textContent = "Loading texture...";
+        this._OnProgress(null, 0, 1); //no progress callback on TextureLoader so we do it manually
         this._texture = this._cubeTextureLoader.load(this._textureFiles, () => {
             this._OnProgress(null, 1, 1);
             this._LoadEnvModels.call(this);

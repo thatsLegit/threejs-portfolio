@@ -46,6 +46,7 @@ class CharacterController {
 
         this._target = model;
         this._target.position.copy(new THREE.Vector3());
+        this._target.rotation.setFromVector3(new THREE.Vector3(0, Math.PI, 0));
         this._params.scene.add(this._target);
 
         this._mixer = new THREE.AnimationMixer(this._target);
@@ -152,11 +153,6 @@ class CharacterController {
         const acc = this._acceleration.clone();
 
         if (this._input._keys.shift) acc.multiplyScalar(2.0);
-    
-        if (this?._stateMachine?._currentState?.Name == 'openingALid'
-            || this?._stateMachine?._currentState?.Name == 'closingALid') {
-            acc.multiplyScalar(0.0);
-        }
     
         if (this._input._keys.forward) velocity.z += acc.z * timeInSeconds;
         if (this._input._keys.backward) velocity.z -= acc.z * timeInSeconds;

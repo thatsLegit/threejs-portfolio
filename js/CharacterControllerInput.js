@@ -36,9 +36,6 @@ class CharacterControllerInput {
             case 'f': // f: switch free camera
                 this._keys.freeCamera = !this._keys.freeCamera;
                 break;
-            case ' ': // SPACE
-                this._keys.space = true;
-                break;
             case 'Shift': // SHIFT
                 this._keys.shift = true;
                 break;
@@ -59,9 +56,6 @@ class CharacterControllerInput {
             break;
             case 'd': // d
             this._keys.right = false;
-            break;
-            case ' ': // SPACE
-            this._keys.space = false;
             break;
             case 'Shift': // SHIFT
             this._keys.shift = false;

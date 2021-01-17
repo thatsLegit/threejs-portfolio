@@ -11,6 +11,7 @@ import {dumpObject} from './helper.js';
 class EnvController {
     constructor(params) {
         this._params = params; //scene, customLoader, character
+        this._treasureOpened = false;
         this._Init();
     }
 
@@ -22,7 +23,7 @@ class EnvController {
                     this._SetModel.call(this, statics[modelName], 100, new THREE.Vector3(0, -245, 0));
                     break;
                 case 'smallPlatform':
-                    this._SetModel.call(this, statics[modelName], 60, new THREE.Vector3(40, -55, -720), null, true);
+                    this._SetModel.call(this, statics[modelName], 60, new THREE.Vector3(40, -52, -720), null, true);
                     break;
                 case 'iceWorld':
                     this._SetModel.call(this, statics[modelName], 0.35, new THREE.Vector3(-30, -21, 70), null, true, true);
@@ -46,6 +47,17 @@ class EnvController {
                     break;
             }
         };
+
+        const animated = this._params.customLoader._envModels.animated;
+        for (let modelName in animated) {
+            switch (modelName) {
+                case 'treasureChest':
+                    this._SetTreasureChest.call(this, animated[modelName]);
+                    break;
+                default:
+                    break;
+            }
+        }
     }
     _SetModel(model, scalar = null, initWorldPos = null, rotation = null, receiveSh = false, castSh = false) {
         const clonedScene = SkeletonUtils.clone(model.gltf.scene);
@@ -64,6 +76,42 @@ class EnvController {
         rotation && root.rotation.setFromVector3(rotation);
         initWorldPos && root.position.copy(initWorldPos);
     }
+    _SetTreasureChest(model) {
+        const clonedScene = SkeletonUtils.clone(model.gltf.scene);
+        const root = new THREE.Object3D();
+        root.add(clonedScene);
+
+        this._treasure = root;
+        this._params.scene.add(root);
+
+        root.traverse(obj => {
+            obj.castShadow = true;
+            obj.receiveShadow = true;
+        });
+        
+        root.scale.setScalar(0.25);
+        root.position.set(40, 38, -720);
+
+        //Animation to open the treasure
+        this._mixer = new THREE.AnimationMixer(clonedScene);
+        const action = this._mixer.clipAction(Object.values(model.gltf.animations)[1]); //2nd clip: openBox
+
+        this._mixer.addEventListener('finished', callback.bind(this));
+        function callback() {
+            this._treasureOpened = true;
+            action.getMixer().removeEventListener('finished', callback);
+        }
+    
+        action.reset();
+        action.setEffectiveTimeScale(0.25);
+        action.setEffectiveWeight(1.0);
+        action.setLoop(THREE.LoopOnce);
+        action.play();
+    }
+
+    _Update(deltaTime) {
+        this._mixer.update(deltaTime);
+    }
 }
 
 export default EnvController;
@@ -71,23 +119,6 @@ export default EnvController;
 // console.log(dumpObject(root).join('\n'));
 // const base = root.getObjectByName('AguaSuelo01_M_AguaSombra_0'); //the base of the platform is at (0,0,0)
 // console.log(base.getWorldPosition());
-
-// _SmallPlatform(model){
-//     const clonedScene = SkeletonUtils.clone(model.gltf.scene);
-//     const root = new THREE.Object3D();
-//     root.add(clonedScene);
-//     this._params.scene.add(root);
-
-//     //adding shadows to every element in the scene
-//     root.traverse((obj) => {
-//         if (obj.castShadow !== undefined) {
-//             obj.receiveShadow = true;
-//         }
-//     });
-//     root.scale.setScalar(60);
-//     root.position.set(40, -50, -720);
-
-//     root.updateMatrixWorld();
    
 // let BBox = new THREE.Box3().setFromObject(model);
 // BBox.min.sub(model.position);

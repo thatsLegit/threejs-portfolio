@@ -1,12 +1,20 @@
 import * as THREE from "../node_modules/three/build/three.module.js";
+import Stats from "../node_modules/stats.js/src/Stats.js";
 import { OrbitControls } from "../node_modules/three/examples/jsm/controls/OrbitControls.js";
 
 import CharacterController from './CharacterController.js';
 import ThirdPersonCamera from './ThirdPersonCamera.js';
 import EnvController from './EnvController.js';
+import MagicCube from './magicCube.js';
 
 
 const canvas = document.querySelector('#c');
+const caption = document.querySelector('#caption');
+const captionText = document.querySelector('#caption-text');
+
+let stats = new Stats();
+stats.showPanel(0); 
+document.body.appendChild( stats.dom );
 
 class Game {
     constructor(customLoader, charName) {
@@ -130,6 +138,23 @@ class Game {
             }
         }
 
+        //prints caption
+        caption.style.display = 'block';
+        captionText.textContent = 'Mission: find the treasure chest.';
+        this._opacity = 0;
+
+        //pressing space should make the cube appear/flip sides
+        document.addEventListener('keydown', e => OnKeyDown.call(this, e));
+        function OnKeyDown(e) {
+            if(e.key == ' ') {
+                this._magicCube = new MagicCube({
+                    position: new THREE.Vector3(0,50,0),
+                    scene: this._scene,
+                    camera: this._camera
+                });
+            }  
+        };
+
         this._mixers = [];
         this._previousRAF = null;
 
@@ -157,7 +182,7 @@ class Game {
         this._environment = new EnvController({
             scene: this._scene,
             customLoader: this._customLoader,
-            character: this._controls
+            character: this._controls,
         });
     }
 
@@ -169,9 +194,17 @@ class Game {
 
     _RAF() {
         requestAnimationFrame((t) => {
+            stats.begin();
+	        stats.end();
             if (this._previousRAF === null) this._previousRAF = t;
 
             this._RAF();
+
+            if(this._environment._treasure.position.distanceToSquared(this._controls.Position) < 3000) {
+                captionText.textContent = 'Press Spacebar to use the cube.';
+                captionText.style.color = 'rgba(255,255,255,' + Math.cos(this._opacity);
+                this._opacity+= 0.1;
+            }
 
             this._threejs.render(this._scene, this._camera);
             this._Step(t - this._previousRAF); //on each frame, update CharacterController
@@ -187,6 +220,10 @@ class Game {
         if (this._controls) this._controls.Update(timeElapsedS);
         //update camera position/lookAt
         if(!this?._cameraControl?.enabled) this._thirdPersonCamera.Update(timeElapsedS);
+        //update the treasure animation
+        if(!this._environment._treasureOpened) this._environment._Update(timeElapsedS);
+        //update the magicCube rotation if the treasure chest is opened
+        if(this?._magicCube?._opened) this._magicCube._Update();
     }
 }
 

@@ -107,17 +107,6 @@ html, body {
   width: 50vw;
   height: 50vh;
 }
-
-/* used in tankSystem example */
-#info {
-  position: absolute;
-  left: 1em;
-  top: 1em;
-  background: rgba(0,0,0,.8);
-  padding: .5em;
-  color: white;
-  font-family: monospace;
-}
   
 /* loading textures progress bar */
 #loading {
@@ -126,7 +115,7 @@ html, body {
   left: 0;
   width: 100%;
   height: 100%;
-  display: flex;
+  display: none;
   justify-content: center;
   align-items: center;
 }
@@ -148,16 +137,20 @@ html, body {
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
-/* camera examples */
-.split {
+/* magicCube indications */
+.caption {
+  display: none;
   position: absolute;
-  left: 0;
-  top: 0;
   width: 100%;
-  height: 100%;
-  display: flex;
+  height: 25%;
 }
-.split>div {
+#caption-text {
+  position: relative;
+  text-align: center;
   width: 100%;
   height: 100%;
+  top: 10%;
+  color:rgba(255,255,255);
+  font-size: 2rem;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
