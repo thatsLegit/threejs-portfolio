@@ -8,6 +8,6 @@ import CustomLoader from './CustomLoader.js';
 //small knight guide
 //the treasure chest
 //the content of the magic cube.
-
+"use strict"
 const customLoader = new CustomLoader();
 customLoader._startLoading();      

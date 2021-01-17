@@ -62,6 +62,7 @@ class EnvController {
     _SetModel(model, scalar = null, initWorldPos = null, rotation = null, receiveSh = false, castSh = false) {
         const clonedScene = SkeletonUtils.clone(model.gltf.scene);
         const root = new THREE.Object3D();
+        clonedScene.matrixAutoUpdate = false;
         root.add(clonedScene);
         this._params.scene.add(root);
 

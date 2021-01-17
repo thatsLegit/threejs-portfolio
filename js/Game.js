@@ -25,11 +25,11 @@ class Game {
     }
 
     _Initialize() {
-        this._threejs = new THREE.WebGLRenderer({canvas, antialias: true, logarithmicDepthBuffer: true});
+        this._threejs = new THREE.WebGLRenderer({canvas, logarithmicDepthBuffer: true});
         this._threejs.outputEncoding = THREE.sRGBEncoding;
         this._threejs.shadowMap.enabled = true;
         this._threejs.shadowMap.type = THREE.PCFSoftShadowMap;
-        this._threejs.setPixelRatio(window.devicePixelRatio);
+        this._threejs.setPixelRatio(window.devicePixelRatio); //high: 1, normal: 1.5, low: 2
         this._threejs.setSize(canvas.clientWidth, canvas.clientHeight);
 
         this._scene = new THREE.Scene();
@@ -144,16 +144,26 @@ class Game {
         this._opacity = 0;
 
         //pressing space should make the cube appear/flip sides
-        document.addEventListener('keydown', e => OnKeyDown.call(this, e));
-        function OnKeyDown(e) {
-            if(e.key == ' ') {
+        let OnKeyDown = e => {
+            if(e.key == ' ' && this._environment._treasure.position.distanceToSquared(this._controls.Position) < 3000) {
                 this._magicCube = new MagicCube({
-                    position: new THREE.Vector3(0,50,0),
+                    position: new THREE.Vector3(40, 60, -720),
                     scene: this._scene,
                     camera: this._camera
                 });
+                document.removeEventListener('keydown', OnKeyDown);
+                let nextOnKeyDown = e => {
+                    if(e.key == ' ' && this._environment._treasure.position.distanceToSquared(this._controls.Position) < 3000) {
+                        this._magicCube._transiting = true;
+                        document.removeEventListener('keydown', nextOnKeyDown);
+                    }
+                }
+                nextOnKeyDown = nextOnKeyDown.bind(this);
+                document.addEventListener('keydown', nextOnKeyDown);
             }  
         };
+        OnKeyDown = OnKeyDown.bind(this);
+        document.addEventListener('keydown', OnKeyDown);
 
         this._mixers = [];
         this._previousRAF = null;
@@ -223,7 +233,8 @@ class Game {
         //update the treasure animation
         if(!this._environment._treasureOpened) this._environment._Update(timeElapsedS);
         //update the magicCube rotation if the treasure chest is opened
-        if(this?._magicCube?._opened) this._magicCube._Update();
+        if(this?._magicCube?._transiting) this._magicCube._Transition(); 
+        if(this?._magicCube?._opened) this._magicCube._Update(); 
     }
 }
 
