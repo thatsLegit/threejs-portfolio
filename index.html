@@ -14,8 +14,6 @@
         <div class="caption" id="caption">
             <div id="caption-text"></div>
         </div>
-        <!-- FPS -->
-        <div class="caption" id="fps"></div>
         <!-- game over screen overlay -->
         <div class="overlay">
             <div class="overlay-content" >
@@ -26,45 +24,94 @@
         <!-- <iframe style="position: absolute; top: 50%; left: 50%;z-index: 3;" width="300" height="300" src="./test.html"></iframe> -->
         <!-- controls indication in the bottom left corner -->
         <div id="controls-container">
-            <p class="controls-text" id="controls-title" >Controls:</p>
-            <div style="display: flex; flex-direction: column; justify-content: space-between; height: 70%;" >
-                <div style="display: flex; flex-direction: row; justify-content: space-between; width: 250px;" >
-                    <div style="display: flex; flex-direction: row; justify-content: space-between; width: 50%;">
-                        <div class="controls-button" style="width: 1.5em; height: 1.5em;" >
-                            <div class="controls-button-text">W</div>
+            <p class="default-text title" >Controls:</p>
+            <div class='flex-column-space' style="height: 70%;width: 250px;" >
+                <div class='flex-row-space'>
+                    <div class='flex-row-space' style="width: 50%;">
+                        <div class="white-button square" >
+                            <div class="white-button-text">W</div>
                         </div>
-                        <div class="controls-button" style="width: 1.5em; height: 1.5em;" >
-                            <div class="controls-button-text">A</div>
+                        <div class="white-button square" >
+                            <div class="white-button-text">A</div>
                         </div>
-                        <div class="controls-button" style="width: 1.5em; height: 1.5em;" >
-                            <div class="controls-button-text">S</div>
+                        <div class="white-button square" >
+                            <div class="white-button-text">S</div>
                         </div>
-                        <div class="controls-button" style="width: 1.5em; height: 1.5em;" >
-                            <div class="controls-button-text">D</div>
+                        <div class="white-button square" >
+                            <div class="white-button-text">D</div>
                         </div>
                     </div>
-                    <div class="controls-text" >Movement</div>
+                    <div class="default-text" >Movement</div>
                 </div>
     
-                <div style="display: flex; flex-direction: row; justify-content: space-between; width: 250px;" >
-                    <div class="controls-button" style="width: 3em; height: 1.5em;" >
-                        <div class="controls-button-text">Shift</div>
+                <div class='flex-row-space'>
+                    <div class="white-button rectangle" >
+                        <div class="white-button-text">Shift</div>
                     </div>
-                    <div class="controls-text" >Sprint</div>
+                    <div class="default-text" >Sprint</div>
                 </div>
     
-                <div style="display: flex; flex-direction: row; justify-content: space-between; width: 250px;" >
-                    <div class="controls-button" style="width: 1.5em; height: 1.5em;" >
-                        <div class="controls-button-text">F</div>
+                <div class='flex-row-space'>
+                    <div class="white-button square" >
+                        <div class="white-button-text">F</div>
                     </div>
-                    <div class="controls-text" >Free camera</div>
+                    <div class="default-text" >Free camera</div>
                 </div>
     
-                <div style="display: flex; flex-direction: row; justify-content: space-between; width: 250px;" >
-                    <div class="controls-button" style="width: 3em; height: 1.5em;" >
-                        <div class="controls-button-text">Space</div>
+                <div class='flex-row-space'>
+                    <div class="white-button rectangle" >
+                        <div class="white-button-text">Space</div>
                     </div>
-                    <div class="controls-text" >Game action</div>
+                    <div class="default-text" >Game action</div>
+                </div>
+            </div>
+        </div>
+        <!-- quests -->
+        <div id="quests-container">
+            <p class="default-text title" >Objectives:</p>
+            <div class="flex-column-space" style="height: 70%;width: 400px;">
+                <div id="treasure-quest" class="flex-row-start" style="align-items: center;" >
+                    <div class="white-button square">
+                        <div class="white-button-text">
+                            <svg style="display: none;" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check" viewBox="0 0 16 16">
+                                <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="default-text" style="margin-left: 0.5em;" >Find the treasure chest</div>
+                </div>
+    
+                <div id="mystery-box-quest" class="flex-row-start" >
+                    <div class="white-button square">
+                        <div class="white-button-text">
+                            <svg style="display: none;" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check" viewBox="0 0 16 16">
+                                <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="default-text" style="margin-left: 0.5em;" >Open the mystery box</div>
+                </div>
+    
+                <div id="treasure-box-quest" class="flex-row-start" >
+                    <div class="white-button square">
+                        <div class="white-button-text">
+                            <svg style="display: none;" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check" viewBox="0 0 16 16">
+                                <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="default-text" style="margin-left: 0.5em;" >Browse at least one face of the cube</div>
+                </div>
+    
+                <div id="pro-quest" class="flex-row-start" >
+                    <div class="white-button square">
+                        <div class="white-button-text">
+                            <svg style="display: none;" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check" viewBox="0 0 16 16">
+                                <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="default-text" style="margin-left: 0.5em;" >Discover all faces of the cube</div>
                 </div>
             </div>
         </div>

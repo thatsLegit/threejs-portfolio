@@ -9,6 +9,14 @@ class MagicCube {
         this._params = params;
         this._opened = false;
         this._transiting = false;
+        this._faces = {
+            aboutMe: [{a: 2, b: 3, c: 1}, {a: 0, b: 2, c: 1}],
+            hireMe: [{a: 7, b: 2, c: 0}, {a: 5, b: 7, c: 0}],
+            skills: [{a: 6, b: 3, c: 2}, {a: 7, b: 6, c: 2}],
+            projects: [{a: 6, b: 7, c: 5}, {a: 4, b: 6, c: 5}],
+            cv: [{a: 5, b: 0, c: 1}, {a: 4, b: 5, c: 1}],
+            smallGames: [{a: 3, b: 6, c: 4}, {a: 1, b: 3, c: 4}]
+        }
         this._Init();
     }
 
@@ -47,36 +55,29 @@ class MagicCube {
         const height = 20;
         const planeGeometry = new THREE.PlaneBufferGeometry(width, height);
 
-        const mysteryTexture = new THREE.TextureLoader().load('../resources/interrogation.png');
         const plane1 = SceneUtils.createMultiMaterialObject(planeGeometry, [
-            new THREE.MeshPhongMaterial({ map: mysteryTexture, side: THREE.FrontSide }),
-            new THREE.MeshBasicMaterial( { color: Math.random() * 0xffffff, side: THREE.BackSide } )
-            // new THREE.MeshPhongMaterial({ map: armorTexture, side: THREE.BackSide })
+            new THREE.MeshPhongMaterial({ map: this._params.textures.interrogation.texture, side: THREE.FrontSide }),
+            new THREE.MeshBasicMaterial( { map: this._params.textures.aboutMe.texture, side: THREE.BackSide } )
         ]);
         const plane2 = SceneUtils.createMultiMaterialObject(planeGeometry, [
-            new THREE.MeshPhongMaterial({ map: mysteryTexture, side: THREE.BackSide }),
-            new THREE.MeshBasicMaterial( { color: Math.random() * 0xffffff, side: THREE.BackSide } )
-            // new THREE.MeshPhongMaterial({ map: evilEyeTexture, side: THREE.FrontSide })
+            new THREE.MeshPhongMaterial({ map: this._params.textures.interrogation.texture, side: THREE.BackSide }),
+            new THREE.MeshBasicMaterial( { map: this._params.textures.projects.texture, side: THREE.BackSide } )
         ]);
         const plane3 = SceneUtils.createMultiMaterialObject(planeGeometry, [
-            new THREE.MeshPhongMaterial({ map: mysteryTexture, side: THREE.BackSide }),
-            new THREE.MeshBasicMaterial( { color: Math.random() * 0xffffff, side: THREE.BackSide } )
-            // new THREE.MeshPhongMaterial({ map: itemsTexture, side: THREE.FrontSide })
+            new THREE.MeshPhongMaterial({ map: this._params.textures.interrogation.texture, side: THREE.BackSide }),
+            new THREE.MeshBasicMaterial( { map: this._params.textures.cv.texture, side: THREE.BackSide } )
         ]);
         const plane4 = SceneUtils.createMultiMaterialObject(planeGeometry, [
-            new THREE.MeshPhongMaterial({ map: mysteryTexture, side: THREE.FrontSide }),
-            new THREE.MeshBasicMaterial( { color: Math.random() * 0xffffff, side: THREE.BackSide } )
-            // new THREE.MeshPhongMaterial({ map: magicStarTexture, side: THREE.BackSide })
+            new THREE.MeshPhongMaterial({ map: this._params.textures.interrogation.texture, side: THREE.FrontSide }),
+            new THREE.MeshBasicMaterial( { map: this._params.textures.skills.texture, side: THREE.BackSide } )
         ]);
         const plane5 = SceneUtils.createMultiMaterialObject(planeGeometry, [
-            new THREE.MeshPhongMaterial({ map: mysteryTexture, side: THREE.BackSide }),
-            new THREE.MeshBasicMaterial( { color: Math.random() * 0xffffff, side: THREE.BackSide } )
-            // new THREE.MeshPhongMaterial({ map: magicTexture, side: THREE.FrontSide })
+            new THREE.MeshPhongMaterial({ map: this._params.textures.interrogation.texture, side: THREE.BackSide }),
+            new THREE.MeshBasicMaterial( { map: this._params.textures.hireMe.texture, side: THREE.BackSide } )
         ]);
         const plane6 = SceneUtils.createMultiMaterialObject(planeGeometry, [
-            new THREE.MeshPhongMaterial({ map: mysteryTexture, side: THREE.FrontSide }),
-            new THREE.MeshBasicMaterial( { color: Math.random() * 0xffffff, side: THREE.BackSide } )
-            // new THREE.MeshPhongMaterial({ map: scrollTexture, side: THREE.BackSide })
+            new THREE.MeshPhongMaterial({ map: this._params.textures.interrogation.texture, side: THREE.FrontSide }),
+            new THREE.MeshBasicMaterial( { map: this._params.textures.smallGames.texture, side: THREE.BackSide } )
         ]);
 
         plane1.position.set(0, 0, 14); //red
@@ -181,9 +182,13 @@ class MagicCube {
     }
 
     _CreateCube() {
-        for ( let i = 0; i < 6; i ++ ) {
-            this._materials.push( new THREE.MeshBasicMaterial( { color: Math.random() * 0xffffff } ) );
-        }
+        //ensures that materials are always placed in the same way on the cube
+        this._materials.push( new THREE.MeshBasicMaterial( { map: this._params.textures.aboutMe.texture } ) );
+        this._materials.push( new THREE.MeshBasicMaterial( { map: this._params.textures.projects.texture } ) );
+        this._materials.push( new THREE.MeshBasicMaterial( { map: this._params.textures.cv.texture } ) );
+        this._materials.push( new THREE.MeshBasicMaterial( { map: this._params.textures.skills.texture } ) );
+        this._materials.push( new THREE.MeshBasicMaterial( { map: this._params.textures.hireMe.texture } ) );
+        this._materials.push( new THREE.MeshBasicMaterial( { map: this._params.textures.smallGames.texture } ) );
 
         this._cube = new THREE.Mesh(new THREE.BoxGeometry( 20, 20, 20 ), new THREE.MeshFaceMaterial(this._materials) );
         this._cube.position.copy(this._params.position.sub(new THREE.Vector3(5,0,0)));
@@ -196,6 +201,26 @@ class MagicCube {
         let raycaster = new THREE.Raycaster();
         let mouse = new THREE.Vector2();
 
+        // select a face of the cube
+        document.addEventListener('dblclick', e => OnDoubleClick.call(this, e));
+        function OnDoubleClick(e) {
+            //checking which face is clicked on
+            raycaster.setFromCamera(mouse, this._params.camera)
+            const isIntersected = raycaster.intersectObject(this._cube);
+            if (!isIntersected.length) return;
+
+            const {face: {a, b, c}} = isIntersected[0];
+            const obj = {a,b,c};
+
+            if (JSON.stringify(obj) == JSON.stringify(this._faces.aboutMe[0]) || JSON.stringify(obj) == JSON.stringify(this._faces.aboutMe[1])) console.log('aboutMe');
+            if (JSON.stringify(obj) == JSON.stringify(this._faces.hireMe[0]) || JSON.stringify(obj) == JSON.stringify(this._faces.hireMe[1])) console.log('hireMe');
+            if (JSON.stringify(obj) == JSON.stringify(this._faces.skills[0]) || JSON.stringify(obj) == JSON.stringify(this._faces.skills[1])) console.log('skills');
+            if (JSON.stringify(obj) == JSON.stringify(this._faces.projects[0]) || JSON.stringify(obj) == JSON.stringify(this._faces.projects[1])) console.log('projects');
+            if (JSON.stringify(obj) == JSON.stringify(this._faces.cv[0]) || JSON.stringify(obj) == JSON.stringify(this._faces.cv[1])) console.log('cv');
+            if (JSON.stringify(obj) == JSON.stringify(this._faces.smallGames[0]) || JSON.stringify(obj) == JSON.stringify(this._faces.smallGames[1])) console.log('smallGames');
+        }
+
+        //updating mouse raycaster vector
         document.addEventListener('mousemove', e => {
             mouse.x = (e.clientX / canvas.clientWidth) * 2 - 1;
             mouse.y = - (e.clientY / canvas.clientHeight) * 2 + 1;

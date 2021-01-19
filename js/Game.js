@@ -5,14 +5,13 @@ import { OrbitControls } from "../node_modules/three/examples/jsm/controls/Orbit
 import CharacterController from './CharacterController.js';
 import ThirdPersonCamera from './ThirdPersonCamera.js';
 import EnvController from './EnvController.js';
+import QuestController from './QuestController.js';
 import MagicCube from './magicCube.js';
 
 
 const canvas = document.querySelector('#c');
-const caption = document.querySelector('#caption');
-const captionText = document.querySelector('#caption-text');
 
-let stats = new Stats();
+const stats = new Stats();
 stats.showPanel(0); 
 document.body.appendChild( stats.dom );
 
@@ -71,9 +70,9 @@ class Game {
             this._scene.add(light);
         }
 
-        const texture = this._customLoader._texture;
-        texture.encoding = THREE.sRGBEncoding;
-        this._scene.background = texture;
+        const bgTexture = this._customLoader._bgTexture;
+        bgTexture.encoding = THREE.sRGBEncoding;
+        this._scene.background = bgTexture;
 
         {
             //let's make triangles, planes and sphere to define the walkable surface
@@ -138,19 +137,16 @@ class Game {
             }
         }
 
-        //prints caption
-        caption.style.display = 'block';
-        captionText.textContent = 'Mission: find the treasure chest.';
-        this._opacity = 0;
-
         //pressing space should make the cube appear/flip sides
         let OnKeyDown = e => {
-            if(e.key == ' ' && this._environment._treasure.position.distanceToSquared(this._controls.Position) < 3000) {
+            if(this._environment._treasure.position.distanceToSquared(this._controls.Position) < 3000) {
                 this._magicCube = new MagicCube({
                     position: new THREE.Vector3(40, 60, -720),
                     scene: this._scene,
-                    camera: this._camera
+                    camera: this._camera,
+                    textures: this._customLoader._magicCubeTexture
                 });
+                this._quests._params.magicCube = this._magicCube; //updates undefined value for magicCube in quests
                 document.removeEventListener('keydown', OnKeyDown);
                 let nextOnKeyDown = e => {
                     if(e.key == ' ' && this._environment._treasure.position.distanceToSquared(this._controls.Position) < 3000) {
@@ -159,7 +155,7 @@ class Game {
                     }
                 }
                 nextOnKeyDown = nextOnKeyDown.bind(this);
-                document.addEventListener('keydown', nextOnKeyDown);
+                document.addEventListener('keyup', nextOnKeyDown);
             }  
         };
         OnKeyDown = OnKeyDown.bind(this);
@@ -170,6 +166,7 @@ class Game {
 
         this._InitCharacter();
         this._InitEnv();
+        this._InitQuest();
         this._RAF();
     }
 
@@ -195,6 +192,13 @@ class Game {
             character: this._controls,
         });
     }
+    _InitQuest() {
+        this._quests = new QuestController({
+            environment: this._environment,
+            character: this._controls,
+            magicCube: this._magicCube
+        });
+    }
 
     _OnWindowResize() {
         this._camera.aspect = window.innerWidth / window.innerHeight;
@@ -204,32 +208,28 @@ class Game {
 
     _RAF() {
         requestAnimationFrame((t) => {
-            stats.begin();
-	        stats.end();
+            stats.begin();stats.end();
             if (this._previousRAF === null) this._previousRAF = t;
 
-            this._RAF();
-
-            if(this._environment._treasure.position.distanceToSquared(this._controls.Position) < 3000) {
-                captionText.textContent = 'Press Spacebar to use the cube.';
-                captionText.style.color = 'rgba(255,255,255,' + Math.cos(this._opacity);
-                this._opacity+= 0.1;
-            }
-
-            this._threejs.render(this._scene, this._camera);
             this._Step(t - this._previousRAF); //on each frame, update CharacterController
+            this._quests._Update(t); //on each frame, update QuestController
             this._previousRAF = t;
+
+            this._RAF();
+            this._threejs.render(this._scene, this._camera);
         });
     }
 
     _Step(timeElapsed) {
         const timeElapsedS = timeElapsed * 0.001;
-        //update "other models"
-        if (this._mixers) this._mixers.map(m => m.update(timeElapsedS));
+
         //update character position/orientation/animation
-        if (this._controls) this._controls.Update(timeElapsedS);
+        this._controls.Update(timeElapsedS);
         //update camera position/lookAt
         if(!this?._cameraControl?.enabled) this._thirdPersonCamera.Update(timeElapsedS);
+
+        //update "other models"
+        // if (this._mixers) this._mixers.map(m => m.update(timeElapsedS));
         //update the treasure animation
         if(!this._environment._treasureOpened) this._environment._Update(timeElapsedS);
         //update the magicCube rotation if the treasure chest is opened

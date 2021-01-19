@@ -14,10 +14,12 @@ const controlsContainer = document.querySelector('#controls-container');
 const characterSelection = document.querySelector('#character-selection');
 const canvas = document.querySelector('#c');
 
+const questsContainer = document.querySelector('#quests-container');
+
 class CustomLoader {
     constructor() {
-        this._cubeTextureLoader = new THREE.CubeTextureLoader();
-        this._textureFiles = [
+        this._bgTextureLoader = new THREE.CubeTextureLoader();
+        this._bgTextureFiles = [
             '../resources/clouds1/clouds1_east.bmp',
             '../resources/clouds1/clouds1_west.bmp',
             '../resources/clouds1/clouds1_up.bmp',
@@ -25,6 +27,18 @@ class CustomLoader {
             '../resources/clouds1/clouds1_north.bmp',
             '../resources/clouds1/clouds1_south.bmp',
         ];
+
+        this._magicCubeManager = new THREE.LoadingManager();
+        this._magicCubeTextureLoader = new THREE.TextureLoader(this._magicCubeManager);
+        this._magicCubeTexture = {
+            interrogation: {url: '../resources/cube_textures/interrogation.png'}, //texture is loader here thereafter
+            aboutMe: {url: '../resources/cube_textures/aboutMe.png'},
+            projects: {url: '../resources/cube_textures/projects.png'},
+            cv: {url: '../resources/cube_textures/cv.png'},
+            skills: {url: '../resources/cube_textures/skills.png'},
+            hireMe: {url: '../resources/cube_textures/hireMe.png'},
+            smallGames: {url: '../resources/cube_textures/smallGames.png'}
+        };
 
         this._envModelsManager = new THREE.LoadingManager();
         this._envModelsLoader = new GLTFLoader(this._envModelsManager);
@@ -85,15 +99,29 @@ class CustomLoader {
         const progress = itemsLoaded / itemsTotal;
         progressBarElem.style.transform = `scaleX(${progress})`;
     };
-    _startLoading() {this._LoadTexture()};
+    _startLoading() {this._LoadBgTexture()};
 
-    _LoadTexture() {
+    _LoadBgTexture() {
         loadingElem.style.display = 'flex';
-        progressTitle.textContent = "Loading texture...";
+        progressTitle.textContent = "Loading background...";
         this._OnProgress(null, 0, 1); //no progress callback on TextureLoader so we do it manually
-        this._texture = this._cubeTextureLoader.load(this._textureFiles, () => {
+        this._bgTexture = this._bgTextureLoader.load(this._bgTextureFiles, () => {
             this._OnProgress(null, 1, 1);
-            this._LoadEnvModels.call(this);
+            this._LoadCubeTexture.call(this);
+        });
+    }
+    _LoadCubeTexture() {
+        this._magicCubeManager.onStart = () => {
+            progressTitle.textContent = "Loading magic cube textures...";
+            this._OnProgress(null, 0, 1); 
+        };
+        this._magicCubeManager.onLoad = this._LoadEnvModels.call(this);
+        this._magicCubeManager.onProgress = this._OnProgress(null, 1, 1);
+        this._magicCubeManager.onError = () => {progressTitle.textContent = "Oops, cube textures coudln't have been loaded :/. Try later."};
+        Object.values(this._magicCubeTexture).forEach(obj => { 
+            this._magicCubeTextureLoader.load(obj.url, load => {
+                obj.texture = load;
+            });
         });
     }
     _LoadEnvModels() {
@@ -137,6 +165,7 @@ class CustomLoader {
         this._characterAnimationsManager.onLoad = () => {
             loadingElem.style.display = 'none';
             controlsContainer.style.display = 'block';
+            questsContainer.style.display = 'block';
             canvas.style.display = 'block';
             this._LaunchGame(charName);
         };
