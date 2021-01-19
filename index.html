@@ -21,7 +21,12 @@
             </div>
         </div>
         <!-- iframe example -->
-        <!-- <iframe style="position: absolute; top: 50%; left: 50%;z-index: 3;" width="300" height="300" src="./test.html"></iframe> -->
+        <iframe id="cv" class="iframe-general" width="500" height="350" src="./content/cv.html"></iframe>
+        <iframe id="aboutMe" class="iframe-general" width="550" height="550" src="./content/about-me.html"></iframe>
+        <iframe id="hire-me" class="iframe-general" width="500" height="350" src="./content/hire-me.html"></iframe>
+        <iframe id="skills" class="iframe-general" width="500" height="350" src="./content/skills.html"></iframe>
+        <iframe id="projects" class="iframe-general" width="500" height="350" src="./content/projects.html"></iframe>
+        <iframe id="smallGames" class="iframe-general" width="500" height="350" src="./content/small-games.html"></iframe>
         <!-- controls indication in the bottom left corner -->
         <div id="controls-container">
             <p class="default-text title" >Controls:</p>
@@ -148,6 +153,12 @@
     <!-- <script type='module' src="./examples/game.js"></script> -->
     <!-- <script type='module' src="./testingModels.js"></script> -->
     <script type='module' src="./js/main.js"></script>
+
+    <script>
+        function closeIFrame(){
+            document.querySelector('#aboutMe').style.display = 'none';
+        }
+    </script>
 </body>
 
 </html>

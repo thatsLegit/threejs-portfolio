@@ -1,0 +1,74 @@
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500&display=swap');
+
+html, body {
+    height: 100%;
+    margin: 0;
+    background: white url('../resources/content/scroll.jpg') no-repeat;
+    background-size: cover;
+}
+p {
+    margin: 0px;
+}
+div::-webkit-scrollbar {
+    width: 0px;
+    background: transparent;
+}
+
+#container {
+    overflow: scroll;
+    width: 100%;
+    height: 100%;
+}
+.inner-container {
+    overflow: scroll;
+    position: relative;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+}
+
+#photo {
+    margin: auto;
+    width: 130px;
+    height: 130px;
+    background: white url('../resources/content/profile.jpg') no-repeat;
+    background-size: cover;
+    border-radius: 50%;
+}
+#map {
+    margin-top: 10px;
+    width: 180px;
+    height: 130px;
+}
+#presentation {
+    margin-top: 25px;
+    vertical-align: middle;
+    width: 60%;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 15px;
+}
+
+.timeline-item {
+    margin: 0px 2px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    width: 140px;
+    height: 150px;
+    box-shadow: 2px 2px 5px;
+    border: solid 1px black;
+    border-radius: 5px;
+    background-color: rgba(255,255,255,0.78);
+}
+.timeline-text {
+    padding: 5px;
+    font-weight: bold;
+    font-size: 1em;
+    margin-bottom: 5px;
+}
+.timeline-image {
+    padding-bottom: 10px;
+}
+

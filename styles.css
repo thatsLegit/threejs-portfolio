@@ -182,3 +182,13 @@ html, body {
   font-size: 2rem;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
+
+/* iframes */
+.iframe-general {
+  display: none;
+  position: absolute; 
+  top: 10%; 
+  left: 60%;
+  z-index: 3;
+  box-shadow: 2px 2px 5px;
+}

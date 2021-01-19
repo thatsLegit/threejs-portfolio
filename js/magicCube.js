@@ -3,6 +3,14 @@ import { SceneUtils } from "../node_modules/three/examples/jsm/utils/SceneUtils.
 
 
 const canvas = document.querySelector('#c');
+const iframes = {
+    cv: document.querySelector('#cv'),
+    aboutMe: document.querySelector('#aboutMe'),
+    hireMe: document.querySelector('#hireMe'),
+    skills: document.querySelector('#skills'),
+    projects: document.querySelector('#projects'),
+    smallGames: document.querySelector('#smallGames')
+};
 
 class MagicCube {
     constructor(params) {
@@ -212,12 +220,18 @@ class MagicCube {
             const {face: {a, b, c}} = isIntersected[0];
             const obj = {a,b,c};
 
-            if (JSON.stringify(obj) == JSON.stringify(this._faces.aboutMe[0]) || JSON.stringify(obj) == JSON.stringify(this._faces.aboutMe[1])) console.log('aboutMe');
-            if (JSON.stringify(obj) == JSON.stringify(this._faces.hireMe[0]) || JSON.stringify(obj) == JSON.stringify(this._faces.hireMe[1])) console.log('hireMe');
-            if (JSON.stringify(obj) == JSON.stringify(this._faces.skills[0]) || JSON.stringify(obj) == JSON.stringify(this._faces.skills[1])) console.log('skills');
-            if (JSON.stringify(obj) == JSON.stringify(this._faces.projects[0]) || JSON.stringify(obj) == JSON.stringify(this._faces.projects[1])) console.log('projects');
-            if (JSON.stringify(obj) == JSON.stringify(this._faces.cv[0]) || JSON.stringify(obj) == JSON.stringify(this._faces.cv[1])) console.log('cv');
-            if (JSON.stringify(obj) == JSON.stringify(this._faces.smallGames[0]) || JSON.stringify(obj) == JSON.stringify(this._faces.smallGames[1])) console.log('smallGames');
+            if (JSON.stringify(obj) == JSON.stringify(this._faces.aboutMe[0]) || JSON.stringify(obj) == JSON.stringify(this._faces.aboutMe[1])) openIframe.call(this, 'aboutMe');
+            if (JSON.stringify(obj) == JSON.stringify(this._faces.hireMe[0]) || JSON.stringify(obj) == JSON.stringify(this._faces.hireMe[1])) openIframe.call(this, 'hireMe');
+            if (JSON.stringify(obj) == JSON.stringify(this._faces.skills[0]) || JSON.stringify(obj) == JSON.stringify(this._faces.skills[1])) openIframe.call(this, 'skills');
+            if (JSON.stringify(obj) == JSON.stringify(this._faces.projects[0]) || JSON.stringify(obj) == JSON.stringify(this._faces.projects[1])) openIframe.call(this, 'projects');
+            if (JSON.stringify(obj) == JSON.stringify(this._faces.cv[0]) || JSON.stringify(obj) == JSON.stringify(this._faces.cv[1])) openIframe.call(this, 'cv');
+            if (JSON.stringify(obj) == JSON.stringify(this._faces.smallGames[0]) || JSON.stringify(obj) == JSON.stringify(this._faces.smallGames[1])) openIframe.call(this, 'smallGames');
+
+            function openIframe(name) {
+                this?._selected && (iframes[this._selected].style.display = 'none');
+                iframes[name].style.display = 'block';
+                this._selected = name;
+            }
         }
 
         //updating mouse raycaster vector
