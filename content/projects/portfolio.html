@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="slideshow.css">
+    <style>
+        .container {
+            padding: 1rem;
+            margin: auto;
+        }
+        .title {
+            margin: 2rem 0px 1rem 1rem;
+            font-family:'Courier New', Courier, monospace;
+            font-size: large;
+            font-weight: bold;
+        }
+        #presentation {
+            margin: auto auto 1rem auto;
+        }
+        #explanation {
+            margin: 1rem auto 2rem auto;
+        }
+    </style>
+</head>
+<body>
+    <!-- Go back to projects menu -->
+    <img style="cursor: pointer;" onclick="window.history.back()" src="../../resources/content/back.png" alt="back">
+    <!-- link to the repo of the project -->
+    <div style="float: right;padding: 0.5rem;">
+        <a 
+            id="github-link"
+            href="https://github.com/thatsLegit/threejs-portfolio" 
+            target="_blank" rel="noopener noreferrer"
+        >
+            <img src="../../resources/content/github.png" alt="github">
+        </a>
+    </div>
+
+    <p class="title">Three.js portfolio RPG style game</p>
+
+    <div id="container" class="container">
+
+        <div class="inner-container" style="flex-direction: row;margin: 1rem auto 1rem auto;justify-content: space-around;">
+            <a href="https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API" target="_blank" rel="noopener noreferrer">
+                <img 
+                    src="../../resources/content/projects/web/threejs/webgl-logo.png" 
+                    alt="webgl" width="250" height="100"
+                >
+            </a>
+            <a href="https://threejs.org" target="_blank" rel="noopener noreferrer">
+                <img 
+                    src="../../resources/content/projects/web/threejs/threejs-logo.png" 
+                    alt="disrupt-campus" width="200" height="100"
+                >
+            </a>
+            <a href="https://www.blender.org" target="_blank" rel="noopener noreferrer">
+                <img 
+                    src="../../resources/content/projects/web/threejs/blender.jpg" 
+                    alt="disrupt-campus" width="200" height="100"
+                >
+            </a>
+        </div>
+
+        <p id="presentation">
+            In december 2020, I decided to make a portfolio project for several reasons:<br>
+            <ul>
+                <li>A cv is too short and doesn’t tell much about the skills</li>
+                <li>As a web developer, I felt like I should probably do a website for fun to present all my work done as a student</li>
+                <li>You can do whatever you want, really</li>
+                <li style="text-decoration: line-through;">I had a lot of free time</p></li>
+            </ul>
+        </p>
+
+        <!-- slideshow -->
+        <div class="slideshow-container">
+            <div class="mySlides fade">
+                <img src="../../resources/content/projects/web/threejs/global-view.PNG" style="width:100%">
+                <div class="text">Free camera view of the virtual floating island</div>
+            </div>
+            <div class="mySlides fade">
+                <img src="../../resources/content/projects/web/threejs/character-select.PNG" style="width:100%">
+                <div class="text">Character selection screen</div>
+            </div>
+            <div class="mySlides fade">
+                <img src="../../resources/content/projects/web/threejs/blender-model.png" style="width:100%">
+                <div class="text">The flying ship model in Blender</div>
+            </div>
+            
+            <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+            <a class="next" onclick="plusSlides(1)">&#10095;</a>
+        </div><br>
+            
+        <div style="text-align:center">
+            <span class="dot" onclick="currentSlide(1)"></span> 
+            <span class="dot" onclick="currentSlide(2)"></span> 
+            <span class="dot" onclick="currentSlide(3)"></span> 
+        </div>
+
+        <!-- Further explanations -->
+        <p id="explanation">
+            <p style="text-decoration: underline;">Why 3d ?</p><br>
+            I always had this childish dream to be able to create an open virtual world in which I could create my own rules and code whatever I wanted.
+            Also, younger I was a big fan of MMO/MMORPG games so it's probably also explaining a lot <img src="../../resources/content/xd.png" alt="xd">.<br>
+            Then, as Javascript is the language I feel the most comfortable with, I decided to give a try to Three.js.<br><br>
+            As I was a complete newbie to 3d, it was a sort of half-step out of my comfort zone.<br><br>
+            
+            <p style="text-decoration: underline;">Design/art</p><br>
+            Most of the art come from OpenGameArte, Mixamo or SketchFab.<br>
+            I used Blender to tune/reshape the models that I found on the internet to make them exploitable in Three.js.<br><br>
+
+            <p style="text-decoration: underline;">Development</p><br>
+            I started by browsing the Internet to find some interesting models to make the world I had in mind.<br>
+            Then I defined the movement and animations of the character. I found very helpful the videos and repos of <a href="https://github.com/simondevyoutube">this retired game developer</a>.<br>
+            After that I had to "make" the environment by placing, rotating, scaling, all the models.<br>
+            Finally I worked on the treasure chest with its animations and the cube that let's you read those lines.<br>
+            As it's a static web page, it doesn't use any database so github pages appeared to be an easy hosting solution for this app.<br><br>
+
+            <p style="text-decoration: underline;">Challenges</p><br>
+            Almost every part of this project was extremely challenging as I had a very short amount of time to learn Three.js, get in touch with 3d, Blender, animations in which I had almost zero knowledge…<br>
+            I'm glad though that I was doing well in math classes in earlier courses because 3d happens to be full of trigonometry <img src="../../resources/content/grinning.png" alt="grinning">.<br>
+            But I learnt so much from it and understood the very basics of how 3d games are made.<br><br>
+
+            I haven't been able to keep up with all the challenges as this app is absolutely not a fit for small devices such as mobile phones.
+            I focused only on laptop/desktop devices so responsiveness and performance related issues will probably be encountered.
+        </p>
+    </div>
+
+    <script>
+        let slideIndex = 1;
+        showSlides(slideIndex);
+        
+        function plusSlides(n) {
+          showSlides(slideIndex += n);
+        }
+        
+        function currentSlide(n) {
+          showSlides(slideIndex = n);
+        }
+        
+        function showSlides(n) {
+            let slides = document.getElementsByClassName("mySlides");
+            let dots = document.getElementsByClassName("dot");
+
+            if (n > slides.length) {slideIndex = 1}    
+            if (n < 1) {slideIndex = slides.length}
+
+            for (let i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";  
+            }
+            for (let i = 0; i < dots.length; i++) {
+                dots[i].className = dots[i].className.replace(" active", "");
+            }
+            
+            slides[slideIndex-1].style.display = "block";  
+            dots[slideIndex-1].className += " active";
+        }
+    </script>
+</body>
+</html>

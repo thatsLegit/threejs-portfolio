@@ -3,44 +3,110 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel='stylesheet' href="styles.css">
+    <link rel="stylesheet" href="styles.css">
     <link type="text/css" rel="stylesheet" href="https://api.mqcdn.com/sdk/mapquest-js/v1.3.2/mapquest-maps.css"/>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500&display=swap');
+
+        #photo {
+            margin: auto;
+            width: 130px;
+            height: 130px;
+            background: white url('../resources/content/profile.jpg') no-repeat;
+            background-size: cover;
+            border-radius: 50%;
+        }
+        #map {
+            margin: 10px auto;
+            width: 180px;
+            height: 130px;
+        }
+        #hobbies {
+            position: absolute;
+            top: 100%;
+            box-shadow: 1px 1px 2px;
+            margin: auto;
+        }
+        #hobbies p {
+            font-size: large;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+        }
+        #presentation {
+            width: 55%;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            font-size: 1rem;
+        }
+
+        .timeline-item {
+            margin: 0px 2px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            width: 140px;
+            height: 150px;
+            box-shadow: 2px 2px 5px;
+            border: solid 1px black;
+            border-radius: 5px;
+            background-color: rgba(255,255,255,0.78);
+        }
+        .timeline-text {
+            padding: 5px;
+            font-weight: bold;
+            font-size: 1em;
+            margin-bottom: 5px;
+        }
+        .timeline-image {
+            padding-bottom: 10px;
+        }
+    </style>
 </head>
 <body>
     <div id="container">
-        <div onclick="parent.closeIFrame();" style="cursor: pointer;">
+        <div onclick="parent.closeIFrame('aboutMe');" style="cursor: pointer;width: 20px;">
             <img src="../resources/content/cancel.png" alt="close">
         </div>
 
-        <div class="inner-container" style="justify-content: space-around;align-items: center;height: 75%;">
+        <div 
+            class="inner-container" 
+            style="flex-direction: row;justify-content: space-around;align-items: flex-start;height: 75%;"
+        >
             <div>
                 <div id="photo"></div>
                 <div id="map"></div>
+                <div id="hobbies">
+                    <p>Hobbies:</p><br>
+                    <img src="../resources/content/games.png" alt="games">
+                    <img src="../resources/content/reading.png" alt="reading.png">
+                    <img src="../resources/content/workout.png" alt="workout.png">
+                </div>
             </div>
             
             <div id="presentation">
-                As you may have guessed, I am a computer science student :). <br><br>
+                Hey!<br><br>
+                My name is Ilja (pronounce Ilya) and as you may have guessed, I am a computer science student <img src="../resources/content/happy.png" alt="happy">. <br><br>
                 I am currently involved in the M2 Innovative Information Systems in the Capitole University of Toulouse, France.<br><br>
                 I study various topics such as web development, machine/deep learning, data science, IoT and more !<br><br>
                 Apart from classes I like exploring new technologies by my own and recently I've been very excited about 
                 3d which led to this portfolio website !<br><br>
-                My main interest is web development but I am an eager learner and I wouldn't be surprised if I
+                My main interests are web development, Dev ops and Cloud technologies but I am an eager learner and wouldn't be surprised if I
                 were to do something completely different in a few years, things are changing super fast these days who knows...
             </div>
         </div>
         
-        <div id="timeline" class="inner-container" style="justify-content: start;align-items: flex-start;">
+        <div id="timeline" class="inner-container" style="flex-direction: row;justify-content: start;align-items: flex-start;">
             <div class="timeline-item">
                 <p class="timeline-text">Master in computer science (<i>2019 - now</i>)</p>
-                <img class="timeline-image" src="../resources/content/law-book.png" alt="law-book">
+                <img class="timeline-image" src="../resources/content/development.png" alt="development">
             </div>
             <div class="timeline-item">
                 <p class="timeline-text">Bachelor (3rd y.) in computer science (<i>2018</i>)</p>
-                <img class="timeline-image" src="../resources/content/law-book.png" alt="law-book">
+                <img class="timeline-image" src="../resources/content/computer.png" alt="computer">
             </div>
             <div class="timeline-item">
                 <p class="timeline-text">Master in Business law (<i>2017</i>)</p>
-                <img class="timeline-image" src="../resources/content/law-book.png" alt="law-book">
+                <img class="timeline-image" src="../resources/content/auction.png" alt="contract">
             </div>
             <div class="timeline-item">
                 <p class="timeline-text">Law and economics Bachelor (<i>2014</i>)</p>

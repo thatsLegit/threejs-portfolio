@@ -187,8 +187,8 @@ html, body {
 .iframe-general {
   display: none;
   position: absolute; 
-  top: 10%; 
-  left: 60%;
+  top: 15%; 
+  left: 30%;
   z-index: 3;
   box-shadow: 2px 2px 5px;
 }

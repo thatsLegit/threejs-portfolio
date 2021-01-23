@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="slideshow.css">
+    <style>
+        .container {
+            padding: 1rem;
+            margin: auto;
+        }
+        .title {
+            margin: 2rem 0px 1rem 1rem;
+            font-family:'Courier New', Courier, monospace;
+            font-size: large;
+            font-weight: bold;
+        }
+        #presentation {
+            margin: auto auto 1rem auto;
+        }
+        .explanation {
+            margin: 1rem auto 2rem auto;
+        }
+    </style>
+</head>
+<body>
+    <!-- Go back to projects menu -->
+    <img style="cursor: pointer;" onclick="window.history.back()" src="../../resources/content/back.png" alt="back">
+    <!-- link to the repo of the project -->
+    <div style="float: right;padding: 0.5rem;">
+        <a 
+            id="github-link"
+            href="https://github.com/go-roots" 
+            target="_blank" rel="noopener noreferrer"
+        >
+            <img src="../../resources/content/github.png" alt="github">
+        </a>
+    </div>
+
+    <p class="title">Co-workers: Web and IoT project (school project)</p>
+
+    <div id="container" class="container">
+        <p id="presentation">
+            Co-Workers is the result of three weeks of collaborative work.<br>
+            We were asked to improve co-working spaces and our decision was to focus on social networking in order to encourage interactions between users.<br><br>
+            The App includes a help-from-peers system, events, profiles and the possibility to redeem point you gained by being social.
+        </p>
+
+        <!-- slideshow 1-->
+        <div id="web-part" class="slideshow-container">
+            <div class="mySlides1 fade">
+                <video width="700" height="400" controls>
+                    <source src="../../resources/content/projects/web/co-workers/video.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                <div class="text">Presentation video clip</div>
+            </div>
+            <div class="mySlides1 fade">
+                <img src="../../resources/content/projects/web/co-workers/landing.png" style="width:100%;max-height: 400px;">
+                <div class="text">Landing page</div>
+            </div>
+            <div class="mySlides1 fade">
+                <img src="../../resources/content/projects/web/co-workers/home.png" style="width:100%;max-height: 400px;">
+                <div class="text">Home page</div>
+            </div>
+            <div class="mySlides1 fade">
+                <img src="../../resources/content/projects/web/co-workers/rooms.png" style="width:100%;max-height: 400px;">
+                <div class="text">Rooms browsing</div>
+            </div>
+            
+            <a class="prev" onclick="plusSlides(-1, 0)">&#10094;</a>
+            <a class="next" onclick="plusSlides(1, 0)">&#10095;</a>
+        </div><br>
+            
+        <div style="text-align:center">
+            <span class="dot0" onclick="currentSlide(1, 0)"></span> 
+            <span class="dot0" onclick="currentSlide(2, 0)"></span> 
+            <span class="dot0" onclick="currentSlide(3, 0)"></span> 
+            <span class="dot0" onclick="currentSlide(4, 0)"></span> 
+        </div>
+
+        <!-- Further explanations -->
+        <div class="explanation">
+            <p style="text-decoration: underline;">Work done</p><br>
+            We started by developping the html/css theme with <b>Bootstrap Studio</b> which I found to be very nice if you like using <b>Bootstrap</b> for your projects.<br>
+            It’s indeed a sort of <b>WYSIWYG</b> software focus on the <b>Bootstrap CSS framework</b> and it really allowed us to have something to deliver very quickly.<br><br>
+            Then we just had to transform the theme into react components and create a <b>Redux</b> store for app level state management.<br><br>
+
+            <p style="text-decoration: underline;">Features</p><br>
+            One of the main feature of the app is the <a href="#web-part">interactive, real-time, responsive map</a> which displays position of present users inside the co-working space.<br>
+            This map was an essential feature of our app and it provided data about each user in the co-working space: their activity, the room they are in, their mood, etc…<br><br>
+            We also developed a very complete <a href="#web-part">filtering system</a> for viewing only specific types of users. A user could for instance see only the available lawyers or computer scientists in their friend list ! 
+            To encourage interactions between co-workers we also had a ‘help request’ button that would immediately send a notif to all concerned users.<br><br>
+            Users have <a href="#web-part">recommendations</a> based on their profile and the rooms busyness.<br><br>
+            By helping others a user can receive points to redeem and also have their skills recommended on LinkedIn.
+        </div>
+
+        <!-- slideshow 2-->
+        <div id="api-part" class="slideshow-container">
+            <div class="mySlides2 fade">
+                <img src="../../resources/content/projects/web/co-workers/architecture.png" style="width:100%;max-height: 400px;">
+                <div class="text">ARchitecture</div>
+            </div>
+            <div class="mySlides2 fade">
+                <img src="../../resources/content/projects/web/co-workers/cw_postman.png" style="width:100%;max-height: 400px;">
+                <div class="text">DocGen api documentation</div>
+            </div>
+            
+            <a class="prev" onclick="plusSlides(-1, 1)">&#10094;</a>
+            <a class="next" onclick="plusSlides(1, 1)">&#10095;</a>
+        </div><br>
+            
+        <div style="text-align:center">
+            <span class="dot1" onclick="currentSlide(1, 1)"></span> 
+            <span class="dot1" onclick="currentSlide(2, 1)"></span> 
+        </div>
+
+        <!-- Further explanations -->
+        <div class="explanation">
+            All of these features were only possible with a solid back end <b>API</b> that we tested with <b>Postman</b>.<br>
+            For that, we used <b>NodeJs</b> coupled with <b>Mongoose ORM</b> to handle the <b>MongoDB</b> Database requests.
+            The API is <b>RESTful</b> and securized as we implemented the <b>OAuth2</b> protocol.<br><br>
+            Along with this API, we also had a face recognition web service in <b>Flask</b> (Python) and on-board code for <b>raspberry pis</b>.<br>
+            Although, the Node API was the central node (no pun intended) between our <b>IoT devices</b>, the face reco web service and the web app.
+        </div>
+
+        <!-- slideshow 3-->
+        <div id="api-part" class="slideshow-container">
+            <div class="mySlides3 fade">
+                <img src="../../resources/content/projects/web/co-workers/cw-facerec.png" style="width:100%;max-height: 400px;">
+                <div class="text">Our implementation of face recognition</div>
+            </div>
+            <div class="mySlides3 fade">
+                <img src="../../resources/content/projects/web/co-workers/cw-rfid.png" style="width:100%;max-height: 400px;">
+                <div class="text">rfid payments with raspberry pi</div>
+            </div>
+            
+            <a class="prev" onclick="plusSlides(-1, 2)">&#10094;</a>
+            <a class="next" onclick="plusSlides(1, 2)">&#10095;</a>
+        </div><br>
+            
+        <div style="text-align:center">
+            <span class="dot2" onclick="currentSlide(1, 2)"></span> 
+            <span class="dot2" onclick="currentSlide(2, 2)"></span> 
+        </div>
+    </div>
+
+    <script>
+        let slideIndex = [1, 1, 1];
+        const slideClasses = ["mySlides1", "mySlides2", "mySlides3"];
+        showSlides(1, 0);
+        showSlides(1, 1);
+        showSlides(1, 2);
+        
+        function plusSlides(n, cl) {
+          showSlides(slideIndex[cl] += n, cl);
+        }
+        
+        function currentSlide(n, cl) {
+          showSlides(slideIndex[cl] = n, cl);
+        }
+        
+        function showSlides(n, cl) {
+            const slides = document.getElementsByClassName(slideClasses[cl]);
+            const dots = document.getElementsByClassName("dot" + cl);
+
+            if (n > slides.length) {slideIndex[cl] = 1}    
+            if (n < 1) {slideIndex[cl] = slides.length}
+
+            for (let i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";  
+            }
+            for (let i = 0; i < dots.length; i++) {
+                dots[i].className = dots[i].className.replace(" active", "");
+            }
+            
+            slides[slideIndex[cl]-1].style.display = "block";  
+            dots[slideIndex[cl]-1].className += " active";
+        }
+    </script>
+</body>
+</html>

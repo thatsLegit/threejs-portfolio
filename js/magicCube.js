@@ -258,7 +258,6 @@ class MagicCube {
         onCanvasMouseEnds = onCanvasMouseEnds.bind(this); //pre-assigning the same function to the var but with the this binding.
 
         document.addEventListener('mousedown', onCanvasMouseDown.bind(this));
-
         function onCanvasMouseDown(e) {
             e.preventDefault(); // ?
 
@@ -275,6 +274,13 @@ class MagicCube {
 
             this._mouseYOnMouseDown = e.clientY - this._canvasHalfY; //distance to half of the screen on y
             this._targetRotationOnMouseDownY = this._targetRotationY; //0.2
+        }
+
+        //closes the selected iframe on escape press
+        document.addEventListener('keydown', e => closeIFrame.call(this, e));
+        function closeIFrame(e) { //pq cette merde ne marche pas ?
+            console.log(e.key, this?._selected);
+            if(e.key == 'Escape') this?._selected && (iframes[this._selected].style.display = 'none');
         }
     }
 

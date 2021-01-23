@@ -3,9 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .text {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            font-size: 1rem;
+            padding: 0px 20px;
+        }
+    </style>
 </head>
 <body>
-    small games
+    <div id="container">
+        <div onclick="parent.closeIFrame('smallGames');" style="cursor: pointer;width: 20px;">
+            <img src="../resources/content/cancel.png" alt="close">
+        </div>
+
+        <div class="text">
+            <img src="../resources/content/alarm.png" alt="alarm">
+            <b>Ongoing development</b> 
+       </div> 
+    </div>
 </body>
 </html>
