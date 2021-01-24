@@ -6,5 +6,26 @@
     "three": "^0.123.0",
     "webpack": "^5.15.0",
     "webpack-cli": "^4.3.1"
-  }
+  },
+  "name": "threejsportfolio",
+  "version": "1.0.0",
+  "description": "Three js portfolio app",
+  "main": "app.js",
+  "directories": {
+    "example": "examples"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thatsLegit/threejs-portfolio.git"
+  },
+  "author": "Ilya Stepanov",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/thatsLegit/threejs-portfolio/issues"
+  },
+  "homepage": "https://github.com/thatsLegit/threejs-portfolio#readme"
 }
