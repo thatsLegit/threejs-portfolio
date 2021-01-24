@@ -41,6 +41,28 @@
     <p class="title">Co-workers: Web and IoT project (school project)</p>
 
     <div id="container" class="container">
+
+        <div class="inner-container" style="flex-direction: row;margin: 1rem auto 1rem auto;justify-content: space-around;align-items: center;">
+            <a href="https://reactjs.org" target="_blank" rel="noopener noreferrer">
+                <img 
+                    src="../../resources/content/projects/mobile/react-logo.png" 
+                    alt="webgl" width="200" height="150"
+                >
+            </a>
+            <a href="https://nodejs.org" target="_blank" rel="noopener noreferrer">
+                <img 
+                    src="../../resources/content/projects/mobile/nodejs.png" 
+                    alt="disrupt-campus" width="200" height="150"
+                >
+            </a>
+            <a href="https://mongoosejs.com" target="_blank" rel="noopener noreferrer">
+                <img 
+                    src="../../resources/content/projects/web/co-workers/mongoose.png" 
+                    alt="disrupt-campus" width="200" height="100"
+                >
+            </a>
+        </div>
+
         <p id="presentation">
             Co-Workers is the result of three weeks of collaborative work.<br>
             We were asked to improve co-working spaces and our decision was to focus on social networking in order to encourage interactions between users.<br><br>
@@ -120,7 +142,9 @@
         <div class="explanation">
             All of these features were only possible with a solid back end <b>API</b> that we tested with <b>Postman</b>.<br>
             For that, we used <b>NodeJs</b> coupled with <b>Mongoose ORM</b> to handle the <b>MongoDB</b> Database requests.
-            The API is <b>RESTful</b> and securized as we implemented the <b>OAuth2</b> protocol.<br><br>
+            The API is <b>RESTful</b> and securized as we implemented the <b>OAuth2</b> protocol. 
+            Actually it was a mix between RESTful and <b>WebSockets</b> API because we used web sockets to push notifications, mesages, help-requests instantly to concerned users.
+            We used <a href="https://www.npmjs.com/package/ws">ws</a>, a super light-weight and fast js library for web sockets connection.<br><br>
             Along with this API, we also had a face recognition web service in <b>Flask</b> (Python) and on-board code for <b>raspberry pis</b>.<br>
             Although, the Node API was the central node (no pun intended) between our <b>IoT devices</b>, the face reco web service and the web app.
         </div>

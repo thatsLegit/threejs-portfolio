@@ -146,20 +146,23 @@ class Game {
                     camera: this._camera,
                     textures: this._customLoader._magicCubeTexture
                 });
+
                 this._quests._params.magicCube = this._magicCube; //updates undefined value for magicCube in quests
-                document.removeEventListener('keydown', OnKeyDown);
+                document.removeEventListener('keyup', OnKeyDown); //so it's not possible de invoke multiple cubes
+
                 let nextOnKeyDown = e => {
                     if(e.key == ' ' && this._environment._treasure.position.distanceToSquared(this._controls.Position) < 3000) {
                         this._magicCube._transiting = true;
                         document.removeEventListener('keydown', nextOnKeyDown);
                     }
                 }
+
                 nextOnKeyDown = nextOnKeyDown.bind(this);
-                document.addEventListener('keyup', nextOnKeyDown);
+                document.addEventListener('keydown', nextOnKeyDown);
             }  
         };
         OnKeyDown = OnKeyDown.bind(this);
-        document.addEventListener('keydown', OnKeyDown);
+        document.addEventListener('keyup', OnKeyDown);
 
         this._mixers = [];
         this._previousRAF = null;
@@ -199,13 +202,11 @@ class Game {
             magicCube: this._magicCube
         });
     }
-
     _OnWindowResize() {
         this._camera.aspect = window.innerWidth / window.innerHeight;
         this._camera.updateProjectionMatrix();
         this._threejs.setSize(window.innerWidth, window.innerHeight);
     }
-
     _RAF() {
         requestAnimationFrame((t) => {
             stats.begin();stats.end();
@@ -219,7 +220,6 @@ class Game {
             this._threejs.render(this._scene, this._camera);
         });
     }
-
     _Step(timeElapsed) {
         const timeElapsedS = timeElapsed * 0.001;
 
@@ -227,7 +227,6 @@ class Game {
         this._controls.Update(timeElapsedS);
         //update camera position/lookAt
         if(!this?._cameraControl?.enabled) this._thirdPersonCamera.Update(timeElapsedS);
-
         //update "other models"
         // if (this._mixers) this._mixers.map(m => m.update(timeElapsedS));
         //update the treasure animation

@@ -13,12 +13,13 @@
     </style>
 </head>
 <body>
-    <div onclick="parent.closeIFrame('hireMe');" style="cursor: pointer;width: 20px;">
-        <img src="../resources/content/cancel.png" alt="close">
-    </div>
+    <div id="container">
 
-    <div id="container" style="margin-top: 15px;">
-        <div class="inner-container" style="flex-direction: row;justify-content: center;height: 50%;">
+        <div onclick="parent.closeIFrame('skills');" style="cursor: pointer;width: 20px;">
+            <img src="../resources/content/cancel.png" alt="close">
+        </div>
+
+        <div class="inner-container" style="flex-direction: row;justify-content: center;margin-top: 5vh;height: 50vh;">
             <div class="chart-container">
                 <canvas id="front"></canvas>
             </div>
@@ -53,7 +54,7 @@
         createChart(
             "ai", "Data science", 
             ['Python', 'Machine Learning', 'Data structures', 'Deep learning', 'Data visualization'],
-            [8, 9, 8, 6, 7]
+            [8, 9, 8, 5, 7]
         );
         createChart(
             "soft-others", "Soft skills - others", 

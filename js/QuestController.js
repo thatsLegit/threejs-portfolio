@@ -32,6 +32,7 @@ class QuestController {
                 }
                 function cleanup() {
                     caption.style.display = 'none';
+                    this._captionOpacity = 0;
                     this._Complete.call(this, questName);
                 }
                 this._captionOpacity = t / 400; //frame-rate independant
@@ -45,22 +46,40 @@ class QuestController {
                 return this._params.magicCube?._opened;
             },
             effect(t, questName) {
-                this._Complete.call(this, questName);
+                captionText.style.color = 'rgba(255,255,255,' + Math.cos(this._captionOpacity);
+                if(this._captionOpacity == 0) {
+                    caption.style.display = 'block';
+                    captionText.textContent = 'Double click on the faces of the cube to display';
+                    setTimeout(cleanup.bind(this), 6000);
+                }
+                function cleanup() {
+                    caption.style.display = 'none';
+                    this._Complete.call(this, questName);
+                }
+                this._captionOpacity = t / 400; //frame-rate independant
             }
         });
         this._AddQuest({
             name: 'treasure-box-quest', 
             text: 'Browse at least one face of the cube',
             elem: treasureBoxQuest,
-            condition() {return 1===0},
-            effect() {}
+            condition() {
+                return this._params.magicCube?._visited?.size;
+            },
+            effect(t, questName) {
+                this._Complete.call(this, questName);
+            }
         });
         this._AddQuest({
             name: 'pro-quest', 
             text: 'Discover all faces of the cube',
             elem: proQuest,
-            condition() {return 1===0},
-            effect() {}
+            condition() {
+                return this._params.magicCube?._visited?.size == 6;
+            },
+            effect(t, questName) {
+                this._Complete.call(this, questName);
+            }
         });
     }
 

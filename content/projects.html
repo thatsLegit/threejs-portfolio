@@ -27,7 +27,7 @@
             margin: 15px auto;
         }
         .mySlides1, .mySlides2, .mySlides3, .mySlides4, 
-        .mySlides5, .mySlides6, .mySlides7, .mySlides8  {
+        .mySlides5, .mySlides6, .mySlides7  {
             display: none;
         }
         /* Next & previous buttons */
@@ -60,11 +60,15 @@
         }
     </style>
 </head>
+
 <body>
+
 <div onclick="parent.closeIFrame('projects');" style="cursor: pointer;width: 20px;">
     <img src="../resources/content/cancel.png" alt="close">
 </div>
-<p style="padding: 1em 1em 0px 1em;font-weight: bold;">Here are some of my projects ! You can click on the images to know more about the project.</p> <br>
+
+<p style="padding: 1em;font-weight: bold;">Here are some of my projects ! You can click on the images to know more about the project.</p> <br>
+
 <div id="container" class="container">
     <div id="bi" style="width: 25%;">
         <p class="title">Business intelligence</p>
@@ -140,12 +144,6 @@
             </div>
             <div onclick="window.location.href = './projects/oporctunite.html'" class="mySlides3">
                 <div class="tooltip">
-                    <img src="../resources/content/projects/web/oporctunite/login.png" alt="" style="width:100%">
-                    <span class="tooltiptext">Oporctunite: disrupt'Campus collaborative project</span>
-                </div>
-            </div>
-            <div onclick="window.location.href = './projects/oporctunite.html'" class="mySlides3">
-                <div class="tooltip">
                     <img src="../resources/content/projects/web/oporctunite/graphs.png" alt="" style="width:100%">
                     <span class="tooltiptext">Oporctunite: disrupt'Campus collaborative project</span>
                 </div>
@@ -189,33 +187,27 @@
     <div id="mobile" style="width: 25%;">
         <p class="title">Mobile development</p>
         <div class="slideshow-container">
-            <div class="mySlides5">
+            <div onclick="window.location.href = './projects/react-native.html'" class="mySlides5">
                 <div class="tooltip">
                     <img src="../resources/content/projects/mobile/screen2.jpg" alt="" style="width:100%">
                     <span class="tooltiptext">React native mobile app</span>
                 </div>
             </div>
-            <div class="mySlides5">
+            <div onclick="window.location.href = './projects/react-native.html'" class="mySlides5">
                 <div class="tooltip">
                     <img src="../resources/content/projects/mobile/screen4.jpg" alt="" style="width:100%">
                     <span class="tooltiptext">Portfolio project with Three.js</span>
                 </div>
             </div>
-            <div class="mySlides5">
+            <div onclick="window.location.href = './projects/react-native.html'" class="mySlides5">
                 <div class="tooltip">
                     <img src="../resources/content/projects/mobile/screen3.jpg" alt="" style="width:100%">
                     <span class="tooltiptext">Portfolio project with Three.js</span>
                 </div>
             </div>
-            <div class="mySlides5">
+            <div onclick="window.location.href = './projects/react-native.html'" class="mySlides5">
                 <div class="tooltip">
                     <img src="../resources/content/projects/mobile/screen1.jpg" alt="" style="width:100%">
-                    <span class="tooltiptext">Portfolio project with Three.js</span>
-                </div>
-            </div>
-            <div class="mySlides5">
-                <div class="tooltip">
-                    <img src="../resources/content/projects/mobile/splash.jpg" alt="" style="width:100%">
                     <span class="tooltiptext">Portfolio project with Three.js</span>
                 </div>
             </div>
@@ -227,16 +219,10 @@
     <div id="ai" style="width: 25%;">
         <p class="title">AI</p>
         <div class="slideshow-container">
-            <div class="mySlides6">
+            <div onclick="window.location.href = './projects/periodontal-diagnosis.html'" class="mySlides6">
                 <div class="tooltip">
-                    <img src="../resources/content/projects/ai/image1.jpg" alt="" style="width:100%">
-                    <span class="tooltiptext">Deep learning collaborative project</span>
-                </div>
-            </div>
-            <div class="mySlides6">
-                <div class="tooltip">
-                    <img src="../resources/content/projects/ai/image3.jpg" alt="" style="width:100%">
-                    <span class="tooltiptext">Deep learning collaborative project</span>
+                    <img src="../resources/content/projects/ai/no-image.jpeg" alt="" style="width:100%">
+                    <span class="tooltiptext">Mahine learning collaborative project</span>
                 </div>
             </div>
 
@@ -245,35 +231,23 @@
         </div>
 
         <div class="slideshow-container">
-            <div class="mySlides7">
-                <div class="tooltip">
-                    <img src="../resources/content/projects/ai/no-image.jpeg" alt="" style="width:100%">
-                    <span class="tooltiptext">Mahine learning collaborative project</span>
-                </div>
-            </div>
-
-            <a class="prev" onclick="plusSlides(-1, 6)">&#10094;</a>
-            <a class="next" onclick="plusSlides(1, 6)">&#10095;</a>
-        </div>
-
-        <div class="slideshow-container">
-            <div class="mySlides8">
+            <div onclick="window.location.href = './projects/twitter-scrapping.html'" class="mySlides7">
                 <div class="tooltip">
                     <img src="../resources/content/projects/ai/no-image.jpeg" alt="" style="width:100%">
                     <span class="tooltiptext">Twitter scrapping</span>
                 </div>
             </div>
 
-            <a class="prev" onclick="plusSlides(-1, 7)">&#10094;</a>
-            <a class="next" onclick="plusSlides(1, 7)">&#10095;</a>
+            <a class="prev" onclick="plusSlides(-1, 6)">&#10094;</a>
+            <a class="next" onclick="plusSlides(1, 6)">&#10095;</a>
         </div>
     </div>
 </div>
 
 <script>
-    let slideIndex = [1,1,1,1,1,1,1,1]; //currently displayed index+1 of each slideshow
+    let slideIndex = [1,1,1,1,1,1,1]; //currently displayed index+1 of each slideshow
     const slideId = ["mySlides1", "mySlides2", "mySlides3", "mySlides4", 
-                        "mySlides5", "mySlides6", "mySlides7", "mySlides8"]; //className of each slideshow
+                        "mySlides5", "mySlides6", "mySlides7"]; //className of each slideshow
 
     for (let i=0; i<slideIndex.length; i++) {
         showSlides(1, i); //set initial image in each container

@@ -17,7 +17,7 @@ class MagicCube {
         this._params = params;
         this._opened = false;
         this._transiting = false;
-        this._faces = {
+        this._faces = { //detect clicks on the faces of the cube (represented by two right triangles)
             aboutMe: [{a: 2, b: 3, c: 1}, {a: 0, b: 2, c: 1}],
             hireMe: [{a: 7, b: 2, c: 0}, {a: 5, b: 7, c: 0}],
             skills: [{a: 6, b: 3, c: 2}, {a: 7, b: 6, c: 2}],
@@ -25,6 +25,7 @@ class MagicCube {
             cv: [{a: 5, b: 0, c: 1}, {a: 4, b: 5, c: 1}],
             smallGames: [{a: 3, b: 6, c: 4}, {a: 1, b: 3, c: 4}]
         }
+        this._visited = new Set();
         this._Init();
     }
 
@@ -231,6 +232,7 @@ class MagicCube {
                 this?._selected && (iframes[this._selected].style.display = 'none');
                 iframes[name].style.display = 'block';
                 this._selected = name;
+                this._visited.add(name);
             }
         }
 
@@ -274,13 +276,6 @@ class MagicCube {
 
             this._mouseYOnMouseDown = e.clientY - this._canvasHalfY; //distance to half of the screen on y
             this._targetRotationOnMouseDownY = this._targetRotationY; //0.2
-        }
-
-        //closes the selected iframe on escape press
-        document.addEventListener('keydown', e => closeIFrame.call(this, e));
-        function closeIFrame(e) { //pq cette merde ne marche pas ?
-            console.log(e.key, this?._selected);
-            if(e.key == 'Escape') this?._selected && (iframes[this._selected].style.display = 'none');
         }
     }
 
