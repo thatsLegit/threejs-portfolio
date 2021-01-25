@@ -1,4 +1,4 @@
-import State from './State.js';
+import State from './State';
 
 
 export class WalkState extends State {

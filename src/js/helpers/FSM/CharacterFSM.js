@@ -1,5 +1,5 @@
-import FiniteStateMachine from './FiniteStateMachine.js';
-import {IdleState, WalkState, WalkBackwardsState, RunState, FallingState} from './states.js';
+import FiniteStateMachine from './FiniteStateMachine';
+import {IdleState, WalkState, WalkBackwardsState, RunState, FallingState} from './states';
 
 
 class CharacterFSM extends FiniteStateMachine {

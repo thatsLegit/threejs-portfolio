@@ -1,5 +1,5 @@
-import * as THREE from "../node_modules/three/build/three.module.js";
-import { SceneUtils } from "../node_modules/three/examples/jsm/utils/SceneUtils.js";
+import * as THREE from "three";
+import { SceneUtils } from "../utils/SceneUtils";
 
 
 const canvas = document.querySelector('#c');

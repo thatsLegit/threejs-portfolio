@@ -1,12 +1,12 @@
-import * as THREE from "../node_modules/three/build/three.module.js";
-import Stats from "../node_modules/stats.js/src/Stats.js";
-import { OrbitControls } from "../node_modules/three/examples/jsm/controls/OrbitControls.js";
+import * as THREE from "three";
+import Stats from "stats.js";
+import { OrbitControls } from "../utils/OrbitControls";
 
-import CharacterController from './CharacterController.js';
-import ThirdPersonCamera from './ThirdPersonCamera.js';
-import EnvController from './EnvController.js';
-import QuestController from './QuestController.js';
-import MagicCube from './magicCube.js';
+import CharacterController from '../controllers/character/CharacterController';
+import ThirdPersonCamera from '../cameras/ThirdPersonCamera';
+import EnvController from '../controllers/environment/EnvController';
+import QuestController from '../controllers/quests/QuestController';
+import MagicCube from '../components/magicCube';
 
 
 const canvas = document.querySelector('#c');

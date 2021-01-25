@@ -1,8 +1,8 @@
-import * as THREE from "../node_modules/three/build/three.module.js";
+import * as THREE from "three";
 
-import CharacterFSM from './CharacterFSM.js';
-import CharacterControllerProxy from './CharacterControllerProxy.js';
-import CharacterControllerInput from './CharacterControllerInput.js';
+import CharacterFSM from '../../helpers/FSM/CharacterFSM';
+import CharacterControllerProxy from './CharacterControllerProxy';
+import CharacterControllerInput from './CharacterControllerInput';
 
 const overlay = document.querySelector('.overlay');
 const overlayContent = document.querySelector('.overlay-content');

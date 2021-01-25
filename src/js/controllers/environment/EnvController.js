@@ -1,9 +1,9 @@
 //Set the initial position, rotation, scale of each loaded model
 //wether it's animated or not.
 
-import * as THREE from "../node_modules/three/build/three.module.js";
-import {SkeletonUtils} from '../node_modules/three/examples/jsm/utils/SkeletonUtils.js';
-import {dumpObject} from './helper.js';
+import * as THREE from "three";
+import {SkeletonUtils} from '../../utils/SkeletonUtils';
+import {dumpObject} from '../../helpers/miscellaneous/helper';
 
 //une sorte d'ecran géant pour afficher le content avec le cube un peu comme une télécommande
 //tout ça avec un passage en pov

@@ -12,11 +12,13 @@
     "example": "examples"
   },
   "devDependencies": {
+    "css-loader": "^5.0.1",
+    "style-loader": "^2.0.0",
     "webpack": "^5.17.0",
     "webpack-cli": "^4.4.0"
   },
   "scripts": {
-    "build": "webpack"
+    "build": "webpack --config webpack.config.js --mode production"
   },
   "repository": {
     "type": "git",

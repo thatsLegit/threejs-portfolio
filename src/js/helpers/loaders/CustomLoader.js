@@ -1,9 +1,9 @@
-import * as THREE from "../node_modules/three/build/three.module.js";
-import {GLTFLoader} from '../node_modules/three/examples/jsm/loaders/GLTFLoader.js';
-import {FBXLoader} from '../node_modules/three/examples/jsm/loaders/FBXLoader.js';
+import * as THREE from "three";
+import {GLTFLoader} from '../../utils/GLTFLoader';
+import {FBXLoader} from '../../utils/FBXLoader';
 
-import CharacterSelection from './CharacterSelectionScene.js';
-import Game from './Game.js';
+import CharacterSelection from '../../components/CharacterSelectionScene';
+import Game from '../../components/Game';
 
 
 const progressBarElem = document.querySelector('.progressbar');
