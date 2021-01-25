@@ -1,0 +1,11 @@
+Model Information:
+* title:	Proptober Day 17: Desert Floating Island
+* source:	https://sketchfab.com/3d-models/proptober-day-17-desert-floating-island-12d2bbf94a704d05afa17c1ec4e851ef
+* author:	Nicholas DaRocha (https://sketchfab.com/LionRiderKing)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Proptober Day 17: Desert Floating Island" (https://sketchfab.com/3d-models/proptober-day-17-desert-floating-island-12d2bbf94a704d05afa17c1ec4e851ef) by Nicholas DaRocha (https://sketchfab.com/LionRiderKing) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
