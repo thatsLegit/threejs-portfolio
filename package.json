@@ -22,7 +22,8 @@
     "webpack-cli": "^4.4.0"
   },
   "scripts": {
-    "build": "webpack --config webpack.config.js --mode production"
+    "build": "webpack --config webpack.config.js --mode production",
+    "deploy": "gh-pages -d dist"
   },
   "repository": {
     "type": "git",
@@ -33,5 +34,5 @@
   "bugs": {
     "url": "https://github.com/thatsLegit/threejs-portfolio/issues"
   },
-  "homepage": "https://github.com/thatsLegit/threejs-portfolio#readme"
+  "homepage": "https://github.com/thatsLegit/threejs-portfolio"
 }
