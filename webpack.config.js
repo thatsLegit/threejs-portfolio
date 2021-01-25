@@ -13,12 +13,12 @@ module.exports = {
     },
     plugins: [
       new HtmlWebpackPlugin({
-        template: './src/html/index.html',
-        filename: '../html/index.html'
+        template: './src/index.html',
+        filename: '../index.html'
       }),
       new CopyPlugin({
         patterns: [
-          { from: "./src/html/iframes", to: "../html/iframes" },
+          { from: "./src/html", to: "../html" },
           { from: "./src/css", to: "../css" },
           { from: "./src/assets", to: "../assets" }
         ]
