@@ -3,6 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyPlugin = require("copy-webpack-plugin");
 const HtmlMinimizerPlugin = require("html-minimizer-webpack-plugin");
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const TerserPlugin = require("terser-webpack-plugin");
 
 
 module.exports = {
@@ -39,8 +40,15 @@ module.exports = {
     optimization: {
       minimize: true,
       minimizer: [
-        new CssMinimizerPlugin(),
-        new HtmlMinimizerPlugin(),
+        new CssMinimizerPlugin({
+          test: /\.css$/i,
+        }),
+        new HtmlMinimizerPlugin({
+          test: /\.html$/i,
+        }),
+        new TerserPlugin({
+          test: /\.js(\?.*)?$/i,
+        })
       ],
     }
   };
