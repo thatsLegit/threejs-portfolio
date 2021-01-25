@@ -1,5 +1,4 @@
-import CustomLoader from './helpers/loaders/CustomLoader';
-import '../css/game.css';
+import CustomLoader from './CustomLoader';
 
 const customLoader = new CustomLoader();
 customLoader._startLoading();      
