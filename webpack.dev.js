@@ -1,18 +1,24 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyPlugin = require("copy-webpack-plugin");
-const HtmlMinimizerPlugin = require("html-minimizer-webpack-plugin");
-const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
-const TerserPlugin = require("terser-webpack-plugin");
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 
 module.exports = {
-    mode: 'production',
+    mode: 'development',
     entry: './src/js/app.js',
-    output: {
+    devtool: 'inline-source-map',
+    output: { //should probably set a publicPath.
       path: path.resolve(__dirname, 'dist', 'js'),
       filename: 'bundle.js'
+    },
+    devServer: {
+        publicPath: "/js/", // here's the change
+        contentBase: path.join(__dirname, 'dist'),
+        watchContentBase: true,
+        compress: true,
+        port: 9000,
+        hot: true,
+        inline: true
     },
     plugins: [
       new HtmlWebpackPlugin({
@@ -25,28 +31,23 @@ module.exports = {
           { from: "./src/css", to: "../css" },
           { from: "./src/assets", to: "../assets" }
         ]
-      }),
-      new CleanWebpackPlugin()
+      })
     ],
+    // options for resolving module requests
+    // (does not apply to resolving to loaders)
     resolve: {
+      // directories where to look for modules,
       modules: [
         'node_modules',
         path.resolve(__dirname, 'src', 'js')
       ],
+      // extensions that are used
       extensions: ['.js', '.json'],
     },
-    optimization: {
-      minimize: true,
-      minimizer: [
-        new CssMinimizerPlugin({
-          test: /\.css$/i,
-        }),
-        new HtmlMinimizerPlugin({
-          test: /\.html$/i,
-        }),
-        new TerserPlugin({
-          test: /\.js(\?.*)?$/i,
-        })
-      ],
+    watch: true,
+    watchOptions: {
+        ignored: /node_modules/,
+        aggregateTimeout: 300,
+        poll: 100
     }
-  };
+};
