@@ -137,7 +137,8 @@
     </div>
 
     <script>
-        function closeIFrame(name){
+        function closeIFrame(name) {
+            this.focus(); //allows the main window frame to recover the focus.
             const selector = '#' + name;
             document.querySelector(selector).style.display = 'none';
         }

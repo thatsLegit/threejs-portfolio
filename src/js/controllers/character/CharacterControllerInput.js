@@ -20,6 +20,7 @@ class CharacterControllerInput {
     }
 
     _onKeyDown(event) {
+        console.log('key down');
         switch (event.key) {
             case 'w': // w
                 this._keys.forward = true;

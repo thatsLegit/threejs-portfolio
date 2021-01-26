@@ -161,12 +161,12 @@ class CharacterController {
         }; //falling or jumping...
         if (this._input._keys.left) {
             _A.set(0, 1, 0);
-            _Q.setFromAxisAngle(_A, Math.PI * timeInSeconds * this._acceleration.y);
+            _Q.setFromAxisAngle(_A, Math.PI * timeInSeconds * this._acceleration.y * 0.5);
             _R.multiply(_Q);
         }
         if (this._input._keys.right) {
             _A.set(0, 1, 0);
-            _Q.setFromAxisAngle(_A, -Math.PI * timeInSeconds * this._acceleration.y);
+            _Q.setFromAxisAngle(_A, -Math.PI * timeInSeconds * this._acceleration.y * 0.5);
             _R.multiply(_Q);
         }
     

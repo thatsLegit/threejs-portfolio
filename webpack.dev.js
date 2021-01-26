@@ -12,14 +12,22 @@ module.exports = {
       filename: 'bundle.js'
     },
     devServer: {
-        publicPath: "/js/", // here's the change
+        publicPath: "/dist/", // here's the change
         contentBase: path.join(__dirname, 'dist'),
         watchContentBase: true,
         compress: true,
         port: 9000,
         hot: true,
-        inline: true
+        inline: true,
+        injectHot: true,
+        writeToDisk: true
     },
+    // watch: true,
+    // watchOptions: {
+    //     ignored: /node_modules/,
+    //     aggregateTimeout: 300,
+    //     poll: 100
+    // },
     plugins: [
       new HtmlWebpackPlugin({
         template: './src/index.html',
@@ -43,11 +51,5 @@ module.exports = {
       ],
       // extensions that are used
       extensions: ['.js', '.json'],
-    },
-    watch: true,
-    watchOptions: {
-        ignored: /node_modules/,
-        aggregateTimeout: 300,
-        poll: 100
     }
 };

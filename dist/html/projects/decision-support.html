@@ -1,1 +1,126 @@
-<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width,initial-scale=1"> <link rel="stylesheet" href="../../css/projects.css"> <link rel="stylesheet" href="../../css/slideshow.css"> <style>.container{padding:1rem;margin:auto}.title{margin:2rem 0 1rem 1rem;font-family:'Courier New',Courier,monospace;font-size:large;font-weight:700}#presentation{margin:auto auto 1rem auto}#explanation{margin:1rem auto 2rem auto}</style> </head> <body> <img style="cursor:pointer" onclick="window.history.back()" src="../../assets/content/back.png" alt="back"> <div style="float:right;padding:.5rem"> <a id="github-link" href="https://github.com/thatsLegit/decision-support-excel-L3TI" target="_blank" rel="noopener noreferrer"> <img src="../../assets/content/github.png" alt="github"> </a> </div> <p class="title">Decision support with Excel</p> <div id="container" class="container"> <p id="presentation"> End of Bachelor project in which I had to work with another student with Sales data provided by a real company. It’s a quite small company with only 10 employees or so and their data management wasn’t exemplary. All their records were stored in excel sheets and not well-organized, with missing data, errors, etc...<br><br> We did work really-hard for about one month and the result had shown to the company that they could do way better in terms of data management. </p> <div class="slideshow-container"> <div class="mySlides fade"> <img src="../../assets/content/projects/bi/dashboard.png" style="width:100%"> <div class="text">Main screen</div> </div> <div class="mySlides fade"> <img src="../../assets/content/projects/bi/clients.png" style="width:100%"> <div class="text">Clients dimension</div> </div> <div class="mySlides fade"> <img src="../../assets/content/projects/bi/geo-analysis.png" style="width:100%"> <div class="text">Geography dimension</div> </div> <div class="mySlides fade"> <img src="../../assets/content/projects/bi/map.png" style="width:100%"> <div class="text">Interactive map</div> </div> <div class="mySlides fade"> <img src="../../assets/content/projects/bi/sectorial-analysis.png" style="width:100%"> <div class="text">Activity sector dimension</div> </div> <a class="prev" onclick="plusSlides(-1)">&#10094;</a> <a class="next" onclick="plusSlides(1)">&#10095;</a> </div><br> <div style="text-align:center"> <span class="dot" onclick="currentSlide(1)"></span> <span class="dot" onclick="currentSlide(2)"></span> <span class="dot" onclick="currentSlide(3)"></span> <span class="dot" onclick="currentSlide(4)"></span> <span class="dot" onclick="currentSlide(5)"></span> </div> <p id="explanation"> As you can see from the images, we splitted the data analysis into 4 main axes: time, space, activity sector and statistics. Macros (interactions) where done using Visual Basic and the data wharehouse was a MS Access database.<br> The most challenging part of this project was indoubtedly the map on which we spent a lot of time <img src="../../assets/content/grinning.png" alt="grinning">.<br><br> This wasn’t the most exciting project I ever had as I am not a big fan of excel but I found it quite satisfying to see how much a proper data management can simplify the work of a company, even with this simple tool. </p> </div> <script>let slideIndex=1;function plusSlides(e){showSlides(slideIndex+=e)}function currentSlide(e){showSlides(slideIndex=e)}function showSlides(e){let l=document.getElementsByClassName("mySlides"),s=document.getElementsByClassName("dot");e>l.length&&(slideIndex=1),e<1&&(slideIndex=l.length);for(let e=0;e<l.length;e++)l[e].style.display="none";for(let e=0;e<s.length;e++)s[e].className=s[e].className.replace(" active","");l[slideIndex-1].style.display="block",s[slideIndex-1].className+=" active"}showSlides(slideIndex)</script> </body> </html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../css/projects.css">
+    <link rel="stylesheet" href="../../css/slideshow.css">
+    <style>
+        .container {
+            padding: 1rem;
+            margin: auto;
+        }
+        .title {
+            margin: 2rem 0px 1rem 1rem;
+            font-family:'Courier New', Courier, monospace;
+            font-size: large;
+            font-weight: bold;
+        }
+        #presentation {
+            margin: auto auto 1rem auto;
+        }
+        #explanation {
+            margin: 1rem auto 2rem auto;
+        }
+    </style>
+</head>
+<body>
+    <!-- Go back to projects menu -->
+    <img style="cursor: pointer;" onclick="window.history.back()" src="../../assets/content/back.png" alt="back">
+    <!-- link to the repo of the project -->
+    <div style="float: right;padding: 0.5rem;">
+        <a 
+            id="github-link"
+            href="https://github.com/thatsLegit/decision-support-excel-L3TI" 
+            target="_blank" rel="noopener noreferrer"
+        >
+            <img src="../../assets/content/github.png" alt="github">
+        </a>
+    </div>
+
+    <p class="title">Decision support with Excel</p>
+
+    <div id="container" class="container">
+        <p id="presentation">
+            End of Bachelor project in which I had to work with another student with Sales data provided by a real company.
+            It’s a quite small company with only 10 employees or so and their data management wasn’t exemplary.
+            All their records were stored in excel sheets and not well-organized, with missing data, errors, etc...<br><br>
+            We did work really-hard for about one month and the result had shown to the company that they could do way better in terms of data management.
+        </p>
+
+        <!-- slideshow -->
+        <div class="slideshow-container">
+            <div class="mySlides fade">
+                <img src="../../assets/content/projects/bi/dashboard.png" style="width:100%">
+                <div class="text">Main screen</div>
+            </div>
+            <div class="mySlides fade">
+                <img src="../../assets/content/projects/bi/clients.png" style="width:100%">
+                <div class="text">Clients dimension</div>
+            </div>
+            <div class="mySlides fade">
+                <img src="../../assets/content/projects/bi/geo-analysis.png" style="width:100%">
+                <div class="text">Geography dimension</div>
+            </div>
+            <div class="mySlides fade">
+                <img src="../../assets/content/projects/bi/map.png" style="width:100%">
+                <div class="text">Interactive map</div>
+            </div>
+            <div class="mySlides fade">
+                <img src="../../assets/content/projects/bi/sectorial-analysis.png" style="width:100%">
+                <div class="text">Activity sector dimension</div>
+            </div>
+            
+            <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+            <a class="next" onclick="plusSlides(1)">&#10095;</a>
+        </div><br>
+            
+        <div style="text-align:center">
+            <span class="dot" onclick="currentSlide(1)"></span> 
+            <span class="dot" onclick="currentSlide(2)"></span> 
+            <span class="dot" onclick="currentSlide(3)"></span> 
+            <span class="dot" onclick="currentSlide(4)"></span> 
+            <span class="dot" onclick="currentSlide(5)"></span> 
+        </div>
+
+        <!-- Further explanations -->
+        <p id="explanation">
+            As you can see from the images, we splitted the data analysis into 4 main axes: time, space, activity sector and statistics.
+            Macros (interactions) where done using Visual Basic and the data wharehouse was a MS Access database.<br>
+            The most challenging part of this project was indoubtedly the map on which we spent a lot of time <img src="../../assets/content/grinning.png" alt="grinning">.<br><br>
+            This wasn’t the most exciting project I ever had as I am not a big fan of excel but I found it quite satisfying to see how much a proper data management can simplify the work of a company, even with this simple tool.
+        </p>
+    </div>
+
+    <script>
+        let slideIndex = 1;
+        showSlides(slideIndex);
+        
+        function plusSlides(n) {
+          showSlides(slideIndex += n);
+        }
+        
+        function currentSlide(n) {
+          showSlides(slideIndex = n);
+        }
+        
+        function showSlides(n) {
+            let slides = document.getElementsByClassName("mySlides");
+            let dots = document.getElementsByClassName("dot");
+
+            if (n > slides.length) {slideIndex = 1}    
+            if (n < 1) {slideIndex = slides.length}
+
+            for (let i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";  
+            }
+            for (let i = 0; i < dots.length; i++) {
+                dots[i].className = dots[i].className.replace(" active", "");
+            }
+            
+            slides[slideIndex-1].style.display = "block";  
+            dots[slideIndex-1].className += " active";
+        }
+    </script>
+</body>
+</html>

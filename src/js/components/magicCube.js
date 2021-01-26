@@ -213,6 +213,7 @@ class MagicCube {
         // select a face of the cube
         document.addEventListener('dblclick', e => OnDoubleClick.call(this, e));
         function OnDoubleClick(e) {
+            console.log('double click');
             //checking which face is clicked on
             raycaster.setFromCamera(mouse, this._params.camera)
             const isIntersected = raycaster.intersectObject(this._cube);
