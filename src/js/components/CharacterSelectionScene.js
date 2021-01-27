@@ -96,6 +96,7 @@ class CharacterSelection {
                 const direction = isIntersected[0].object.parent.position //vector3
                 this._light.target.position.copy(direction);
                 this._light.intensity = 2;
+                validate.style.boxShadow = '-1px 1px 10px 7px #fff6af';
             };
         });
 
@@ -104,6 +105,7 @@ class CharacterSelection {
                 window.alert('Please select a character !');
                 return;
             };
+            validate.remove();
             this._scene.remove();
             this._customLoader._LoadCharacterAnimations(this._selection); //continue the loading process
         });

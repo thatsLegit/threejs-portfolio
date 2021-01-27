@@ -136,7 +136,7 @@ html, body {
   height: 50vh;
 }
 #character-selection-validate {
-	box-shadow: -1px 1px 10px 7px #fff6af;
+  margin-top: 10px;
 	background:linear-gradient(to bottom, #ffec64 5%, #ffab23 100%);
 	background-color:#ffec64;
 	border:1px solid #ffaa22;
