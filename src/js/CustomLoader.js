@@ -5,7 +5,6 @@ import {FBXLoader} from 'utils/FBXLoader';
 import CharacterSelection from 'components/CharacterSelectionScene';
 import Game from 'components/Game';
 
-
 const progressBarElem = document.querySelector('.progressbar');
 const progressTitle = document.querySelector('.progressTitle');
 const loadingElem = document.querySelector('#loading');
@@ -17,6 +16,9 @@ const canvas = document.querySelector('#c');
 const questsContainer = document.querySelector('#quests-container');
 
 class CustomLoader {
+    //Rule 1: you need a manager every time you have multiple load process on one specific resource
+    //Rule 2: TextureLoader manager doesn't support the progress callback
+
     constructor() {
         this._bgTextureLoader = new THREE.CubeTextureLoader();
         this._bgTextureFiles = [
@@ -28,7 +30,6 @@ class CustomLoader {
             './assets/clouds1/clouds1_south.bmp',
         ];
 
-        this._magicCubeManager = new THREE.LoadingManager();
         this._magicCubeTextureLoader = new THREE.TextureLoader(this._magicCubeManager);
         this._magicCubeTexture = {
             interrogation: {url: './assets/cube_textures/interrogation.png'}, //texture is loader here thereafter
@@ -79,8 +80,8 @@ class CustomLoader {
                 walkingBackwards:    { url: './assets/blender_models/characters/megan/animations/walkingBackwards.fbx' },
                 run:  { url: './assets/blender_models/characters/megan/animations/run.fbx' },
                 idle:    { url: './assets/blender_models/characters/megan/animations/idle.fbx' },
-                openingALid:  { url: './assets/blender_models/characters/megan/animations/openingALid.fbx' },
-                closingALid:  { url: './assets/blender_models/characters/megan/animations/closingALid.fbx' },
+                // openingALid:  { url: './assets/blender_models/characters/megan/animations/openingALid.fbx' },
+                // closingALid:  { url: './assets/blender_models/characters/megan/animations/closingALid.fbx' },
                 falling:  { url: './assets/blender_models/characters/megan/animations/falling.fbx' }
             },
             brian: {
@@ -88,45 +89,71 @@ class CustomLoader {
                 walkingBackwards:    { url: './assets/blender_models/characters/brian/animations/walkingBackwards.fbx' },
                 run:  { url: './assets/blender_models/characters/brian/animations/run.fbx' },
                 idle:    { url: './assets/blender_models/characters/brian/animations/idle.fbx' },
-                openingALid:  { url: './assets/blender_models/characters/brian/animations/openingALid.fbx' },
-                closingALid:  { url: './assets/blender_models/characters/brian/animations/closingALid.fbx' },
+                // openingALid:  { url: './assets/blender_models/characters/brian/animations/openingALid.fbx' },
+                // closingALid:  { url: './assets/blender_models/characters/brian/animations/closingALid.fbx' },
                 falling:  { url: './assets/blender_models/characters/brian/animations/falling.fbx' }
             }
         }
+
+        //not even sure if it's needed but just in case to avoid any 'this' related issues
+        this._startLoading = this._startLoading.bind(this);
+        this._OnProgress = this._OnProgress.bind(this);
+        this._LoadBgTexture = this._LoadBgTexture.bind(this);
+        this._LoadCubeTexture = this._LoadCubeTexture.bind(this);
+        this._LoadEnvModels = this._LoadEnvModels.bind(this);
+        this._LoadCharacterModel = this._LoadCharacterModel.bind(this);
+        this._LoadCharacterAnimations = this._LoadCharacterAnimations.bind(this);
+        this._LaunchCharacterSelection = this._LaunchCharacterSelection.bind(this);
+        this._LaunchGame = this._LaunchGame.bind(this);
     }
+
+    _startLoading() {
+        this._LoadBgTexture(); 
+    };
 
     _OnProgress(url, itemsLoaded, itemsTotal) {
         const progress = itemsLoaded / itemsTotal;
         progressBarElem.style.transform = `scaleX(${progress})`;
     };
-    _startLoading() {this._LoadBgTexture()};
 
     _LoadBgTexture() {
+        this._OnProgress(null, 0, 1); //initialize the the progress bar
         loadingElem.style.display = 'flex';
         progressTitle.textContent = "Loading background...";
-        this._OnProgress(null, 0, 1); //no progress callback on TextureLoader so we do it manually
-        this._bgTexture = this._bgTextureLoader.load(this._bgTextureFiles, () => {
-            this._OnProgress(null, 1, 1);
-            this._LoadCubeTexture.call(this);
-        });
+
+        this._bgTexture = this._bgTextureLoader.load(
+            this._bgTextureFiles, 
+            () => this._LoadCubeTexture(),
+            () => this._OnProgress(),
+            () => {progressTitle.textContent = "Oops, background textures coudln't have been loaded :/. Try later."},
+        );
     }
     _LoadCubeTexture() {
-        this._magicCubeManager.onStart = () => {
-            progressTitle.textContent = "Loading magic cube textures...";
-            this._OnProgress(null, 0, 1); 
-        };
-        this._magicCubeManager.onLoad = this._LoadEnvModels.call(this);
-        this._magicCubeManager.onProgress = this._OnProgress(null, 1, 1);
-        this._magicCubeManager.onError = () => {progressTitle.textContent = "Oops, cube textures coudln't have been loaded :/. Try later."};
-        Object.values(this._magicCubeTexture).forEach(obj => { 
-            this._magicCubeTextureLoader.load(obj.url, load => {
-                obj.texture = load;
-            });
+        this._OnProgress(null, 0, 1);
+        progressTitle.textContent = "Loading magic cube textures...";
+        const allTextures = Object.values(this._magicCubeTexture);
+        
+        allTextures.forEach((obj, idx) => { 
+            this._magicCubeTextureLoader.load(
+                obj.url, 
+                (load) => {
+                    obj.texture = load;
+                    this._OnProgress(null, idx + 1, allTextures.length);
+                    if(idx == allTextures.length - 1) {
+                        this._LoadEnvModels();
+                    }
+                },
+                undefined, //onprogress: no onProgress event on TextureLoader
+                () => {progressTitle.textContent = "Oops, cube textures coudln't have been loaded :/. Try later."}
+            );
         });
     }
     _LoadEnvModels() {
-        this._envModelsManager.onStart = () => {progressTitle.textContent = "Loading environment..."};
-        this._envModelsManager.onLoad = this._LoadCharacterModel.bind(this);
+        this._envModelsManager.onStart = () => {
+            this._OnProgress(null, 0, 1); 
+            progressTitle.textContent = "Loading environment..."
+        };
+        this._envModelsManager.onLoad = this._LoadCharacterModel;
         this._envModelsManager.onProgress = this._OnProgress;
         this._envModelsManager.onError = () => {progressTitle.textContent = "Oops, environment models coudln't have been loaded :/. Try later."};
 
@@ -140,11 +167,14 @@ class CustomLoader {
         });
     }
     _LoadCharacterModel() {
-        this._characterModelManager.onStart = () => {progressTitle.textContent = "Loading character..."};
+        this._characterModelManager.onStart = () => {
+            this._OnProgress(null, 0, 1); //resets the progress bar to 0
+            progressTitle.textContent = "Loading characters..."
+        };
         this._characterModelManager.onLoad = () => {
             loadingElem.style.display = 'none';
             characterSelection.style.display = 'flex';
-            this._LaunchCharacterSelection();
+            this._LaunchCharacterSelection(); //launch the character selection screen after the loading is done
         };
         this._characterModelManager.onProgress = this._OnProgress;
         this._characterModelManager.onError = () => {progressTitle.textContent = "Oops, character model coudln't have been loaded :/. Try later."};
@@ -158,15 +188,20 @@ class CustomLoader {
     }
     _LoadCharacterAnimations(charName) {
         this._characterAnimationsManager.onStart = () => {
-            characterSelection.style.display = 'none';
+            characterSelection.remove();
+            this._OnProgress(this, null, 0, 1);
             loadingElem.style.display = 'flex';
             progressTitle.textContent = "Loading character animations..."
         };
         this._characterAnimationsManager.onLoad = () => {
-            loadingElem.style.display = 'none';
+            loadingElem.remove();
+            progressBarElem.remove();
+            progressTitle.remove();
+
             controlsContainer.style.display = 'block';
             questsContainer.style.display = 'block';
             canvas.style.display = 'block';
+
             this._LaunchGame(charName);
         };
         this._characterAnimationsManager.onProgress = this._OnProgress;
@@ -179,6 +214,7 @@ class CustomLoader {
             );
         }
     }
+    
     _LaunchCharacterSelection() {
         let _SELECTION = new CharacterSelection(this); //character selection launch
         window.addEventListener('resize', _SELECTION._OnWindowResize.bind(_SELECTION));

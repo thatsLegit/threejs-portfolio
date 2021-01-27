@@ -10,7 +10,7 @@ class CharacterSelection {
     }
 
     _Init() {
-        this._threejs = new THREE.WebGLRenderer({canvas: chSelectCanvas, antialias: true});
+        this._threejs = new THREE.WebGLRenderer({canvas: chSelectCanvas});
         this._threejs.setSize(chSelectCanvas.clientWidth, chSelectCanvas.clientHeight);
 
         this._scene = new THREE.Scene();
@@ -105,7 +105,7 @@ class CharacterSelection {
                 return;
             };
             this._scene.remove();
-            this._customLoader._LoadCharacterAnimations(this._selection);
+            this._customLoader._LoadCharacterAnimations(this._selection); //continue the loading process
         });
 
         requestAnimationFrame(animate.bind(this));
