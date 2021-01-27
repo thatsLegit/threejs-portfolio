@@ -16,19 +16,27 @@ stats.showPanel(0);
 document.body.appendChild( stats.dom );
 
 class Game {
-    constructor(customLoader, charName) {
+    constructor(customLoader, params) {
         this._customLoader = customLoader;
-        this._charName = charName;
+        this._params = params;
         this._ground = [];
         this._Initialize();
     }
 
     _Initialize() {
-        this._threejs = new THREE.WebGLRenderer({canvas, logarithmicDepthBuffer: true});
+        this._threejs = new THREE.WebGLRenderer({
+            canvas, 
+            logarithmicDepthBuffer: true,
+            antialias: this._params.gInput == 'high' ? true : false
+        });
         this._threejs.outputEncoding = THREE.sRGBEncoding;
         this._threejs.shadowMap.enabled = true;
         this._threejs.shadowMap.type = THREE.PCFSoftShadowMap;
-        this._threejs.setPixelRatio(window.devicePixelRatio); //high: 1, normal: 1.5, low: 2
+        this._threejs.setPixelRatio(
+            this._params.gInput == 'low' 
+            ? window.devicePixelRatio/1.5 
+            : window.devicePixelRatio
+        );
         this._threejs.setSize(canvas.clientWidth, canvas.clientHeight);
 
         this._scene = new THREE.Scene();
@@ -175,7 +183,8 @@ class Game {
 
     _InitCharacter() {
         this._controls = new CharacterController({
-            charName : this._charName,
+            charName : this._params.charName,
+            keyboardType: this._params.kInput,
             camera: this._camera,
             scene: this._scene,
             cameraControl: this._cameraControl,

@@ -30,24 +30,24 @@
         <iframe id="smallGames" class="iframe-general" width="550" height="550" src="html/small-games.html"></iframe>
         <!-- controls indication in the bottom left corner -->
         <div id="controls-container">
-            <p class="default-text title" >Controls:</p>
+            <p class="default-text title">Controls:</p>
             <div class='flex-column-space' style="height: 70%;width: 250px;" >
                 <div class='flex-row-space'>
                     <div class='flex-row-space' style="width: 50%;">
                         <div class="white-button square" >
-                            <div class="white-button-text">W</div>
+                            <div id="forward" class="white-button-text"></div>
                         </div>
                         <div class="white-button square" >
-                            <div class="white-button-text">A</div>
+                            <div id="left" class="white-button-text"></div>
                         </div>
                         <div class="white-button square" >
-                            <div class="white-button-text">S</div>
+                            <div id="backward" class="white-button-text"></div>
                         </div>
                         <div class="white-button square" >
-                            <div class="white-button-text">D</div>
+                            <div id="right" class="white-button-text"></div>
                         </div>
                     </div>
-                    <div class="default-text" >Movement</div>
+                    <div class="default-text">Movement</div>
                 </div>
     
                 <div class='flex-row-space'>
@@ -125,15 +125,44 @@
         <div id="character-selection">
             <div id="character-selection-title">Select your character :</div>
             <canvas id="character-selection-canvas"></canvas>
-            <button id="character-selection-validate">Validate</button>
+            <button id="character-selection-validate" class="validate">Validate</button>
         </div>
         <canvas id="c"></canvas> <!-- allows responsive design -->
-        <div id="loading">
+        <div id="loading"> <!-- progress bar -->
+            <div class="loading-legend">
+                Welcome to my portfolio website !<br><br>
+                You will soon be transported into a virtual world in which you will have to complete a very short quest.<br>
+                If you are running this app on an old computer you might want to consider to play this game on low resolution.
+                Also this app is not yet a great fit for a mobile/tablet device so please consider switching to a PC, laptop for better experience.<br><br>
+                I hope you will enjoy it !
+            </div>
             <div class="progress">
                 <p class="progressTitle" ></p>
                 <div class="progressbar"></div>
             </div>
-        </div> <!-- progress bar used in the box and game example -->
+        </div> 
+        <div id="parameters-container"> <!-- parameters -->
+            <div id="parameters">
+                <form id="graphics">
+                    <p>Video graphics quality</p>
+                    <input type="radio" id="low" name="graphics" value="low">
+                    <label for="low">Low</label><br>
+                    <input type="radio" id="medium" name="graphics" value="medium" checked>
+                    <label for="medium">Medium (default)</label><br>
+                    <input type="radio" name="graphics" value="high">
+                    <label for="high">High</label>
+                </form>
+                <form id="keyboard">
+                    <p>Keyboard type</p>
+                    <input type="radio" name="keyboard" id="qwerty" value="qwerty" checked>
+                    <label for="qwerty">QWERTY (default)</label><br>
+                    <input type="radio" name="keyboard" i="azerty" value="azerty">
+                    <label for="azerty">AZERTY</label><br>
+                </form>
+            </div>
+
+            <button id="parameters-validate" class="validate">Validate</button>
+        </div> 
     </div>
 
     <script>

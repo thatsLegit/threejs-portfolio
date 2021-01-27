@@ -29,7 +29,7 @@ class CharacterController {
         this._position = new THREE.Vector3();
 
         this._animations = {};
-        this._input = new CharacterControllerInput();
+        this._input = new CharacterControllerInput(this._params.keyboardType);
         this._stateMachine = new CharacterFSM(new CharacterControllerProxy(this._animations));
 
         this._PrepareModels();

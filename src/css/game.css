@@ -2,6 +2,7 @@
 html, body {
     height: 100%;
     margin: 0;
+    background-color: burlywood;
 }
 
 /* canvas */
@@ -122,7 +123,6 @@ html, body {
   position: relative;
   width: 100%;
   height: 100%;
-  background-color: burlywood;
 }
 #character-selection-title {
   font-size: 2em;
@@ -135,7 +135,7 @@ html, body {
   width: 50vw;
   height: 50vh;
 }
-#character-selection-validate {
+.validate {
   margin-top: 10px;
 	background:linear-gradient(to bottom, #ffec64 5%, #ffab23 100%);
 	background-color:#ffec64;
@@ -150,11 +150,11 @@ html, body {
 	text-decoration:none;
 	text-shadow:0px 0px 0px #ffee66;
 }
-#character-selection-validate:hover {
+.validate:hover {
 	background:linear-gradient(to bottom, #ffab23 5%, #ffec64 100%);
 	background-color:#ffab23;
 }
-#character-selection-validate:active {
+.validate:active {
 	position:relative;
 	top:1px;
 }
@@ -168,13 +168,14 @@ html, body {
   width: 100%;
   height: 100%;
   display: none;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: space-evenly;
   align-items: center;
 }
 #loading .progress {
   margin: 1.5em;
   border: 1px solid black;
-  width: 50vw;
+  width: 50%;
 }
 #loading .progressbar {
   margin: 2px;
@@ -187,6 +188,37 @@ html, body {
   text-align: center;
   font-weight: bold; 
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+#loading .loading-legend {
+  font-size: 1rem;
+  font-style: italic;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  width: 50%;
+}
+
+/* Parameters screen */
+#parameters-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+#parameters {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: baseline;
+  width: 50%;
+  margin-bottom: 1rem;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+#graphics > p, #keyboard > p {
+  font-weight: bold;
 }
 
 /* magicCube indications */

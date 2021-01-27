@@ -9,7 +9,17 @@ const progressBarElem = document.querySelector('.progressbar');
 const progressTitle = document.querySelector('.progressTitle');
 const loadingElem = document.querySelector('#loading');
 
+const paramsContainer = document.querySelector('#parameters-container');
+const graphics = document.querySelector('#graphics');
+const keyboard = document.querySelector('#keyboard');
+const parametersvalidate = document.querySelector('#parameters-validate');
+
 const controlsContainer = document.querySelector('#controls-container');
+const forward = document.querySelector('#controls-container #forward');
+const backward = document.querySelector('#controls-container #backward');
+const left = document.querySelector('#controls-container #left');
+const right = document.querySelector('#controls-container #right');
+
 const characterSelection = document.querySelector('#character-selection');
 const canvas = document.querySelector('#c');
 
@@ -195,14 +205,25 @@ class CustomLoader {
         };
         this._characterAnimationsManager.onLoad = () => {
             loadingElem.remove();
-            progressBarElem.remove();
-            progressTitle.remove();
+            paramsContainer.style.display = 'flex';
+            parametersvalidate.addEventListener('click', () => {
+                let gInput = graphics.elements;
+                let kInput = keyboard.elements;
+                
+                for (let i = 0; i < gInput.length; i++) {
+                    if (gInput[i].nodeName == "INPUT" && gInput[i].checked) {
+                        gInput = gInput[i].value;break;
+                    }
+                }
+                for (let i = 0; i < kInput.length; i++) {
+                    if (kInput[i].nodeName == "INPUT" && kInput[i].checked) {
+                        kInput = kInput[i].value;break;
+                    }
+                }
 
-            controlsContainer.style.display = 'block';
-            questsContainer.style.display = 'block';
-            canvas.style.display = 'block';
-
-            this._LaunchGame(charName);
+                paramsContainer.remove();
+                this._LaunchGame(charName, gInput, kInput);
+            });
         };
         this._characterAnimationsManager.onProgress = this._OnProgress;
         this._characterAnimationsManager.onError = () => {progressTitle.textContent = "Oops, character animations coudln't have been loaded :/. Try later."};
@@ -219,8 +240,18 @@ class CustomLoader {
         let _SELECTION = new CharacterSelection(this); //character selection launch
         window.addEventListener('resize', _SELECTION._OnWindowResize.bind(_SELECTION));
     }
-    _LaunchGame(charName) {
-        let _APP = new Game(this, charName); //character selection launch
+    _LaunchGame(charName, gInput, kInput) {
+        if(kInput == 'azerty') {
+            right.innerHTML='D';left.innerHTML='Q';forward.innerHTML='Z';backward.innerHTML='S';
+        } else {
+            right.innerHTML='D';left.innerHTML='A';forward.innerHTML='W';backward.innerHTML='S';
+        }
+
+        controlsContainer.style.display = 'block';
+        questsContainer.style.display = 'block';
+        canvas.style.display = 'block';
+
+        let _APP = new Game(this, {charName, gInput, kInput}); //character selection launch
         window.addEventListener('resize', _APP._OnWindowResize.bind(_APP));
     }
 }
