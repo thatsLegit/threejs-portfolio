@@ -11,6 +11,8 @@
 
 <body>
     <div class="container">
+        <!-- full screen -->
+        <img src="./assets/content/full-screen.png" alt="full-screen" id="full-screen">
         <!-- magic cube indications -->
         <div class="caption" id="caption">
             <div id="caption-text"></div>
@@ -156,7 +158,7 @@
                     <p>Keyboard type</p>
                     <input type="radio" name="keyboard" id="qwerty" value="qwerty" checked>
                     <label for="qwerty">QWERTY (default)</label><br>
-                    <input type="radio" name="keyboard" i="azerty" value="azerty">
+                    <input type="radio" name="keyboard" id="azerty" value="azerty">
                     <label for="azerty">AZERTY</label><br>
                 </form>
             </div>
@@ -170,6 +172,29 @@
             this.focus(); //allows the main window frame to recover the focus.
             const selector = '#' + name;
             document.querySelector(selector).style.display = 'none';
+        }
+
+        const canvas = document.getElementById("c");
+        const fullScreen = document.getElementById("full-screen");
+        fullScreen.addEventListener('click', e => openFullscreen());
+
+        function openFullscreen() {
+            if (canvas.requestFullscreen) {
+                canvas.requestFullscreen();
+            } else if (canvas.webkitRequestFullscreen) { /* Safari */
+                canvas.webkitRequestFullscreen();
+            } else if (canvas.msRequestFullscreen) { /* IE11 */
+                canvas.msRequestFullscreen();
+            }
+        }
+        function closeFullscreen() {
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+            } else if (document.webkitExitFullscreen) { /* Safari */
+                document.webkitExitFullscreen();
+            } else if (document.msExitFullscreen) { /* IE11 */
+                document.msExitFullscreen();
+            }
         }
     </script>
 </body>

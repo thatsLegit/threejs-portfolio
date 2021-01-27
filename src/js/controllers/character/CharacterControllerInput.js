@@ -2,8 +2,8 @@
 
 class CharacterControllerInput {
     constructor(keyboardType) {
-        this._Init();   
         this._keyboardType = keyboardType; 
+        this._Init();   
     }
 
     _Init() {

@@ -221,6 +221,8 @@ class MagicCube {
             const {face: {a, b, c}} = isIntersected[0];
             const obj = {a,b,c};
 
+            closeFullscreen() // canvas go out of full screen to see iframe
+
             if (JSON.stringify(obj) == JSON.stringify(this._faces.aboutMe[0]) || JSON.stringify(obj) == JSON.stringify(this._faces.aboutMe[1])) openIframe.call(this, 'aboutMe');
             if (JSON.stringify(obj) == JSON.stringify(this._faces.hireMe[0]) || JSON.stringify(obj) == JSON.stringify(this._faces.hireMe[1])) openIframe.call(this, 'hireMe');
             if (JSON.stringify(obj) == JSON.stringify(this._faces.skills[0]) || JSON.stringify(obj) == JSON.stringify(this._faces.skills[1])) openIframe.call(this, 'skills');
