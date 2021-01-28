@@ -47,19 +47,19 @@ class Game {
             const fov = 60;
             const aspect = canvas.clientWidth / canvas.clientHeight;
             const near = 1;
-            const far = 2250; //reset it to 3000 if I can manage to reduce character size
+            const far = 2500;
             this._camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
 
             this._cameraControl = new OrbitControls(this._camera, canvas);
             this._cameraControl.minDistance = 10;
-            this._cameraControl.maxDistance = 1000;
+            this._cameraControl.maxDistance = 500;
             this._cameraControl.update();
             this._cameraControl.enabled = false;
         }
         {
             this._threejs.physicallyCorrectLights;
 
-            let light = new THREE.DirectionalLight(0xFFFFFF, 1.0);
+            let light = new THREE.DirectionalLight(0xFFFFFF, 1);
             light.position.set(600, 300, 300);
             light.target.position.set(0, 0, 0);
             light.castShadow = true;

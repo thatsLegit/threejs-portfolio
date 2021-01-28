@@ -110,9 +110,9 @@ class EnvController {
         action.play();
     }
 
-    // _Update(deltaTime) {
-    //     this._mixer.update(deltaTime);
-    // }
+    _Update(deltaTime) {
+        this._mixer.update(deltaTime);
+    }
 }
 
 export default EnvController;

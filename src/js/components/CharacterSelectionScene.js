@@ -48,8 +48,19 @@ class CharacterSelection {
         let idx = 0;
         for (let modelName in models) {
             let model = models[modelName].fbx;
+            const specularMap = models[modelName].specularMap;
+
             model.name = modelName;
             model.scale.setScalar(0.1);
+
+            //corrects the specular map not loading bug, we load and set it manually:
+            model.traverse(c => {
+                if(c.type == 'SkinnedMesh') {
+                    c.material.transparent = false;
+                    c.material.specularMap = specularMap;
+                }
+            });
+
             model.position.set(idx * 25, 12, 0);
             this._scene.add(model);
             idx++;

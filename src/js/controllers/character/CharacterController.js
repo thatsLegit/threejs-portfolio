@@ -54,13 +54,18 @@ class CharacterController {
         const charName = this._params.charName;
         const customLoader = this._params.customLoader;
         const model = customLoader._characterModel[charName].fbx;
+        const specularMap = customLoader._characterModel[charName].specularMap; //fixes the specular map not loading
 
         model.scale.setScalar(0.25);
-        model.traverse(c => c.castShadow = true);
-        // model.traverse(c => { //test this for the shiny models
-        //     c.castShadow = true
-        //     c.type == 'SkinnedMesh' && (c.material.shininess = 1);
-        // });
+
+        model.traverse(c => {
+            if(c.type == 'SkinnedMesh') {
+                c.material.transparent = false;
+                c.material.specularMap = specularMap;
+            }
+            c.castShadow = true;
+            c.receiveShadow = true;
+        });
 
         this._target = model;
         this._target.position.copy(new THREE.Vector3());

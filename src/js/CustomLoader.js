@@ -69,15 +69,21 @@ class CustomLoader {
             }
         };
 
+        //this fixes the character 'shininess', for some reason the specular map is not loaded automatically
+        const meganSpecularMap = new THREE.TextureLoader().load("./assets/blender_models/characters/megan/Ch22_1001_Specular.png");
+        const brianSpecularMap = new THREE.TextureLoader().load("./assets/blender_models/characters/brian/Ch01_1001_Specular.png");
+
         this._characterModelManager = new THREE.LoadingManager();
         this._characterLoader = new FBXLoader(this._characterModelManager);
         this._characterModel = {
             megan: {
                 url:'./assets/blender_models/characters/megan/megan.fbx', //model (fbx) is then added
+                specularMap: meganSpecularMap,
                 gender: 'female'
             },
             brian: {
                 url:'./assets/blender_models/characters/brian/brian.fbx',
+                specularMap: brianSpecularMap,
                 gender: 'male'
             }
         }
@@ -90,8 +96,6 @@ class CustomLoader {
                 walkingBackwards:    { url: './assets/blender_models/characters/megan/animations/walkingBackwards.fbx' },
                 run:  { url: './assets/blender_models/characters/megan/animations/run.fbx' },
                 idle:    { url: './assets/blender_models/characters/megan/animations/idle.fbx' },
-                // openingALid:  { url: './assets/blender_models/characters/megan/animations/openingALid.fbx' },
-                // closingALid:  { url: './assets/blender_models/characters/megan/animations/closingALid.fbx' },
                 falling:  { url: './assets/blender_models/characters/megan/animations/falling.fbx' }
             },
             brian: {
@@ -99,8 +103,6 @@ class CustomLoader {
                 walkingBackwards:    { url: './assets/blender_models/characters/brian/animations/walkingBackwards.fbx' },
                 run:  { url: './assets/blender_models/characters/brian/animations/run.fbx' },
                 idle:    { url: './assets/blender_models/characters/brian/animations/idle.fbx' },
-                // openingALid:  { url: './assets/blender_models/characters/brian/animations/openingALid.fbx' },
-                // closingALid:  { url: './assets/blender_models/characters/brian/animations/closingALid.fbx' },
                 falling:  { url: './assets/blender_models/characters/brian/animations/falling.fbx' }
             }
         }
