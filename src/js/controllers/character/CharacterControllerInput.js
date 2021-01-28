@@ -28,15 +28,19 @@ class CharacterControllerInput {
     _onKeyDown(event) {
         switch (event.key) {
             case this._forwardK: // w or z
+            case this._forwardK.toUpperCase(): // W or Z
                 this._keys.forward = true;
                 break;
             case this._leftK: // a or q
+            case this._leftK.toUpperCase(): //A or Q
                 this._keys.left = true;
                 break;
             case this._backwardK: // s
+            case this._backwardK.toUpperCase(): //S
                 this._keys.backward = true;
                 break;
             case this._rightK: // d
+            case this._rightK.toUpperCase(): // D
                 this._keys.right = true;
                 break;
             case 'f': // f: switch free camera
@@ -54,12 +58,15 @@ class CharacterControllerInput {
             this._keys.forward = false;
             break;
             case this._leftK: // a or q
+            case this._leftK.toUpperCase(): //A or Q
             this._keys.left = false;
             break;
             case this._backwardK: // s
+            case this._backwardK.toUpperCase(): //S
             this._keys.backward = false;
             break;
             case this._rightK: // d
+            case this._rightK.toUpperCase(): // D
             this._keys.right = false;
             break;
             case 'Shift': // SHIFT

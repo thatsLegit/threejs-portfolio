@@ -7,28 +7,29 @@ class ThirdPersonCamera {
 
         this._currentPosition = new THREE.Vector3();
         this._currentLookat = new THREE.Vector3();
+
+        this._idealOffset = new THREE.Vector3();
+        this._idealLookat = new THREE.Vector3();
     }
   
     _CalculateIdealOffset() {
-        const idealOffset = new THREE.Vector3(0, 80, -100);
-        idealOffset.applyQuaternion(this._params.target.Rotation);
-        idealOffset.add(this._params.target.Position);
-        return idealOffset;
+        this._idealOffset.set(0, 80, -100); //reset
+        this._idealOffset.applyQuaternion(this._params.target.Rotation);
+        this._idealOffset.add(this._params.target.Position);
+        return this._idealOffset;
     }
   
     _CalculateIdealLookat() {
-        const idealLookat = new THREE.Vector3(0, 30, 80);
-        idealLookat.applyQuaternion(this._params.target.Rotation);
-        idealLookat.add(this._params.target.Position);
-        return idealLookat;
+        this._idealLookat.set(0, 30, 80); //reset
+        this._idealLookat.applyQuaternion(this._params.target.Rotation);
+        this._idealLookat.add(this._params.target.Position);
+        return this._idealLookat;
     }
   
     Update(timeElapsed) {
-        const idealOffset = this._CalculateIdealOffset();
+        const idealOffset = this._CalculateIdealOffset(); 
         const idealLookat = this._CalculateIdealLookat();
 
-        // const t = 0.05;
-        // const t = 4.0 * timeElapsed;
         const t = 1.0 - Math.pow(0.001, timeElapsed);
 
         this._currentPosition.lerp(idealOffset, t);

@@ -25,6 +25,7 @@
   },
   "scripts": {
     "build": "webpack --config webpack.config.js",
+    "watch": "webpack --watch",
     "dev": "webpack serve --config webpack.dev.js --open",
     "deploy": "gh-pages -d dist"
   },

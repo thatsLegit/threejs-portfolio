@@ -35,6 +35,9 @@ class MagicCube {
         this._targetRotationY = 0.2;
         this._targetRotationOnMouseDownY = 0;
 
+        this._xAxis = new THREE.Vector3(0, 1, 0);
+        this._yAxis = new THREE.Vector3(1, 0, 0);
+
         this._mouseX = 0;
         this._mouseXOnMouseDown = 0;
         this._mouseY = 0;
@@ -282,8 +285,10 @@ class MagicCube {
     }
 
     _Update() {
-        this._RotateAroundWorldAxis.call(this, this._cube, new THREE.Vector3(0, 1, 0), this._targetRotationX);
-        this._RotateAroundWorldAxis.call(this, this._cube, new THREE.Vector3(1, 0, 0), this._targetRotationY);
+        this._xAxis.set(0, 1, 0);
+        this._yAxis.set(1, 0, 0);
+        this._RotateAroundWorldAxis.call(this, this._cube, this._xAxis, this._targetRotationX);
+        this._RotateAroundWorldAxis.call(this, this._cube, this._yAxis, this._targetRotationY);
         
         this._targetRotationY = this._targetRotationY * (1 - this._slowingFactor);
         this._targetRotationX = this._targetRotationX * (1 - this._slowingFactor);
@@ -291,7 +296,7 @@ class MagicCube {
 
     //targetRotation is approximated to radians
     _RotateAroundWorldAxis(object, axis, radians) {
-        let rotationMatrix = new THREE.Matrix4();
+        let rotationMatrix = new THREE.Matrix4(); //matrice identité de rang 4
         rotationMatrix.makeRotationAxis(axis.normalize(), radians);
         rotationMatrix.multiply(object.matrix);
         object.matrix = rotationMatrix;

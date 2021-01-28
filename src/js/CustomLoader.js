@@ -221,8 +221,8 @@ class CustomLoader {
                     }
                 }
 
-                paramsContainer.remove();
                 this._LaunchGame(charName, gInput, kInput);
+                paramsContainer.remove();
             });
         };
         this._characterAnimationsManager.onProgress = this._OnProgress;
