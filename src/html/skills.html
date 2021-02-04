@@ -38,7 +38,7 @@
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8/dist/Chart.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.7.0/dist/chartjs-plugin-datalabels.min.js"></script>
     <script>
         createChart(
@@ -61,6 +61,7 @@
             ['Design/UI/UX', 'MS Excel/VB', 'Team player', 'Git', 'Agility', 'DevOps/Cloud/hosting'],
             [9, 8, 9, 9, 9, 7]
         );
+        
         function createChart(element = "", title = "", labels = [], data = []) {
             const ctx = document.getElementById(element).getContext('2d');
             const chart = new Chart(ctx, {

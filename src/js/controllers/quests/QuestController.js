@@ -24,11 +24,11 @@ class QuestController {
                 return this._params.environment._treasure.position.distanceToSquared(this._params.character.Position) < 3000;
             },
             effect(t, questName) {
-                captionText.style.color = 'rgba(255,255,255,' + Math.cos(this._captionOpacity);
+                captionText.style.color = 'rgba(255,255,255,' + 0.5*(1+Math.cos(this._captionOpacity));
                 if(this._captionOpacity == 0) {
                     caption.style.display = 'block';
                     captionText.textContent = 'Press Spacebar to use the cube.';
-                    setTimeout(cleanup.bind(this), 6000);
+                    setTimeout(cleanup.bind(this), 7000);
                 }
                 function cleanup() {
                     caption.style.display = 'none';
@@ -46,11 +46,11 @@ class QuestController {
                 return this._params.magicCube?._opened;
             },
             effect(t, questName) {
-                captionText.style.color = 'rgba(255,255,255,' + Math.cos(this._captionOpacity);
+                captionText.style.color = 'rgba(255,255,255,' + 0.5*(1+Math.cos(this._captionOpacity));
                 if(this._captionOpacity == 0) {
                     caption.style.display = 'block';
                     captionText.textContent = 'Double click on the faces of the cube to display';
-                    setTimeout(cleanup.bind(this), 6000);
+                    setTimeout(cleanup.bind(this), 7000);
                 }
                 function cleanup() {
                     caption.style.display = 'none';

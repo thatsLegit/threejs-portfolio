@@ -149,17 +149,22 @@ class Game {
             }
         }
 
+        //Initializes magic cube but hides it
+        this._magicCube = new MagicCube({
+            position: new THREE.Vector3(40, 60, -720),
+            scene: this._scene,
+            camera: this._camera,
+            textures: this._customLoader._magicCubeTexture
+        });
+
+        this._magicCube._mysteryCube.visible = false;
+
         //pressing space should make the cube appear/flip sides
         let OnKeyDown = e => {
             if(this._environment._treasure.position.distanceToSquared(this._controls.Position) < 3000) {
-                this._magicCube = new MagicCube({
-                    position: new THREE.Vector3(40, 60, -720),
-                    scene: this._scene,
-                    camera: this._camera,
-                    textures: this._customLoader._magicCubeTexture
-                });
+                
+                this._magicCube._mysteryCube.visible = true;
 
-                this._quests._params.magicCube = this._magicCube; //updates undefined value for magicCube in quests
                 document.removeEventListener('keyup', OnKeyDown); //so it's not possible de invoke multiple cubes
 
                 let nextOnKeyDown = e => {
@@ -224,8 +229,8 @@ class Game {
             stats.begin();stats.end();
 
             this._Step(t - (this._previousRAF || 0));
-            // Update quests status
-            this._quests._Update(t); //on each frame, update QuestController
+
+            this._quests._Update(t);
 
             this._previousRAF = t;
             this._threejs.render(this._scene, this._camera);
@@ -237,12 +242,12 @@ class Game {
         //update character position/orientation/animation
         this._controls.Update(timeElapsedS);
         //update camera position/lookAt
-        if(!this?._cameraControl?.enabled) this._thirdPersonCamera.Update(timeElapsedS);
+        if(!this._cameraControl.enabled) this._thirdPersonCamera.Update(timeElapsedS);
         //update the treasure animation (optional)
         // if(!this._environment._treasureOpened) this._environment._Update(timeElapsedS);
         //update the magicCube rotation if the treasure chest is opened 
-        if(this?._magicCube?._transiting) this._magicCube._Transition(); 
-        if(this?._magicCube?._opened) this._magicCube._Update(); 
+        if(this?._magicCube?._transiting) this._magicCube._Transition(timeElapsedS); 
+        if(this?._magicCube?._opened) this._magicCube._Update(timeElapsedS); 
     }
 }
 

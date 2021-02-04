@@ -46,18 +46,17 @@ class MagicCube {
         this._canvasHalfX = canvas.clientWidth / 2;
         this._canvasHalfY = canvas.clientHeight / 2;
 
-        this._slowingFactor = 0.25;
+        this._slowingFactor = 1;
 
         this._materials = [];
 
-        this._CreateMysteryCube.call(this);
+        this._CreateMysteryCube();
     }
 
     _CreateMysteryCube() {
         this._direction = 'expand';
         this._distance = 0;
         this._rotator = Math.PI;
-        this._speed = 0.05;
 
         //multi-planes flipping cube container
         this._mysteryCube = new THREE.Object3D();
@@ -121,32 +120,32 @@ class MagicCube {
         this._params.scene.add(this._mysteryCube);
     }
 
-    _OpenBox() {
+    _OpenBox(timeElapsed) {
         const [plane1, plane2, plane3, plane4, plane5, plane6] = this._containerComponents;
         
-        plane1.position.z += this._speed;
-        plane1.position.x += this._speed;
+        plane1.position.z += timeElapsed;
+        plane1.position.x += timeElapsed;
 
-        plane2.position.z -= this._speed;
-        plane2.position.x -= this._speed;
+        plane2.position.z -= timeElapsed;
+        plane2.position.x -= timeElapsed;
 
-        plane3.position.z += this._speed;
-        plane3.position.x -= this._speed;
+        plane3.position.z += timeElapsed;
+        plane3.position.x -= timeElapsed;
 
-        plane4.position.y += this._speed;
+        plane4.position.y += timeElapsed;
 
-        plane5.position.y -= this._speed;
+        plane5.position.y -= timeElapsed;
 
-        plane6.position.z -= this._speed;
-        plane6.position.x += this._speed;
+        plane6.position.z -= timeElapsed;
+        plane6.position.x += timeElapsed;
 
-        this._distance += this._speed;
+        this._distance += timeElapsed;
     }
 
-    _FlipBoxSides() {
+    _FlipBoxSides(timeElapsed) {
         const [plane1, plane2, plane3, plane4, plane5, plane6] = this._containerComponents;
 
-        let rotation = this._rotator >= this._speed ? this._speed : this._rotator;
+        let rotation = this._rotator >= timeElapsed ? timeElapsed : this._rotator;
 
         plane1.rotation.y += rotation;
         plane2.rotation.y += rotation;
@@ -155,30 +154,30 @@ class MagicCube {
         plane5.rotation.x += rotation;
         plane6.rotation.y += rotation;
 
-        this._rotator -= this._speed;
+        this._rotator -= timeElapsed;
 
         if (this._rotator < 0) this._direction = 'shrink';
     }
 
-    _ShrinkBox() {
+    _ShrinkBox(timeElapsed) {
         const [plane1, plane2, plane3, plane4, plane5, plane6] = this._containerComponents;
 
-        plane1.position.z -= this._speed;
-        plane1.position.x -= this._speed;
+        plane1.position.z -= timeElapsed;
+        plane1.position.x -= timeElapsed;
 
-        plane2.position.z += this._speed;
-        plane2.position.x += this._speed;
+        plane2.position.z += timeElapsed;
+        plane2.position.x += timeElapsed;
 
-        plane3.position.z -= this._speed;
-        plane3.position.x += this._speed;
+        plane3.position.z -= timeElapsed;
+        plane3.position.x += timeElapsed;
 
-        plane4.position.y -= this._speed;
+        plane4.position.y -= timeElapsed;
 
-        plane5.position.y += this._speed;
+        plane5.position.y += timeElapsed;
 
-        plane6.position.z += this._speed;
-        plane6.position.x -= this._speed;
-        this._distance -= this._speed;
+        plane6.position.z += timeElapsed;
+        plane6.position.x -= timeElapsed;
+        this._distance -= timeElapsed;
 
         if (this._distance < 0) {
             this._transiting = false;
@@ -187,10 +186,10 @@ class MagicCube {
         }; //replace the mystery cube by the real one
     }
 
-    _Transition() {
-        if (this._direction == 'expand' && this._distance < 1) this._OpenBox(this._containerComponents);
-        if (this._distance >= 1 && this._direction == 'expand') this._FlipBoxSides(this._containerComponents);
-        if (this._direction == 'shrink') this._ShrinkBox(this._containerComponents);
+    _Transition(timeElapsed) {
+        if (this._direction == 'expand' && this._distance < 1) this._OpenBox(1.0 - Math.pow(0.001, timeElapsed/2));
+        if (this._distance >= 1 && this._direction == 'expand') this._FlipBoxSides(1.0 - Math.pow(0.001, timeElapsed/2));
+        if (this._direction == 'shrink') this._ShrinkBox(1.0 - Math.pow(0.001, timeElapsed/2));
     }
 
     _CreateCube() {
@@ -284,14 +283,14 @@ class MagicCube {
         }
     }
 
-    _Update() {
+    _Update(timeElapsed) {
         this._xAxis.set(0, 1, 0);
         this._yAxis.set(1, 0, 0);
         this._RotateAroundWorldAxis.call(this, this._cube, this._xAxis, this._targetRotationX);
         this._RotateAroundWorldAxis.call(this, this._cube, this._yAxis, this._targetRotationY);
         
-        this._targetRotationY = this._targetRotationY * (1 - this._slowingFactor);
-        this._targetRotationX = this._targetRotationX * (1 - this._slowingFactor);
+        this._targetRotationY = this._targetRotationY * (1 - Math.pow(0.001, timeElapsed/2));
+        this._targetRotationX = this._targetRotationX * (1 - Math.pow(0.001, timeElapsed/2));
     }
 
     //targetRotation is approximated to radians
