@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { SceneUtils } from "../utils/SceneUtils";
+import { SceneUtils } from "three/examples/jsm/utils/SceneUtils";
 
 
 const canvas = document.querySelector('#c');

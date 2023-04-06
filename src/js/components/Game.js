@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import Stats from "stats.js";
-import { OrbitControls } from "../utils/OrbitControls";
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
 import CharacterController from '../controllers/character/CharacterController';
 import ThirdPersonCamera from '../cameras/ThirdPersonCamera';
@@ -12,8 +12,8 @@ import MagicCube from '../components/magicCube';
 const canvas = document.querySelector('#c');
 
 const stats = new Stats();
-stats.showPanel(0); 
-document.body.appendChild( stats.dom );
+stats.showPanel(0);
+document.body.appendChild(stats.dom);
 
 class Game {
     constructor(customLoader, params) {
@@ -25,7 +25,7 @@ class Game {
 
     _Initialize() {
         this._threejs = new THREE.WebGLRenderer({
-            canvas, 
+            canvas,
             stencil: false,
             powerPreference: "high-performance",
             logarithmicDepthBuffer: true,
@@ -35,9 +35,9 @@ class Game {
         this._threejs.shadowMap.enabled = true;
         this._threejs.shadowMap.type = THREE.PCFSoftShadowMap;
         this._threejs.setPixelRatio(
-            this._params.gInput == 'low' 
-            ? window.devicePixelRatio/1.5 
-            : window.devicePixelRatio
+            this._params.gInput == 'low'
+                ? window.devicePixelRatio / 1.5
+                : window.devicePixelRatio
         );
         this._threejs.setSize(canvas.clientWidth, canvas.clientHeight);
 
@@ -91,7 +91,7 @@ class Game {
             {
                 const plane = new THREE.Mesh(
                     new THREE.PlaneBufferGeometry(740, 600),
-                    new THREE.MeshBasicMaterial({color: 0x808080}));
+                    new THREE.MeshBasicMaterial({ color: 0x808080 }));
                 plane.rotation.x = -Math.PI / 2;
                 const box = new THREE.Box3().setFromObject(plane);
                 this._ground.push(box);
@@ -99,7 +99,7 @@ class Game {
             {
                 const plane = new THREE.Mesh(
                     new THREE.PlaneBufferGeometry(115, 800),
-                    new THREE.MeshBasicMaterial({color: 0x808080}));
+                    new THREE.MeshBasicMaterial({ color: 0x808080 }));
                 plane.rotation.x = -Math.PI / 2;
                 plane.position.set(30, 3, 800);
                 const box = new THREE.Box3().setFromObject(plane);
@@ -108,7 +108,7 @@ class Game {
             {
                 const plane = new THREE.Mesh(
                     new THREE.PlaneBufferGeometry(120, 375),
-                    new THREE.MeshBasicMaterial({color: 0x808080}));
+                    new THREE.MeshBasicMaterial({ color: 0x808080 }));
                 plane.rotation.x = -Math.PI / 2;
                 plane.position.set(40, 3, -500);
                 const box = new THREE.Box3().setFromObject(plane);
@@ -123,28 +123,28 @@ class Game {
                 const v1 = new THREE.Vector3(-370, 0, 300); //haut
                 const v2 = new THREE.Vector3(-500, 0, 0);
                 const v3 = new THREE.Vector3(-370, 0, -300);
-                const triangle = new THREE.Triangle( v1, v2, v3 );
+                const triangle = new THREE.Triangle(v1, v2, v3);
                 this._ground.push(triangle);
             }
             {
                 const v1 = new THREE.Vector3(-370, 0, -300); //gauche
                 const v2 = new THREE.Vector3(0, 0, -400);
                 const v3 = new THREE.Vector3(370, 0, -300);
-                const triangle = new THREE.Triangle( v1, v2, v3 );
+                const triangle = new THREE.Triangle(v1, v2, v3);
                 this._ground.push(triangle);
             }
             {
                 const v1 = new THREE.Vector3(370, 0, -300); //bas
                 const v2 = new THREE.Vector3(500, 0, 0);
                 const v3 = new THREE.Vector3(370, 0, 300);
-                const triangle = new THREE.Triangle( v1, v2, v3 );
+                const triangle = new THREE.Triangle(v1, v2, v3);
                 this._ground.push(triangle);
-            } 
+            }
             {
                 const v1 = new THREE.Vector3(-370, 0, 300); //droite
                 const v2 = new THREE.Vector3(0, 0, 400);
                 const v3 = new THREE.Vector3(370, 0, 300);
-                const triangle = new THREE.Triangle( v1, v2, v3 );
+                const triangle = new THREE.Triangle(v1, v2, v3);
                 this._ground.push(triangle);
             }
         }
@@ -161,14 +161,14 @@ class Game {
 
         //pressing space should make the cube appear/flip sides
         let OnKeyDown = e => {
-            if(this._environment._treasure.position.distanceToSquared(this._controls.Position) < 3000) {
-                
+            if (this._environment._treasure.position.distanceToSquared(this._controls.Position) < 3000) {
+
                 this._magicCube._mysteryCube.visible = true;
 
                 document.removeEventListener('keyup', OnKeyDown); //so it's not possible de invoke multiple cubes
 
                 let nextOnKeyDown = e => {
-                    if(e.key == ' ' && this._environment._treasure.position.distanceToSquared(this._controls.Position) < 3000) {
+                    if (e.key == ' ' && this._environment._treasure.position.distanceToSquared(this._controls.Position) < 3000) {
                         this._magicCube._transiting = true;
                         document.removeEventListener('keydown', nextOnKeyDown);
                     }
@@ -176,7 +176,7 @@ class Game {
 
                 nextOnKeyDown = nextOnKeyDown.bind(this);
                 document.addEventListener('keydown', nextOnKeyDown);
-            }  
+            }
         };
         OnKeyDown = OnKeyDown.bind(this);
         document.addEventListener('keyup', OnKeyDown);
@@ -191,7 +191,7 @@ class Game {
 
     _InitCharacter() {
         this._controls = new CharacterController({
-            charName : this._params.charName,
+            charName: this._params.charName,
             keyboardType: this._params.kInput,
             camera: this._camera,
             scene: this._scene,
@@ -226,7 +226,7 @@ class Game {
     }
     _RAF() {
         requestAnimationFrame((t) => {
-            stats.begin();stats.end();
+            stats.begin(); stats.end();
 
             this._Step(t - (this._previousRAF || 0));
 
@@ -242,12 +242,12 @@ class Game {
         //update character position/orientation/animation
         this._controls.Update(timeElapsedS);
         //update camera position/lookAt
-        if(!this._cameraControl.enabled) this._thirdPersonCamera.Update(timeElapsedS);
+        if (!this._cameraControl.enabled) this._thirdPersonCamera.Update(timeElapsedS);
         //update the treasure animation (optional)
         // if(!this._environment._treasureOpened) this._environment._Update(timeElapsedS);
         //update the magicCube rotation if the treasure chest is opened 
-        if(this?._magicCube?._transiting) this._magicCube._Transition(timeElapsedS); 
-        if(this?._magicCube?._opened) this._magicCube._Update(timeElapsedS); 
+        if (this?._magicCube?._transiting) this._magicCube._Transition(timeElapsedS);
+        if (this?._magicCube?._opened) this._magicCube._Update(timeElapsedS);
     }
 }
 

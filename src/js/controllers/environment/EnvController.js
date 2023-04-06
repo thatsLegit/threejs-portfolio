@@ -2,8 +2,7 @@
 //wether it's animated or not.
 
 import * as THREE from "three";
-import {SkeletonUtils} from '../../utils/SkeletonUtils';
-import {dumpObject} from '../../helpers/miscellaneous/helper';
+import { SkeletonUtils } from 'three/examples/jsm/utils/SkeletonUtils';
 
 //une sorte d'ecran géant pour afficher le content avec le cube un peu comme une télécommande
 //tout ça avec un passage en pov
@@ -35,13 +34,13 @@ class EnvController {
                     this._SetModel.call(this, statics[modelName], 0.1, new THREE.Vector3(-150, 0, 0), null, true, true);
                     break;
                 case 'arch':
-                    this._SetModel.call(this, statics[modelName], 100, new THREE.Vector3(40, 0, -350), new THREE.Vector3(0, Math.PI/2, 0), true, true);
+                    this._SetModel.call(this, statics[modelName], 100, new THREE.Vector3(40, 0, -350), new THREE.Vector3(0, Math.PI / 2, 0), true, true);
                     break;
                 case 'foliage':
                     this._SetModel.call(this, statics[modelName], 0.1);
                     break;
                 case 'ship':
-                    this._SetModel.call(this, statics[modelName], 5, new THREE.Vector3(0, 100, 1300), new THREE.Vector3(0, -Math.PI/2, 0));
+                    this._SetModel.call(this, statics[modelName], 5, new THREE.Vector3(0, 100, 1300), new THREE.Vector3(0, -Math.PI / 2, 0));
                     break;
                 default:
                     break;
@@ -66,13 +65,13 @@ class EnvController {
         root.add(clonedScene);
         this._params.scene.add(root);
 
-        if(receiveSh || castSh) {
+        if (receiveSh || castSh) {
             root.traverse(obj => {
                 castSh && (obj.castShadow = true);
                 receiveSh && (obj.receiveShadow = true);
             });
         }
-        
+
         scalar && root.scale.setScalar(scalar);
         rotation && root.rotation.setFromVector3(rotation);
         initWorldPos && root.position.copy(initWorldPos);
@@ -89,7 +88,7 @@ class EnvController {
             obj.castShadow = true;
             obj.receiveShadow = true;
         });
-        
+
         root.scale.setScalar(0.25);
         root.position.set(40, 38, -720);
 
@@ -102,7 +101,7 @@ class EnvController {
             this._treasureOpened = true;
             action.getMixer().removeEventListener('finished', callback);
         }
-    
+
         action.reset();
         action.setEffectiveTimeScale(0.25);
         action.setEffectiveWeight(1.0);
