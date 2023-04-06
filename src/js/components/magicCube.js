@@ -18,12 +18,12 @@ class MagicCube {
         this._opened = false;
         this._transiting = false;
         this._faces = { //detect clicks on the faces of the cube (represented by two right triangles)
-            aboutMe: [{a: 2, b: 3, c: 1}, {a: 0, b: 2, c: 1}],
-            hireMe: [{a: 7, b: 2, c: 0}, {a: 5, b: 7, c: 0}],
-            skills: [{a: 6, b: 3, c: 2}, {a: 7, b: 6, c: 2}],
-            projects: [{a: 6, b: 7, c: 5}, {a: 4, b: 6, c: 5}],
-            cv: [{a: 5, b: 0, c: 1}, {a: 4, b: 5, c: 1}],
-            smallGames: [{a: 3, b: 6, c: 4}, {a: 1, b: 3, c: 4}]
+            aboutMe: [{ a: 2, b: 3, c: 1 }, { a: 0, b: 2, c: 1 }],
+            hireMe: [{ a: 7, b: 2, c: 0 }, { a: 5, b: 7, c: 0 }],
+            skills: [{ a: 6, b: 3, c: 2 }, { a: 7, b: 6, c: 2 }],
+            projects: [{ a: 6, b: 7, c: 5 }, { a: 4, b: 6, c: 5 }],
+            cv: [{ a: 5, b: 0, c: 1 }, { a: 4, b: 5, c: 1 }],
+            smallGames: [{ a: 3, b: 6, c: 4 }, { a: 1, b: 3, c: 4 }]
         }
         this._visited = new Set();
         this._Init();
@@ -68,27 +68,27 @@ class MagicCube {
 
         const plane1 = SceneUtils.createMultiMaterialObject(planeGeometry, [
             new THREE.MeshPhongMaterial({ map: this._params.textures.interrogation.texture, side: THREE.FrontSide }),
-            new THREE.MeshBasicMaterial( { map: this._params.textures.aboutMe.texture, side: THREE.BackSide } )
+            new THREE.MeshBasicMaterial({ map: this._params.textures.aboutMe.texture, side: THREE.BackSide })
         ]);
         const plane2 = SceneUtils.createMultiMaterialObject(planeGeometry, [
             new THREE.MeshPhongMaterial({ map: this._params.textures.interrogation.texture, side: THREE.BackSide }),
-            new THREE.MeshBasicMaterial( { map: this._params.textures.projects.texture, side: THREE.BackSide } )
+            new THREE.MeshBasicMaterial({ map: this._params.textures.projects.texture, side: THREE.BackSide })
         ]);
         const plane3 = SceneUtils.createMultiMaterialObject(planeGeometry, [
             new THREE.MeshPhongMaterial({ map: this._params.textures.interrogation.texture, side: THREE.BackSide }),
-            new THREE.MeshBasicMaterial( { map: this._params.textures.cv.texture, side: THREE.BackSide } )
+            new THREE.MeshBasicMaterial({ map: this._params.textures.cv.texture, side: THREE.BackSide })
         ]);
         const plane4 = SceneUtils.createMultiMaterialObject(planeGeometry, [
             new THREE.MeshPhongMaterial({ map: this._params.textures.interrogation.texture, side: THREE.FrontSide }),
-            new THREE.MeshBasicMaterial( { map: this._params.textures.skills.texture, side: THREE.BackSide } )
+            new THREE.MeshBasicMaterial({ map: this._params.textures.skills.texture, side: THREE.BackSide })
         ]);
         const plane5 = SceneUtils.createMultiMaterialObject(planeGeometry, [
             new THREE.MeshPhongMaterial({ map: this._params.textures.interrogation.texture, side: THREE.BackSide }),
-            new THREE.MeshBasicMaterial( { map: this._params.textures.hireMe.texture, side: THREE.BackSide } )
+            new THREE.MeshBasicMaterial({ map: this._params.textures.hireMe.texture, side: THREE.BackSide })
         ]);
         const plane6 = SceneUtils.createMultiMaterialObject(planeGeometry, [
             new THREE.MeshPhongMaterial({ map: this._params.textures.interrogation.texture, side: THREE.FrontSide }),
-            new THREE.MeshBasicMaterial( { map: this._params.textures.smallGames.texture, side: THREE.BackSide } )
+            new THREE.MeshBasicMaterial({ map: this._params.textures.smallGames.texture, side: THREE.BackSide })
         ]);
 
         plane1.position.set(0, 0, 14); //red
@@ -116,13 +116,13 @@ class MagicCube {
             this._mysteryCube.add(element);
         });
 
-        this._mysteryCube.position.copy(this._params.position.add(new THREE.Vector3(5,0,0)));
+        this._mysteryCube.position.copy(this._params.position.add(new THREE.Vector3(5, 0, 0)));
         this._params.scene.add(this._mysteryCube);
     }
 
     _OpenBox(timeElapsed) {
         const [plane1, plane2, plane3, plane4, plane5, plane6] = this._containerComponents;
-        
+
         plane1.position.z += timeElapsed;
         plane1.position.x += timeElapsed;
 
@@ -187,24 +187,24 @@ class MagicCube {
     }
 
     _Transition(timeElapsed) {
-        if (this._direction == 'expand' && this._distance < 1) this._OpenBox(1.0 - Math.pow(0.001, timeElapsed/2));
-        if (this._distance >= 1 && this._direction == 'expand') this._FlipBoxSides(1.0 - Math.pow(0.001, timeElapsed/2));
-        if (this._direction == 'shrink') this._ShrinkBox(1.0 - Math.pow(0.001, timeElapsed/2));
+        if (this._direction == 'expand' && this._distance < 1) this._OpenBox(1.0 - Math.pow(0.001, timeElapsed / 2));
+        if (this._distance >= 1 && this._direction == 'expand') this._FlipBoxSides(1.0 - Math.pow(0.001, timeElapsed / 2));
+        if (this._direction == 'shrink') this._ShrinkBox(1.0 - Math.pow(0.001, timeElapsed / 2));
     }
 
     _CreateCube() {
         //ensures that materials are always placed in the same way on the cube
-        this._materials.push( new THREE.MeshBasicMaterial( { map: this._params.textures.aboutMe.texture } ) );
-        this._materials.push( new THREE.MeshBasicMaterial( { map: this._params.textures.projects.texture } ) );
-        this._materials.push( new THREE.MeshBasicMaterial( { map: this._params.textures.cv.texture } ) );
-        this._materials.push( new THREE.MeshBasicMaterial( { map: this._params.textures.skills.texture } ) );
-        this._materials.push( new THREE.MeshBasicMaterial( { map: this._params.textures.hireMe.texture } ) );
-        this._materials.push( new THREE.MeshBasicMaterial( { map: this._params.textures.smallGames.texture } ) );
+        this._materials.push(new THREE.MeshBasicMaterial({ map: this._params.textures.aboutMe.texture }));
+        this._materials.push(new THREE.MeshBasicMaterial({ map: this._params.textures.projects.texture }));
+        this._materials.push(new THREE.MeshBasicMaterial({ map: this._params.textures.cv.texture }));
+        this._materials.push(new THREE.MeshBasicMaterial({ map: this._params.textures.skills.texture }));
+        this._materials.push(new THREE.MeshBasicMaterial({ map: this._params.textures.hireMe.texture }));
+        this._materials.push(new THREE.MeshBasicMaterial({ map: this._params.textures.smallGames.texture }));
 
-        this._cube = new THREE.Mesh(new THREE.BoxGeometry( 20, 20, 20 ), new THREE.MeshFaceMaterial(this._materials) );
-        this._cube.position.copy(this._params.position.sub(new THREE.Vector3(5,0,0)));
+        this._cube = new THREE.Mesh(new THREE.BoxGeometry(20, 20, 20), this._materials);
+        this._cube.position.copy(this._params.position.sub(new THREE.Vector3(5, 0, 0)));
         this._cube.overdraw = true;
-        this._params.scene.add( this._cube );   
+        this._params.scene.add(this._cube);
 
         this._opened = true;
 
@@ -220,8 +220,8 @@ class MagicCube {
             const isIntersected = raycaster.intersectObject(this._cube);
             if (!isIntersected.length) return;
 
-            const {face: {a, b, c}} = isIntersected[0];
-            const obj = {a,b,c};
+            const { face: { a, b, c } } = isIntersected[0];
+            const obj = { a, b, c };
 
             closeFullscreen() // canvas go out of full screen to see iframe
 
@@ -249,17 +249,17 @@ class MagicCube {
         //cube rotation
         let onCanvasMouseMove = e => {
             this._mouseX = e.clientX - this._canvasHalfX; //distance to half of the screen on x
-            this._targetRotationX = ( this._mouseX - this._mouseXOnMouseDown ) * 0.001; //distance between mouse down and move on x
+            this._targetRotationX = (this._mouseX - this._mouseXOnMouseDown) * 0.001; //distance between mouse down and move on x
 
             this._mouseY = e.clientY - this._canvasHalfY;  //distance to half of the screen on y
-            this._targetRotationY = ( this._mouseY - this._mouseYOnMouseDown ) * 0.001; //distance between mouse down and move on x
+            this._targetRotationY = (this._mouseY - this._mouseYOnMouseDown) * 0.001; //distance between mouse down and move on x
         }
         onCanvasMouseMove = onCanvasMouseMove.bind(this); //pre-assigning the same function to the var but with the this binding.
 
         let onCanvasMouseEnds = e => {
-            document.removeEventListener( 'mousemove', onCanvasMouseMove);
-            document.removeEventListener( 'mouseup', onCanvasMouseEnds);
-            document.removeEventListener( 'mouseout', onCanvasMouseEnds);
+            document.removeEventListener('mousemove', onCanvasMouseMove);
+            document.removeEventListener('mouseup', onCanvasMouseEnds);
+            document.removeEventListener('mouseout', onCanvasMouseEnds);
         }
         onCanvasMouseEnds = onCanvasMouseEnds.bind(this); //pre-assigning the same function to the var but with the this binding.
 
@@ -271,9 +271,9 @@ class MagicCube {
             let isIntersected = raycaster.intersectObject(this._cube);
             if (!isIntersected.length) return;
 
-            document.addEventListener( 'mousemove', onCanvasMouseMove);
-            document.addEventListener( 'mouseup', onCanvasMouseEnds);
-            document.addEventListener( 'mouseout', onCanvasMouseEnds);
+            document.addEventListener('mousemove', onCanvasMouseMove);
+            document.addEventListener('mouseup', onCanvasMouseEnds);
+            document.addEventListener('mouseout', onCanvasMouseEnds);
 
             this._mouseXOnMouseDown = e.clientX - this._canvasHalfX; //distance to half of the screen on x
             this._targetRotationOnMouseDownX = this._targetRotationX; //0.5
@@ -288,9 +288,9 @@ class MagicCube {
         this._yAxis.set(1, 0, 0);
         this._RotateAroundWorldAxis.call(this, this._cube, this._xAxis, this._targetRotationX);
         this._RotateAroundWorldAxis.call(this, this._cube, this._yAxis, this._targetRotationY);
-        
-        this._targetRotationY = this._targetRotationY * (1 - Math.pow(0.001, timeElapsed/2));
-        this._targetRotationX = this._targetRotationX * (1 - Math.pow(0.001, timeElapsed/2));
+
+        this._targetRotationY = this._targetRotationY * (1 - Math.pow(0.001, timeElapsed / 2));
+        this._targetRotationX = this._targetRotationX * (1 - Math.pow(0.001, timeElapsed / 2));
     }
 
     //targetRotation is approximated to radians
