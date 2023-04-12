@@ -2,7 +2,7 @@
 //wether it's animated or not.
 
 import * as THREE from "three";
-import { SkeletonUtils } from 'three/examples/jsm/utils/SkeletonUtils';
+import * as SkeletonUtils from 'three/examples/jsm/utils/SkeletonUtils';
 
 //une sorte d'ecran géant pour afficher le content avec le cube un peu comme une télécommande
 //tout ça avec un passage en pov

@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { SceneUtils } from "three/examples/jsm/utils/SceneUtils";
+import * as SceneUtils from "three/examples/jsm/utils/SceneUtils";
 
 
 const canvas = document.querySelector('#c');
@@ -17,16 +17,11 @@ class MagicCube {
         this._params = params;
         this._opened = false;
         this._transiting = false;
-        this._faces = { //detect clicks on the faces of the cube (represented by two right triangles)
-            aboutMe: [{ a: 2, b: 3, c: 1 }, { a: 0, b: 2, c: 1 }],
-            hireMe: [{ a: 7, b: 2, c: 0 }, { a: 5, b: 7, c: 0 }],
-            skills: [{ a: 6, b: 3, c: 2 }, { a: 7, b: 6, c: 2 }],
-            projects: [{ a: 6, b: 7, c: 5 }, { a: 4, b: 6, c: 5 }],
-            cv: [{ a: 5, b: 0, c: 1 }, { a: 4, b: 5, c: 1 }],
-            smallGames: [{ a: 3, b: 6, c: 4 }, { a: 1, b: 3, c: 4 }]
-        }
+        // Faces of the magic cube are represented by two right triangles
+        this._faces = ["aboutMe", "projects", "cv", "skills", "hireMe", "smallGames"];
         this._visited = new Set();
         this._Init();
+        this._InitialCube();
     }
 
     _Init() {
@@ -34,9 +29,14 @@ class MagicCube {
         this._targetRotationOnMouseDownX = 0;
         this._targetRotationY = 0.2;
         this._targetRotationOnMouseDownY = 0;
+        this._slowingFactor = 1;
 
         this._xAxis = new THREE.Vector3(0, 1, 0);
         this._yAxis = new THREE.Vector3(1, 0, 0);
+
+        this._direction = 'expand';
+        this._distance = 0;
+        this._rotator = Math.PI;
 
         this._mouseX = 0;
         this._mouseXOnMouseDown = 0;
@@ -46,75 +46,44 @@ class MagicCube {
         this._canvasHalfX = canvas.clientWidth / 2;
         this._canvasHalfY = canvas.clientHeight / 2;
 
-        this._slowingFactor = 1;
-
-        this._materials = [];
-
-        this._CreateMysteryCube();
+        this._containerComponents = [];
     }
 
-    _CreateMysteryCube() {
-        this._direction = 'expand';
-        this._distance = 0;
-        this._rotator = Math.PI;
-
+    _InitialCube() {
         //multi-planes flipping cube container
         this._mysteryCube = new THREE.Object3D();
 
         //planes geometry
         const width = 20;
         const height = 20;
-        const planeGeometry = new THREE.PlaneBufferGeometry(width, height);
+        const planeGeometry = new THREE.PlaneGeometry(width, height);
 
-        const plane1 = SceneUtils.createMultiMaterialObject(planeGeometry, [
+        this._containerComponents = this._faces.map(face => SceneUtils.createMultiMaterialObject(planeGeometry, [
             new THREE.MeshPhongMaterial({ map: this._params.textures.interrogation.texture, side: THREE.FrontSide }),
-            new THREE.MeshBasicMaterial({ map: this._params.textures.aboutMe.texture, side: THREE.BackSide })
-        ]);
-        const plane2 = SceneUtils.createMultiMaterialObject(planeGeometry, [
-            new THREE.MeshPhongMaterial({ map: this._params.textures.interrogation.texture, side: THREE.BackSide }),
-            new THREE.MeshBasicMaterial({ map: this._params.textures.projects.texture, side: THREE.BackSide })
-        ]);
-        const plane3 = SceneUtils.createMultiMaterialObject(planeGeometry, [
-            new THREE.MeshPhongMaterial({ map: this._params.textures.interrogation.texture, side: THREE.BackSide }),
-            new THREE.MeshBasicMaterial({ map: this._params.textures.cv.texture, side: THREE.BackSide })
-        ]);
-        const plane4 = SceneUtils.createMultiMaterialObject(planeGeometry, [
-            new THREE.MeshPhongMaterial({ map: this._params.textures.interrogation.texture, side: THREE.FrontSide }),
-            new THREE.MeshBasicMaterial({ map: this._params.textures.skills.texture, side: THREE.BackSide })
-        ]);
-        const plane5 = SceneUtils.createMultiMaterialObject(planeGeometry, [
-            new THREE.MeshPhongMaterial({ map: this._params.textures.interrogation.texture, side: THREE.BackSide }),
-            new THREE.MeshBasicMaterial({ map: this._params.textures.hireMe.texture, side: THREE.BackSide })
-        ]);
-        const plane6 = SceneUtils.createMultiMaterialObject(planeGeometry, [
-            new THREE.MeshPhongMaterial({ map: this._params.textures.interrogation.texture, side: THREE.FrontSide }),
-            new THREE.MeshBasicMaterial({ map: this._params.textures.smallGames.texture, side: THREE.BackSide })
-        ]);
+            new THREE.MeshBasicMaterial({ map: this._params.textures[face].texture, side: THREE.BackSide })
+        ]))
 
-        plane1.position.set(0, 0, 14); //red
-        plane1.rotation.y = Math.PI / 4;
+        this._containerComponents[0].position.set(0, 0, 14); /* about me */
+        this._containerComponents[0].rotation.y = Math.PI / 4;
 
-        plane2.position.set(-14, 0, 0); //blue
-        plane2.rotation.y = Math.PI / 4;
+        this._containerComponents[1].position.set(-14, 0, 0); /* projects */
+        this._containerComponents[1].rotation.y = - Math.PI / (4 / 3);
 
-        plane3.position.set(-14, 0, 14) //green
-        plane3.rotation.y = Math.PI / 1.33;
+        this._containerComponents[2].position.set(-14, 0, 14) /* cv */
+        this._containerComponents[2].rotation.y = - Math.PI / 4;
 
-        plane4.position.set(-7, 10, 7); //yellow
-        plane4.rotation.x = - Math.PI / 2;
-        plane4.rotation.z = Math.PI / 4;
+        this._containerComponents[3].position.set(-7, 10, 7); /* skills */
+        this._containerComponents[3].rotation.x = - Math.PI / 2;
+        this._containerComponents[3].rotation.z = Math.PI / 4;
 
-        plane5.position.set(-7, -10, 7); //cyan
-        plane5.rotation.x = - Math.PI / 2;
-        plane5.rotation.z = Math.PI / 4;
+        this._containerComponents[4].position.set(-7, -10, 7); /* hire me */
+        this._containerComponents[4].rotation.x = Math.PI / 2;
+        this._containerComponents[4].rotation.z = - Math.PI / 4;
 
-        plane6.position.set(0, 0, 0); //white
-        plane6.rotation.y = Math.PI / 1.33;
+        this._containerComponents[5].position.set(0, 0, 0); /* small games */
+        this._containerComponents[5].rotation.y = Math.PI / 1.33;
 
-        this._containerComponents = [plane1, plane2, plane3, plane4, plane5, plane6];
-        this._containerComponents.forEach(element => {
-            this._mysteryCube.add(element);
-        });
+        this._containerComponents.forEach(plane => this._mysteryCube.add(plane));
 
         this._mysteryCube.position.copy(this._params.position.add(new THREE.Vector3(5, 0, 0)));
         this._params.scene.add(this._mysteryCube);
@@ -183,7 +152,7 @@ class MagicCube {
             this._transiting = false;
             this._params.scene.remove(this._mysteryCube);
             this._CreateCube.call(this);
-        }; //replace the mystery cube by the real one
+        };
     }
 
     _Transition(timeElapsed) {
@@ -193,15 +162,9 @@ class MagicCube {
     }
 
     _CreateCube() {
-        //ensures that materials are always placed in the same way on the cube
-        this._materials.push(new THREE.MeshBasicMaterial({ map: this._params.textures.aboutMe.texture }));
-        this._materials.push(new THREE.MeshBasicMaterial({ map: this._params.textures.projects.texture }));
-        this._materials.push(new THREE.MeshBasicMaterial({ map: this._params.textures.cv.texture }));
-        this._materials.push(new THREE.MeshBasicMaterial({ map: this._params.textures.skills.texture }));
-        this._materials.push(new THREE.MeshBasicMaterial({ map: this._params.textures.hireMe.texture }));
-        this._materials.push(new THREE.MeshBasicMaterial({ map: this._params.textures.smallGames.texture }));
+        const materials = this._faces.map(face => new THREE.MeshBasicMaterial({ map: this._params.textures[face].texture }));
 
-        this._cube = new THREE.Mesh(new THREE.BoxGeometry(20, 20, 20), this._materials);
+        this._cube = new THREE.Mesh(new THREE.BoxGeometry(20, 20, 20), materials);
         this._cube.position.copy(this._params.position.sub(new THREE.Vector3(5, 0, 0)));
         this._cube.overdraw = true;
         this._params.scene.add(this._cube);
@@ -218,21 +181,15 @@ class MagicCube {
             //checking which face is clicked on
             raycaster.setFromCamera(mouse, this._params.camera)
             const isIntersected = raycaster.intersectObject(this._cube);
+
             if (!isIntersected.length) return;
 
-            const { face: { a, b, c } } = isIntersected[0];
-            const obj = { a, b, c };
+            const index = isIntersected[0].face.materialIndex;
 
-            closeFullscreen() // canvas go out of full screen to see iframe
-
-            if (JSON.stringify(obj) == JSON.stringify(this._faces.aboutMe[0]) || JSON.stringify(obj) == JSON.stringify(this._faces.aboutMe[1])) openIframe.call(this, 'aboutMe');
-            if (JSON.stringify(obj) == JSON.stringify(this._faces.hireMe[0]) || JSON.stringify(obj) == JSON.stringify(this._faces.hireMe[1])) openIframe.call(this, 'hireMe');
-            if (JSON.stringify(obj) == JSON.stringify(this._faces.skills[0]) || JSON.stringify(obj) == JSON.stringify(this._faces.skills[1])) openIframe.call(this, 'skills');
-            if (JSON.stringify(obj) == JSON.stringify(this._faces.projects[0]) || JSON.stringify(obj) == JSON.stringify(this._faces.projects[1])) openIframe.call(this, 'projects');
-            if (JSON.stringify(obj) == JSON.stringify(this._faces.cv[0]) || JSON.stringify(obj) == JSON.stringify(this._faces.cv[1])) openIframe.call(this, 'cv');
-            if (JSON.stringify(obj) == JSON.stringify(this._faces.smallGames[0]) || JSON.stringify(obj) == JSON.stringify(this._faces.smallGames[1])) openIframe.call(this, 'smallGames');
+            openIframe.call(this, this._faces[index]);
 
             function openIframe(name) {
+                closeFullscreen(); // canvas go out of full screen to see iframe if needed
                 this?._selected && (iframes[this._selected].style.display = 'none');
                 iframes[name].style.display = 'block';
                 this._selected = name;

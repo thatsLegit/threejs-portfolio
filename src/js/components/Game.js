@@ -57,8 +57,6 @@ class Game {
             this._cameraControl.enabled = false;
         }
         {
-            this._threejs.physicallyCorrectLights;
-
             let light = new THREE.DirectionalLight(0xFFFFFF, 1);
             light.position.set(600, 300, 300);
             light.target.position.set(0, 0, 0);
@@ -90,7 +88,7 @@ class Game {
             //let's make triangles, planes and sphere to define the walkable surface
             {
                 const plane = new THREE.Mesh(
-                    new THREE.PlaneBufferGeometry(740, 600),
+                    new THREE.PlaneGeometry(740, 600),
                     new THREE.MeshBasicMaterial({ color: 0x808080 }));
                 plane.rotation.x = -Math.PI / 2;
                 const box = new THREE.Box3().setFromObject(plane);
@@ -98,7 +96,7 @@ class Game {
             }
             {
                 const plane = new THREE.Mesh(
-                    new THREE.PlaneBufferGeometry(115, 800),
+                    new THREE.PlaneGeometry(115, 800),
                     new THREE.MeshBasicMaterial({ color: 0x808080 }));
                 plane.rotation.x = -Math.PI / 2;
                 plane.position.set(30, 3, 800);
@@ -107,7 +105,7 @@ class Game {
             }
             {
                 const plane = new THREE.Mesh(
-                    new THREE.PlaneBufferGeometry(120, 375),
+                    new THREE.PlaneGeometry(120, 375),
                     new THREE.MeshBasicMaterial({ color: 0x808080 }));
                 plane.rotation.x = -Math.PI / 2;
                 plane.position.set(40, 3, -500);
