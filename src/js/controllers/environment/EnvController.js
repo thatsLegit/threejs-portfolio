@@ -1,7 +1,7 @@
 //Set the initial position, rotation, scale of each loaded model
 //wether it's animated or not.
 
-import * as THREE from "three";
+import * as THREE from 'three';
 import * as SkeletonUtils from 'three/examples/jsm/utils/SkeletonUtils';
 
 //une sorte d'ecran géant pour afficher le content avec le cube un peu comme une télécommande
@@ -19,33 +19,85 @@ class EnvController {
         for (let modelName in statics) {
             switch (modelName) {
                 case 'platform':
-                    this._SetModel.call(this, statics[modelName], 100, new THREE.Vector3(0, -245, 0), null, true, false);
+                    this._SetModel.call(
+                        this,
+                        statics[modelName],
+                        100,
+                        new THREE.Vector3(0, -245, 0),
+                        null,
+                        true,
+                        false
+                    );
                     break;
                 case 'smallPlatform':
-                    this._SetModel.call(this, statics[modelName], 60, new THREE.Vector3(40, -52, -720), null, true);
+                    this._SetModel.call(
+                        this,
+                        statics[modelName],
+                        60,
+                        new THREE.Vector3(40, -52, -720),
+                        null,
+                        true
+                    );
                     break;
                 case 'iceWorld':
-                    this._SetModel.call(this, statics[modelName], 0.35, new THREE.Vector3(-30, -21, 70), null, true, true);
+                    this._SetModel.call(
+                        this,
+                        statics[modelName],
+                        0.35,
+                        new THREE.Vector3(-30, -21, 70),
+                        null,
+                        true,
+                        true
+                    );
                     break;
                 case 'bridge':
-                    this._SetModel.call(this, statics[modelName], 5, new THREE.Vector3(-30, -28, 70), null, true);
+                    this._SetModel.call(
+                        this,
+                        statics[modelName],
+                        5,
+                        new THREE.Vector3(-30, -28, 70),
+                        null,
+                        true
+                    );
                     break;
                 case 'trees':
-                    this._SetModel.call(this, statics[modelName], 0.1, new THREE.Vector3(-150, 0, 0), null, true, true);
+                    this._SetModel.call(
+                        this,
+                        statics[modelName],
+                        0.1,
+                        new THREE.Vector3(-150, 0, 0),
+                        null,
+                        true,
+                        true
+                    );
                     break;
                 case 'arch':
-                    this._SetModel.call(this, statics[modelName], 100, new THREE.Vector3(40, 0, -350), new THREE.Vector3(0, Math.PI / 2, 0), true, true);
+                    this._SetModel.call(
+                        this,
+                        statics[modelName],
+                        100,
+                        new THREE.Vector3(40, 0, -350),
+                        new THREE.Vector3(0, Math.PI / 2, 0),
+                        true,
+                        true
+                    );
                     break;
                 case 'foliage':
                     this._SetModel.call(this, statics[modelName], 0.1);
                     break;
                 case 'ship':
-                    this._SetModel.call(this, statics[modelName], 5, new THREE.Vector3(0, 100, 1300), new THREE.Vector3(0, -Math.PI / 2, 0));
+                    this._SetModel.call(
+                        this,
+                        statics[modelName],
+                        5,
+                        new THREE.Vector3(0, 100, 1300),
+                        new THREE.Vector3(0, -Math.PI / 2, 0)
+                    );
                     break;
                 default:
                     break;
             }
-        };
+        }
 
         const animated = this._params.customLoader._envModels.animated;
         for (let modelName in animated) {
@@ -58,7 +110,14 @@ class EnvController {
             }
         }
     }
-    _SetModel(model, scalar = null, initWorldPos = null, rotation = null, receiveSh = false, castSh = false) {
+    _SetModel(
+        model,
+        scalar = null,
+        initWorldPos = null,
+        rotation = null,
+        receiveSh = false,
+        castSh = false
+    ) {
         const clonedScene = SkeletonUtils.clone(model.gltf.scene);
         const root = new THREE.Object3D();
         clonedScene.matrixAutoUpdate = false;
@@ -66,7 +125,7 @@ class EnvController {
         this._params.scene.add(root);
 
         if (receiveSh || castSh) {
-            root.traverse(obj => {
+            root.traverse((obj) => {
                 castSh && (obj.castShadow = true);
                 receiveSh && (obj.receiveShadow = true);
             });
@@ -84,7 +143,7 @@ class EnvController {
         this._treasure = root;
         this._params.scene.add(root);
 
-        root.traverse(obj => {
+        root.traverse((obj) => {
             obj.castShadow = true;
             obj.receiveShadow = true;
         });

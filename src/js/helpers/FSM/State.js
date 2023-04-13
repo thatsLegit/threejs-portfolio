@@ -6,6 +6,6 @@ class State {
     Enter() {}
     Exit() {}
     Update() {}
-};
+}
 
 export default State;

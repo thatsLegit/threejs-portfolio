@@ -1,6 +1,5 @@
-import * as THREE from "three";
-import * as SceneUtils from "three/examples/jsm/utils/SceneUtils";
-
+import * as THREE from 'three';
+import * as SceneUtils from 'three/examples/jsm/utils/SceneUtils';
 
 const canvas = document.querySelector('#c');
 const iframes = {
@@ -9,7 +8,7 @@ const iframes = {
     hireMe: document.querySelector('#hireMe'),
     skills: document.querySelector('#skills'),
     projects: document.querySelector('#projects'),
-    smallGames: document.querySelector('#smallGames')
+    smallGames: document.querySelector('#smallGames'),
 };
 
 class MagicCube {
@@ -18,7 +17,7 @@ class MagicCube {
         this._opened = false;
         this._transiting = false;
         // Faces of the magic cube are represented by two right triangles
-        this._faces = ["aboutMe", "projects", "cv", "skills", "hireMe", "smallGames"];
+        this._faces = ['aboutMe', 'projects', 'cv', 'skills', 'hireMe', 'smallGames'];
         this._visited = new Set();
         this._Init();
         this._InitialCube();
@@ -58,32 +57,40 @@ class MagicCube {
         const height = 20;
         const planeGeometry = new THREE.PlaneGeometry(width, height);
 
-        this._containerComponents = this._faces.map(face => SceneUtils.createMultiMaterialObject(planeGeometry, [
-            new THREE.MeshPhongMaterial({ map: this._params.textures.interrogation.texture, side: THREE.FrontSide }),
-            new THREE.MeshBasicMaterial({ map: this._params.textures[face].texture, side: THREE.BackSide })
-        ]))
+        this._containerComponents = this._faces.map((face) =>
+            SceneUtils.createMultiMaterialObject(planeGeometry, [
+                new THREE.MeshPhongMaterial({
+                    map: this._params.textures.interrogation.texture,
+                    side: THREE.FrontSide,
+                }),
+                new THREE.MeshBasicMaterial({
+                    map: this._params.textures[face].texture,
+                    side: THREE.BackSide,
+                }),
+            ])
+        );
 
         this._containerComponents[0].position.set(0, 0, 14); /* about me */
         this._containerComponents[0].rotation.y = Math.PI / 4;
 
         this._containerComponents[1].position.set(-14, 0, 0); /* projects */
-        this._containerComponents[1].rotation.y = - Math.PI / (4 / 3);
+        this._containerComponents[1].rotation.y = -Math.PI / (4 / 3);
 
-        this._containerComponents[2].position.set(-14, 0, 14) /* cv */
-        this._containerComponents[2].rotation.y = - Math.PI / 4;
+        this._containerComponents[2].position.set(-14, 0, 14); /* cv */
+        this._containerComponents[2].rotation.y = -Math.PI / 4;
 
         this._containerComponents[3].position.set(-7, 10, 7); /* skills */
-        this._containerComponents[3].rotation.x = - Math.PI / 2;
+        this._containerComponents[3].rotation.x = -Math.PI / 2;
         this._containerComponents[3].rotation.z = Math.PI / 4;
 
         this._containerComponents[4].position.set(-7, -10, 7); /* hire me */
         this._containerComponents[4].rotation.x = Math.PI / 2;
-        this._containerComponents[4].rotation.z = - Math.PI / 4;
+        this._containerComponents[4].rotation.z = -Math.PI / 4;
 
         this._containerComponents[5].position.set(0, 0, 0); /* small games */
         this._containerComponents[5].rotation.y = Math.PI / 1.33;
 
-        this._containerComponents.forEach(plane => this._mysteryCube.add(plane));
+        this._containerComponents.forEach((plane) => this._mysteryCube.add(plane));
 
         this._mysteryCube.position.copy(this._params.position.add(new THREE.Vector3(5, 0, 0)));
         this._params.scene.add(this._mysteryCube);
@@ -152,17 +159,21 @@ class MagicCube {
             this._transiting = false;
             this._params.scene.remove(this._mysteryCube);
             this._CreateCube.call(this);
-        };
+        }
     }
 
     _Transition(timeElapsed) {
-        if (this._direction == 'expand' && this._distance < 1) this._OpenBox(1.0 - Math.pow(0.001, timeElapsed / 2));
-        if (this._distance >= 1 && this._direction == 'expand') this._FlipBoxSides(1.0 - Math.pow(0.001, timeElapsed / 2));
+        if (this._direction == 'expand' && this._distance < 1)
+            this._OpenBox(1.0 - Math.pow(0.001, timeElapsed / 2));
+        if (this._distance >= 1 && this._direction == 'expand')
+            this._FlipBoxSides(1.0 - Math.pow(0.001, timeElapsed / 2));
         if (this._direction == 'shrink') this._ShrinkBox(1.0 - Math.pow(0.001, timeElapsed / 2));
     }
 
     _CreateCube() {
-        const materials = this._faces.map(face => new THREE.MeshBasicMaterial({ map: this._params.textures[face].texture }));
+        const materials = this._faces.map(
+            (face) => new THREE.MeshBasicMaterial({ map: this._params.textures[face].texture })
+        );
 
         this._cube = new THREE.Mesh(new THREE.BoxGeometry(20, 20, 20), materials);
         this._cube.position.copy(this._params.position.sub(new THREE.Vector3(5, 0, 0)));
@@ -176,10 +187,10 @@ class MagicCube {
         let mouse = new THREE.Vector2();
 
         // select a face of the cube
-        document.addEventListener('dblclick', e => OnDoubleClick.call(this, e));
+        document.addEventListener('dblclick', (e) => OnDoubleClick.call(this, e));
         function OnDoubleClick(e) {
             //checking which face is clicked on
-            raycaster.setFromCamera(mouse, this._params.camera)
+            raycaster.setFromCamera(mouse, this._params.camera);
             const isIntersected = raycaster.intersectObject(this._cube);
 
             if (!isIntersected.length) return;
@@ -198,33 +209,33 @@ class MagicCube {
         }
 
         //updating mouse raycaster vector
-        document.addEventListener('mousemove', e => {
+        document.addEventListener('mousemove', (e) => {
             mouse.x = (e.clientX / canvas.clientWidth) * 2 - 1;
-            mouse.y = - (e.clientY / canvas.clientHeight) * 2 + 1;
+            mouse.y = -(e.clientY / canvas.clientHeight) * 2 + 1;
         });
 
         //cube rotation
-        let onCanvasMouseMove = e => {
+        let onCanvasMouseMove = (e) => {
             this._mouseX = e.clientX - this._canvasHalfX; //distance to half of the screen on x
             this._targetRotationX = (this._mouseX - this._mouseXOnMouseDown) * 0.001; //distance between mouse down and move on x
 
-            this._mouseY = e.clientY - this._canvasHalfY;  //distance to half of the screen on y
+            this._mouseY = e.clientY - this._canvasHalfY; //distance to half of the screen on y
             this._targetRotationY = (this._mouseY - this._mouseYOnMouseDown) * 0.001; //distance between mouse down and move on x
-        }
+        };
         onCanvasMouseMove = onCanvasMouseMove.bind(this); //pre-assigning the same function to the var but with the this binding.
 
-        let onCanvasMouseEnds = e => {
+        let onCanvasMouseEnds = (e) => {
             document.removeEventListener('mousemove', onCanvasMouseMove);
             document.removeEventListener('mouseup', onCanvasMouseEnds);
             document.removeEventListener('mouseout', onCanvasMouseEnds);
-        }
+        };
         onCanvasMouseEnds = onCanvasMouseEnds.bind(this); //pre-assigning the same function to the var but with the this binding.
 
         document.addEventListener('mousedown', onCanvasMouseDown.bind(this));
         function onCanvasMouseDown(e) {
             e.preventDefault(); // ?
 
-            raycaster.setFromCamera(mouse, this._params.camera)
+            raycaster.setFromCamera(mouse, this._params.camera);
             let isIntersected = raycaster.intersectObject(this._cube);
             if (!isIntersected.length) return;
 

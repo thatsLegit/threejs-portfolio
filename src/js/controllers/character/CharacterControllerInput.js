@@ -2,8 +2,8 @@
 
 class CharacterControllerInput {
     constructor(keyboardType) {
-        this._keyboardType = keyboardType; 
-        this._Init();   
+        this._keyboardType = keyboardType;
+        this._Init();
     }
 
     _Init() {
@@ -14,7 +14,7 @@ class CharacterControllerInput {
             right: false,
             space: false,
             shift: false,
-            freeCamera: false
+            freeCamera: false,
         };
         this._forwardK = this._keyboardType == 'qwerty' ? 'w' : 'z';
         this._backwardK = 's';
@@ -52,28 +52,28 @@ class CharacterControllerInput {
         }
     }
     _onKeyUp(event) {
-        switch(event.key) {
+        switch (event.key) {
             case this._forwardK: // w or z
             case this._forwardK.toUpperCase(): // W or Z
-            this._keys.forward = false;
-            break;
+                this._keys.forward = false;
+                break;
             case this._leftK: // a or q
             case this._leftK.toUpperCase(): //A or Q
-            this._keys.left = false;
-            break;
+                this._keys.left = false;
+                break;
             case this._backwardK: // s
             case this._backwardK.toUpperCase(): //S
-            this._keys.backward = false;
-            break;
+                this._keys.backward = false;
+                break;
             case this._rightK: // d
             case this._rightK.toUpperCase(): // D
-            this._keys.right = false;
-            break;
+                this._keys.right = false;
+                break;
             case 'Shift': // SHIFT
-            this._keys.shift = false;
-            break;
+                this._keys.shift = false;
+                break;
         }
     }
-};
+}
 
 export default CharacterControllerInput;

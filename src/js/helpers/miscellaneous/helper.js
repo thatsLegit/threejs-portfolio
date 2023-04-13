@@ -7,9 +7,7 @@ export function dumpVec3(v3, precision = 3) {
 export function dumpObject(obj, lines = [], isLast = true, prefix = '') {
     const localPrefix = isLast ? '└─' : '├─';
     lines.push(`${prefix}${prefix ? localPrefix : ''}${obj.name || '*no-name*'} [${obj.type}]`);
-    const dataPrefix = obj.children.length
-        ? (isLast ? '  │ ' : '│ │ ')
-        : (isLast ? '    ' : '│   ');
+    const dataPrefix = obj.children.length ? (isLast ? '  │ ' : '│ │ ') : isLast ? '    ' : '│   ';
     lines.push(`${prefix}${dataPrefix}  pos: ${dumpVec3(obj.position)}`);
     lines.push(`${prefix}${dataPrefix}  rot: ${dumpVec3(obj.rotation)}`);
     lines.push(`${prefix}${dataPrefix}  scl: ${dumpVec3(obj.scale)}`);

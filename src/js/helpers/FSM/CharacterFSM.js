@@ -1,6 +1,5 @@
 import FiniteStateMachine from './FiniteStateMachine';
-import {IdleState, WalkState, WalkBackwardsState, RunState, FallingState} from './states';
-
+import { IdleState, WalkState, WalkBackwardsState, RunState, FallingState } from './states';
 
 class CharacterFSM extends FiniteStateMachine {
     constructor(proxy) {
@@ -16,6 +15,6 @@ class CharacterFSM extends FiniteStateMachine {
         this._AddState('run', RunState);
         this._AddState('falling', FallingState);
     }
-};
+}
 
 export default CharacterFSM;

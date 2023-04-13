@@ -7,6 +7,6 @@ class CharacterControllerProxy {
     get animations() {
         return this._animations;
     }
-};
+}
 
 export default CharacterControllerProxy;

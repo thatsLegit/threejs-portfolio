@@ -25,6 +25,6 @@ class FiniteStateMachine {
     Update(timeElapsed, input) {
         if (this._currentState) this._currentState.Update(timeElapsed, input);
     }
-};
+}
 
 export default FiniteStateMachine;

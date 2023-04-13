@@ -1,13 +1,12 @@
-import * as THREE from "three";
-import Stats from "stats.js";
-import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+import * as THREE from 'three';
+import Stats from 'stats.js';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
 import CharacterController from '../controllers/character/CharacterController';
 import ThirdPersonCamera from '../cameras/ThirdPersonCamera';
 import EnvController from '../controllers/environment/EnvController';
 import QuestController from '../controllers/quests/QuestController';
 import MagicCube from '../components/magicCube';
-
 
 const canvas = document.querySelector('#c');
 
@@ -27,17 +26,15 @@ class Game {
         this._threejs = new THREE.WebGLRenderer({
             canvas,
             stencil: false,
-            powerPreference: "high-performance",
+            powerPreference: 'high-performance',
             logarithmicDepthBuffer: true,
-            antialias: this._params.gInput == 'high' ? true : false
+            antialias: this._params.gInput == 'high' ? true : false,
         });
         this._threejs.outputEncoding = THREE.sRGBEncoding;
         this._threejs.shadowMap.enabled = true;
         this._threejs.shadowMap.type = THREE.PCFSoftShadowMap;
         this._threejs.setPixelRatio(
-            this._params.gInput == 'low'
-                ? window.devicePixelRatio / 1.5
-                : window.devicePixelRatio
+            this._params.gInput == 'low' ? window.devicePixelRatio / 1.5 : window.devicePixelRatio
         );
         this._threejs.setSize(canvas.clientWidth, canvas.clientHeight);
 
@@ -57,7 +54,7 @@ class Game {
             this._cameraControl.enabled = false;
         }
         {
-            let light = new THREE.DirectionalLight(0xFFFFFF, 1);
+            let light = new THREE.DirectionalLight(0xffffff, 1);
             light.position.set(600, 300, 300);
             light.target.position.set(0, 0, 0);
             light.castShadow = true;
@@ -73,8 +70,8 @@ class Game {
             this._scene.add(light.target);
         }
         {
-            const skyColor = 0xB1E1FF;  // light blue
-            const groundColor = 0xB97A20;  // brownish orange
+            const skyColor = 0xb1e1ff; // light blue
+            const groundColor = 0xb97a20; // brownish orange
             const intensity = 0.5;
             const light = new THREE.HemisphereLight(skyColor, groundColor, intensity);
             this._scene.add(light);
@@ -89,7 +86,8 @@ class Game {
             {
                 const plane = new THREE.Mesh(
                     new THREE.PlaneGeometry(740, 600),
-                    new THREE.MeshBasicMaterial({ color: 0x808080 }));
+                    new THREE.MeshBasicMaterial({ color: 0x808080 })
+                );
                 plane.rotation.x = -Math.PI / 2;
                 const box = new THREE.Box3().setFromObject(plane);
                 this._ground.push(box);
@@ -97,7 +95,8 @@ class Game {
             {
                 const plane = new THREE.Mesh(
                     new THREE.PlaneGeometry(115, 800),
-                    new THREE.MeshBasicMaterial({ color: 0x808080 }));
+                    new THREE.MeshBasicMaterial({ color: 0x808080 })
+                );
                 plane.rotation.x = -Math.PI / 2;
                 plane.position.set(30, 3, 800);
                 const box = new THREE.Box3().setFromObject(plane);
@@ -106,7 +105,8 @@ class Game {
             {
                 const plane = new THREE.Mesh(
                     new THREE.PlaneGeometry(120, 375),
-                    new THREE.MeshBasicMaterial({ color: 0x808080 }));
+                    new THREE.MeshBasicMaterial({ color: 0x808080 })
+                );
                 plane.rotation.x = -Math.PI / 2;
                 plane.position.set(40, 3, -500);
                 const box = new THREE.Box3().setFromObject(plane);
@@ -152,25 +152,32 @@ class Game {
             position: new THREE.Vector3(40, 60, -720),
             scene: this._scene,
             camera: this._camera,
-            textures: this._customLoader._magicCubeTexture
+            textures: this._customLoader._magicCubeTexture,
         });
 
         this._magicCube._mysteryCube.visible = false;
 
         //pressing space should make the cube appear/flip sides
-        let OnKeyDown = e => {
-            if (this._environment._treasure.position.distanceToSquared(this._controls.Position) < 3000) {
-
+        let OnKeyDown = (e) => {
+            if (
+                this._environment._treasure.position.distanceToSquared(this._controls.Position) <
+                3000
+            ) {
                 this._magicCube._mysteryCube.visible = true;
 
                 document.removeEventListener('keyup', OnKeyDown); //so it's not possible de invoke multiple cubes
 
-                let nextOnKeyDown = e => {
-                    if (e.key == ' ' && this._environment._treasure.position.distanceToSquared(this._controls.Position) < 3000) {
+                let nextOnKeyDown = (e) => {
+                    if (
+                        e.key == ' ' &&
+                        this._environment._treasure.position.distanceToSquared(
+                            this._controls.Position
+                        ) < 3000
+                    ) {
                         this._magicCube._transiting = true;
                         document.removeEventListener('keydown', nextOnKeyDown);
                     }
-                }
+                };
 
                 nextOnKeyDown = nextOnKeyDown.bind(this);
                 document.addEventListener('keydown', nextOnKeyDown);
@@ -195,12 +202,12 @@ class Game {
             scene: this._scene,
             cameraControl: this._cameraControl,
             customLoader: this._customLoader,
-            ground: this._ground
+            ground: this._ground,
         });
 
         this._thirdPersonCamera = new ThirdPersonCamera({
             camera: this._camera,
-            target: this._controls
+            target: this._controls,
         });
     }
     _InitEnv() {
@@ -214,7 +221,7 @@ class Game {
         this._quests = new QuestController({
             environment: this._environment,
             character: this._controls,
-            magicCube: this._magicCube
+            magicCube: this._magicCube,
         });
     }
     _OnWindowResize() {
@@ -224,7 +231,8 @@ class Game {
     }
     _RAF() {
         requestAnimationFrame((t) => {
-            stats.begin(); stats.end();
+            stats.begin();
+            stats.end();
 
             this._Step(t - (this._previousRAF || 0));
 
@@ -243,7 +251,7 @@ class Game {
         if (!this._cameraControl.enabled) this._thirdPersonCamera.Update(timeElapsedS);
         //update the treasure animation (optional)
         // if(!this._environment._treasureOpened) this._environment._Update(timeElapsedS);
-        //update the magicCube rotation if the treasure chest is opened 
+        //update the magicCube rotation if the treasure chest is opened
         if (this?._magicCube?._transiting) this._magicCube._Transition(timeElapsedS);
         if (this?._magicCube?._opened) this._magicCube._Update(timeElapsedS);
     }

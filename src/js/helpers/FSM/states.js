@@ -1,6 +1,5 @@
 import State from './State';
 
-
 export class WalkState extends State {
     constructor(parent) {
         super(parent);
@@ -9,7 +8,7 @@ export class WalkState extends State {
     get Name() {
         return 'walk';
     }
-  
+
     Enter(prevState) {
         const curAction = this._parent._proxy._animations['walk'].action;
         if (prevState) {
@@ -31,9 +30,9 @@ export class WalkState extends State {
             curAction.play();
         }
     }
-  
+
     Exit() {}
-  
+
     Update(timeElapsed, input) {
         if (input._keys.forward) {
             if (input._keys.shift) this._parent.SetState('run');
@@ -41,7 +40,7 @@ export class WalkState extends State {
         }
         this._parent.SetState('idle');
     }
-};
+}
 
 export class WalkBackwardsState extends State {
     constructor(parent) {
@@ -82,7 +81,7 @@ export class WalkBackwardsState extends State {
         else if (input._keys.backward) return;
         else this._parent.SetState('idle');
     }
-};
+}
 
 export class RunState extends State {
     constructor(parent) {
@@ -120,12 +119,12 @@ export class RunState extends State {
 
     Update(timeElapsed, input) {
         if (input._keys.forward) {
-            if(!input._keys.shift) this._parent.SetState('walk');
+            if (!input._keys.shift) this._parent.SetState('walk');
             return;
         }
         this._parent.SetState('idle');
     }
-};
+}
 
 export class IdleState extends State {
     constructor(parent) {
@@ -155,11 +154,20 @@ export class IdleState extends State {
     Exit() {}
 
     Update(_, input) {
-        if (input._keys.forward) {this._parent.SetState('walk');return;}
-        if (input._keys.space) {this._parent.SetState('openingALid');return;} //only dealing with opening for now
-        if (input._keys.backward) {this._parent.SetState('walkingBackwards');return;}
+        if (input._keys.forward) {
+            this._parent.SetState('walk');
+            return;
+        }
+        if (input._keys.space) {
+            this._parent.SetState('openingALid');
+            return;
+        } //only dealing with opening for now
+        if (input._keys.backward) {
+            this._parent.SetState('walkingBackwards');
+            return;
+        }
     }
-};
+}
 
 //dead end state, no key press can update it, it can only be set back to idle on game restart
 export class FallingState extends State {
@@ -190,4 +198,4 @@ export class FallingState extends State {
     Exit() {}
 
     Update(_, input) {}
-};
+}
