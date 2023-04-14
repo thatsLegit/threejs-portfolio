@@ -26,5 +26,11 @@
     </div>
 
     <iframe width="750" height="550" src="https://thatsLegit.github.io/resume/cv_english.png">
+    
+    <script>
+        document.addEventListener('keydown', e => {
+            if (e.key.toString() === 'Escape') parent.closeIFrame('cv');
+        });
+    </script>
 </body>
 </html>

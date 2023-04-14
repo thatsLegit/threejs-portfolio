@@ -96,7 +96,7 @@ class MagicCube {
         this._params.scene.add(this._mysteryCube);
     }
 
-    _OpenBox(timeElapsed) {
+    _Expand(timeElapsed) {
         const [plane1, plane2, plane3, plane4, plane5, plane6] = this._containerComponents;
 
         plane1.position.z += timeElapsed;
@@ -118,7 +118,7 @@ class MagicCube {
         this._distance += timeElapsed;
     }
 
-    _FlipBoxSides(timeElapsed) {
+    _FlipSides(timeElapsed) {
         const [plane1, plane2, plane3, plane4, plane5, plane6] = this._containerComponents;
 
         let rotation = this._rotator >= timeElapsed ? timeElapsed : this._rotator;
@@ -135,7 +135,7 @@ class MagicCube {
         if (this._rotator < 0) this._direction = 'shrink';
     }
 
-    _ShrinkBox(timeElapsed) {
+    _Shrink(timeElapsed) {
         const [plane1, plane2, plane3, plane4, plane5, plane6] = this._containerComponents;
 
         plane1.position.z -= timeElapsed;
@@ -164,10 +164,10 @@ class MagicCube {
 
     _Transition(timeElapsed) {
         if (this._direction == 'expand' && this._distance < 1)
-            this._OpenBox(1.0 - Math.pow(0.001, timeElapsed / 2));
+            this._Expand(1.0 - Math.pow(0.001, timeElapsed / 2));
         if (this._distance >= 1 && this._direction == 'expand')
-            this._FlipBoxSides(1.0 - Math.pow(0.001, timeElapsed / 2));
-        if (this._direction == 'shrink') this._ShrinkBox(1.0 - Math.pow(0.001, timeElapsed / 2));
+            this._FlipSides(1.0 - Math.pow(0.001, timeElapsed / 2));
+        if (this._direction == 'shrink') this._Shrink(1.0 - Math.pow(0.001, timeElapsed / 2));
     }
 
     _CreateCube() {
@@ -188,8 +188,8 @@ class MagicCube {
 
         // select a face of the cube
         document.addEventListener('dblclick', (e) => OnDoubleClick.call(this, e));
+
         function OnDoubleClick(e) {
-            //checking which face is clicked on
             raycaster.setFromCamera(mouse, this._params.camera);
             const isIntersected = raycaster.intersectObject(this._cube);
 
@@ -197,15 +197,7 @@ class MagicCube {
 
             const index = isIntersected[0].face.materialIndex;
 
-            openIframe.call(this, this._faces[index]);
-
-            function openIframe(name) {
-                closeFullscreen(); // canvas go out of full screen to see iframe if needed
-                this?._selected && (iframes[this._selected].style.display = 'none');
-                iframes[name].style.display = 'block';
-                this._selected = name;
-                this._visited.add(name);
-            }
+            this._OpenIframe(this._faces[index]);
         }
 
         //updating mouse raycaster vector
@@ -251,6 +243,7 @@ class MagicCube {
         }
     }
 
+    // Mainly for dealing with the rotation
     _Update(timeElapsed) {
         this._xAxis.set(0, 1, 0);
         this._yAxis.set(1, 0, 0);
@@ -259,6 +252,14 @@ class MagicCube {
 
         this._targetRotationY = this._targetRotationY * (1 - Math.pow(0.001, timeElapsed / 2));
         this._targetRotationX = this._targetRotationX * (1 - Math.pow(0.001, timeElapsed / 2));
+    }
+
+    _OpenIframe(name) {
+        closeFullscreen(); // canvas go out of full screen to see iframe if needed
+        this?._selected && (iframes[this._selected].style.display = 'none');
+        iframes[name].style.display = 'block';
+        this._selected = name;
+        this._visited.add(name);
     }
 
     //targetRotation is approximated to radians

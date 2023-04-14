@@ -1,8 +1,9 @@
 /* general */
-html, body {
-    height: 100%;
-    margin: 0;
-    background-color: burlywood;
+html,
+body {
+  height: 100%;
+  margin: 0;
+  background-color: burlywood;
 }
 
 /* canvas */
@@ -30,7 +31,7 @@ html, body {
 }
 
 /* overlay */
-.overlay{
+.overlay {
   position: absolute; /* Sit on top of the page content */
   display: none;
   width: 100%; /* Full width (cover the whole page) */
@@ -47,7 +48,7 @@ html, body {
   margin: auto;
   width: 20%;
   height: 10%;
-  top: 40%
+  top: 40%;
 }
 #try-again-text {
   color: rgb(235, 16, 16);
@@ -70,7 +71,7 @@ html, body {
 .default-text {
   position: relative;
   font-size: 1.5em;
-  font-family:'Times New Roman', Times, serif;
+  font-family: 'Times New Roman', Times, serif;
   font-weight: bold;
   color: white;
   text-shadow: 2px 2px 5px black;
@@ -86,7 +87,7 @@ html, body {
   font-size: 1em;
   box-shadow: 1px 1px 2px black;
   border-radius: 5px;
-  border: 0.5px solid black ;
+  border: 0.5px solid black;
 }
 .white-button-text {
   text-align: center;
@@ -95,25 +96,27 @@ html, body {
   text-shadow: 0.05px 0.05px 0.25px black;
 }
 .flex-column-space {
-  display: flex; 
-  flex-direction: column; 
+  display: flex;
+  flex-direction: column;
   justify-content: space-between;
 }
 .flex-row-space {
-  display: flex; 
-  flex-direction: row; 
+  display: flex;
+  flex-direction: row;
   justify-content: space-between;
 }
 .flex-row-start {
-  display: flex; 
-  flex-direction: row; 
+  display: flex;
+  flex-direction: row;
   justify-content: start;
 }
 .rectangle {
-  width: 3em; height: 1.5em;
+  width: 3em;
+  height: 1.5em;
 }
 .square {
-  width: 1.5em; height: 1.5em;
+  width: 1.5em;
+  height: 1.5em;
 }
 #quests-container {
   display: none;
@@ -146,29 +149,28 @@ html, body {
 }
 .validate {
   margin-top: 10px;
-	background:linear-gradient(to bottom, #ffec64 5%, #ffab23 100%);
-	background-color:#ffec64;
-	border:1px solid #ffaa22;
-	display:inline-block;
-	cursor:pointer;
-	color:#333333;
-	font-family:Arial;
-	font-size:15px;
-	font-weight:bold;
-	padding:10px 20px;
-	text-decoration:none;
-	text-shadow:0px 0px 0px #ffee66;
+  background: linear-gradient(to bottom, #ffec64 5%, #ffab23 100%);
+  background-color: #ffec64;
+  border: 1px solid #ffaa22;
+  display: inline-block;
+  cursor: pointer;
+  color: #333333;
+  font-family: Arial;
+  font-size: 15px;
+  font-weight: bold;
+  padding: 10px 20px;
+  text-decoration: none;
+  text-shadow: 0px 0px 0px #ffee66;
 }
 .validate:hover {
-	background:linear-gradient(to bottom, #ffab23 5%, #ffec64 100%);
-	background-color:#ffab23;
+  background: linear-gradient(to bottom, #ffab23 5%, #ffec64 100%);
+  background-color: #ffab23;
 }
 .validate:active {
-	position:relative;
-	top:1px;
+  position: relative;
+  top: 1px;
 }
 
-  
 /* loading textures progress bar */
 #loading {
   position: fixed;
@@ -195,7 +197,7 @@ html, body {
 }
 #loading .progressTitle {
   text-align: center;
-  font-weight: bold; 
+  font-weight: bold;
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 #loading .loading-legend {
@@ -226,24 +228,25 @@ html, body {
   margin-bottom: 1rem;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
-#graphics > p, #keyboard > p {
+#graphics > p,
+#keyboard > p {
   font-weight: bold;
 }
 
 /* magicCube indications */
-.caption {
+.alert {
   display: none;
   position: absolute;
   width: 100%;
   height: 25%;
 }
-#caption-text {
+#alert-text {
   position: relative;
   text-align: center;
   width: 100%;
   height: 100%;
   top: 10%;
-  color:rgba(255,255,255);
+  color: rgba(255, 255, 255);
   font-size: 2rem;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
@@ -251,8 +254,8 @@ html, body {
 /* iframes */
 .iframe-general {
   display: none;
-  position: absolute; 
-  top: 10%; 
+  position: absolute;
+  top: 10%;
   left: 30%;
   z-index: 3;
   box-shadow: 2px 2px 5px;

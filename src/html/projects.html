@@ -356,5 +356,11 @@
         x[slideIndex[no] - 1].style.display = 'block';
       }
     </script>
+
+    <script>
+      document.addEventListener('keydown', e => {
+        if (e.key.toString() === 'Escape') parent.closeIFrame('projects');
+      });
+    </script>
   </body>
 </html>

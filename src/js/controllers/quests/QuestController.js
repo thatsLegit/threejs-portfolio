@@ -15,15 +15,15 @@ const proQuest = document
     .querySelector('div')
     .querySelector('svg');
 
-const caption = document.querySelector('#caption');
-caption.style.display = 'none';
-const captionText = document.querySelector('#caption-text');
+const alert = document.querySelector('#alert');
+alert.style.display = 'none';
+const alertText = document.querySelector('#alert-text');
 
 class QuestController {
     constructor(params) {
         this._params = params; //env, character
         this._quests = {};
-        this._captionOpacity = 0;
+        this._alertOpacity = 0;
         this._Init();
     }
     _Init() {
@@ -39,19 +39,19 @@ class QuestController {
                 );
             },
             effect(t, questName) {
-                captionText.style.color =
-                    'rgba(255,255,255,' + 0.5 * (1 + Math.cos(this._captionOpacity));
-                if (this._captionOpacity == 0) {
-                    caption.style.display = 'block';
-                    captionText.textContent = 'Press Spacebar to use the cube.';
+                alertText.style.color =
+                    'rgba(255,255,255,' + 0.5 * (1 + Math.cos(this._alertOpacity));
+                if (this._alertOpacity == 0) {
+                    alert.style.display = 'block';
+                    alertText.textContent = 'Press Spacebar to use the cube.';
                     setTimeout(cleanup.bind(this), 7000);
                 }
                 function cleanup() {
-                    caption.style.display = 'none';
-                    this._captionOpacity = 0;
+                    alert.style.display = 'none';
+                    this._alertOpacity = 0;
                     this._Complete.call(this, questName);
                 }
-                this._captionOpacity = t / 400; //frame-rate independant
+                this._alertOpacity = t / 400; //frame-rate independant
             },
         });
         this._AddQuest({
@@ -62,18 +62,18 @@ class QuestController {
                 return this._params.magicCube?._opened;
             },
             effect(t, questName) {
-                captionText.style.color =
-                    'rgba(255,255,255,' + 0.5 * (1 + Math.cos(this._captionOpacity));
-                if (this._captionOpacity == 0) {
-                    caption.style.display = 'block';
-                    captionText.textContent = 'Double click on the faces of the cube to display';
+                alertText.style.color =
+                    'rgba(255,255,255,' + 0.5 * (1 + Math.cos(this._alertOpacity));
+                if (this._alertOpacity == 0) {
+                    alert.style.display = 'block';
+                    alertText.textContent = 'Double click on the faces of the cube to display';
                     setTimeout(cleanup.bind(this), 7000);
                 }
                 function cleanup() {
-                    caption.style.display = 'none';
+                    alert.style.display = 'none';
                     this._Complete.call(this, questName);
                 }
-                this._captionOpacity = t / 400; //frame-rate independant
+                this._alertOpacity = t / 400; //frame-rate independant
             },
         });
         this._AddQuest({
