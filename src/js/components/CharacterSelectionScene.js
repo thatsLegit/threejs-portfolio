@@ -1,24 +1,37 @@
 import * as THREE from 'three';
 
-const chSelectCanvas = document.querySelector('#character-selection-canvas');
-const validate = document.querySelector('#character-selection-validate');
+const CHARACTER_SELECTION = document.querySelector('#character-selection');
+const CHARACTER_SELECTION_C = document.querySelector('#character-selection-canvas');
+const CHARACTER_SELECTION_SUBMIT_BUTTON = document.querySelector('#character-selection-validate');
 
 class CharacterSelection {
-    constructor(customLoader) {
-        this._customLoader = customLoader;
-        this._Init();
+    constructor(assetLoader) {
+        this._assetLoader = assetLoader;
+        this._models = assetLoader.characterModels;
+        this.selection = null;
+        // binding these methods is required as they are passed as callbacks
+        this._setPickPosition = this._setPickPosition.bind(this);
+        this._clearPickPosition = this._clearPickPosition.bind(this);
+        this._getCanvasRelativePosition = this._getCanvasRelativePosition.bind(this);
+        this._animate = this._animate.bind(this);
+        this._onWindowResize = this._onWindowResize.bind(this);
     }
 
-    _Init() {
-        this._threejs = new THREE.WebGLRenderer({ canvas: chSelectCanvas });
-        this._threejs.setSize(chSelectCanvas.clientWidth, chSelectCanvas.clientHeight);
+    launchScene() {
+        CHARACTER_SELECTION.style.display = 'flex';
+
+        this._threejs = new THREE.WebGLRenderer({ canvas: CHARACTER_SELECTION_C });
+        this._threejs.setSize(
+            CHARACTER_SELECTION_C.clientWidth,
+            CHARACTER_SELECTION_C.clientHeight
+        );
 
         this._scene = new THREE.Scene();
         this._scene.background = new THREE.Color('burlywood');
 
         {
             const fov = 45;
-            const aspect = chSelectCanvas.clientWidth / chSelectCanvas.clientHeight; // the canvas default
+            const aspect = CHARACTER_SELECTION_C.clientWidth / CHARACTER_SELECTION_C.clientHeight; // the canvas default
             const near = 1;
             const far = 100;
             this._camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
@@ -42,13 +55,11 @@ class CharacterSelection {
             this._scene.add(this._light.target);
         }
 
-        this._selection = null;
-        const models = this._customLoader._characterModel;
+        let x_offset = 0;
 
-        let idx = 0;
-        for (let modelName in models) {
-            let model = models[modelName].fbx;
-            const specularMap = models[modelName].specularMap;
+        for (let modelName in this._models) {
+            let model = this._models[modelName].fbx;
+            const specularMap = this._models[modelName].specularMap;
 
             model.name = modelName;
             model.scale.setScalar(0.1);
@@ -61,78 +72,80 @@ class CharacterSelection {
                 }
             });
 
-            model.position.set(idx * 25, 12, 0);
+            model.position.set(x_offset * 25, 12, 0);
             this._scene.add(model);
-            idx++;
+            x_offset++;
         }
 
-        let raycaster = new THREE.Raycaster();
-        let mouse = new THREE.Vector2();
-        clearPickPosition();
+        this._raycaster = new THREE.Raycaster();
+        this._mouse = new THREE.Vector2();
 
-        function getCanvasRelativePosition(event) {
-            const rect = chSelectCanvas.getBoundingClientRect();
-            return {
-                x: ((event.clientX - rect.left) * chSelectCanvas.width) / rect.width,
-                y: ((event.clientY - rect.top) * chSelectCanvas.height) / rect.height,
-            };
-        }
+        this._clearPickPosition();
 
-        function setPickPosition(event) {
-            const pos = getCanvasRelativePosition(event);
-            mouse.x = (pos.x / chSelectCanvas.width) * 2 - 1;
-            mouse.y = (pos.y / chSelectCanvas.height) * -2 + 1;
-        }
+        window.addEventListener('mousemove', this._setPickPosition);
+        window.addEventListener('mouseout', this._clearPickPosition);
+        window.addEventListener('mouseleave', this._clearPickPosition);
 
-        function clearPickPosition() {
-            mouse.x = -100000;
-            mouse.y = -100000;
-        }
+        CHARACTER_SELECTION_C.addEventListener('click', () => {
+            this._raycaster.setFromCamera(this._mouse, this._camera);
 
-        window.addEventListener('mousemove', setPickPosition);
-        window.addEventListener('mouseout', clearPickPosition);
-        window.addEventListener('mouseleave', clearPickPosition);
+            const targets = Object.values(this._models).reduce(
+                (acc, model) => [...acc, ...model.fbx.children],
+                []
+            );
+            const isIntersected = this._raycaster.intersectObjects(targets);
 
-        chSelectCanvas.addEventListener('click', (e) => {
-            raycaster.setFromCamera(mouse, this._camera);
-            const targets = [];
-
-            Object.values(models).forEach((model) => {
-                targets.push(...model.fbx.children);
-            });
-
-            let isIntersected = raycaster.intersectObjects(targets);
             if (isIntersected.length) {
-                this._selection = isIntersected[0].object.parent.name;
+                this.selection = isIntersected[0].object.parent.name;
                 const direction = isIntersected[0].object.parent.position; //vector3
                 this._light.target.position.copy(direction);
                 this._light.intensity = 2;
-                validate.style.boxShadow = '-1px 1px 10px 7px #fff6af';
+                CHARACTER_SELECTION_SUBMIT_BUTTON.style.boxShadow = '-1px 1px 10px 7px #fff6af';
             }
         });
 
-        validate.addEventListener('click', () => {
-            if (!this._selection) {
-                window.alert('Please select a character !');
-                return;
-            }
-            validate.remove();
-            this._scene.remove();
-            this._customLoader._LoadCharacterAnimations(this._selection); //continue the loading process
-        });
+        window.addEventListener('resize', this._onWindowResize);
 
-        requestAnimationFrame(animate.bind(this));
-
-        function animate(time) {
-            this._threejs.render(this._scene, this._camera);
-            requestAnimationFrame(animate.bind(this));
-        }
+        requestAnimationFrame(this._animate);
     }
 
-    _OnWindowResize() {
-        this._camera.aspect = chSelectCanvas.clientWidth / chSelectCanvas.clientHeight;
+    _getCanvasRelativePosition(event) {
+        const rect = CHARACTER_SELECTION_C.getBoundingClientRect();
+        return {
+            x: ((event.clientX - rect.left) * CHARACTER_SELECTION_C.width) / rect.width,
+            y: ((event.clientY - rect.top) * CHARACTER_SELECTION_C.height) / rect.height,
+        };
+    }
+
+    _setPickPosition(event) {
+        const pos = this._getCanvasRelativePosition(event);
+        this._mouse.x = (pos.x / CHARACTER_SELECTION_C.width) * 2 - 1;
+        this._mouse.y = (pos.y / CHARACTER_SELECTION_C.height) * -2 + 1;
+    }
+
+    _clearPickPosition() {
+        this._mouse.x = -100000;
+        this._mouse.y = -100000;
+    }
+
+    removeScene() {
+        CHARACTER_SELECTION.remove();
+        window.removeEventListener('resize', this._onWindowResize);
+    }
+
+    _animate() {
+        this._threejs.render(this._scene, this._camera);
+        requestAnimationFrame(this._animate);
+    }
+
+    _onWindowResize() {
+        this._camera.aspect =
+            CHARACTER_SELECTION_C.clientWidth / CHARACTER_SELECTION_C.clientHeight;
         this._camera.updateProjectionMatrix();
-        this._threejs.setSize(chSelectCanvas.clientWidth, chSelectCanvas.clientHeight);
+        this._threejs.setSize(
+            CHARACTER_SELECTION_C.clientWidth,
+            CHARACTER_SELECTION_C.clientHeight
+        );
     }
 }
 

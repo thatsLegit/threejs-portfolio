@@ -188,7 +188,7 @@ body {
   border: 1px solid black;
   width: 50%;
 }
-#loading .progressbar {
+#loading .progressBar {
   margin: 2px;
   background: blue;
   height: 1em;
@@ -207,8 +207,8 @@ body {
   width: 50%;
 }
 
-/* Parameters screen */
-#parameters-container {
+/* Settings screen */
+#settings-container {
   position: fixed;
   top: 0;
   left: 0;
@@ -219,7 +219,7 @@ body {
   justify-content: center;
   align-items: center;
 }
-#parameters {
+#settings {
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;

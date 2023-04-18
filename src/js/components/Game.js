@@ -8,7 +8,9 @@ import EnvController from '../controllers/environment/EnvController';
 import QuestController from '../controllers/quests/QuestController';
 import MagicCube from '../components/magicCube';
 
-const canvas = document.querySelector('#c');
+const CANVAS = document.querySelector('#c');
+const CONTROLS_ELEMENT = document.querySelector('#controls-container');
+const QUESTS_ELEMENT = document.querySelector('#quests-container');
 
 const stats = new Stats();
 stats.showPanel(0);
@@ -19,35 +21,39 @@ class Game {
         this._customLoader = customLoader;
         this._params = params;
         this._ground = [];
-        this._Initialize();
+        window.addEventListener('resize', this._OnWindowResize.bind(this));
     }
 
-    _Initialize() {
+    launchScene() {
+        CONTROLS_ELEMENT.style.display = 'block';
+        QUESTS_ELEMENT.style.display = 'block';
+        CANVAS.style.display = 'block';
+
         this._threejs = new THREE.WebGLRenderer({
-            canvas,
+            canvas: CANVAS,
             stencil: false,
             powerPreference: 'high-performance',
             logarithmicDepthBuffer: true,
-            antialias: this._params.gInput == 'high' ? true : false,
+            antialias: this._params.graphics == 'high' ? true : false,
         });
         this._threejs.outputEncoding = THREE.sRGBEncoding;
         this._threejs.shadowMap.enabled = true;
         this._threejs.shadowMap.type = THREE.PCFSoftShadowMap;
         this._threejs.setPixelRatio(
-            this._params.gInput == 'low' ? window.devicePixelRatio / 1.5 : window.devicePixelRatio
+            this._params.graphics == 'low' ? window.devicePixelRatio / 1.5 : window.devicePixelRatio
         );
-        this._threejs.setSize(canvas.clientWidth, canvas.clientHeight);
+        this._threejs.setSize(CANVAS.clientWidth, CANVAS.clientHeight);
 
         this._scene = new THREE.Scene();
 
         {
             const fov = 60;
-            const aspect = canvas.clientWidth / canvas.clientHeight;
+            const aspect = CANVAS.clientWidth / CANVAS.clientHeight;
             const near = 1;
             const far = 2500;
             this._camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
 
-            this._cameraControl = new OrbitControls(this._camera, canvas);
+            this._cameraControl = new OrbitControls(this._camera, CANVAS);
             this._cameraControl.minDistance = 10;
             this._cameraControl.maxDistance = 500;
             this._cameraControl.update();
@@ -58,8 +64,8 @@ class Game {
             light.position.set(600, 300, 300);
             light.target.position.set(0, 0, 0);
             light.castShadow = true;
-            light.shadow.mapSize.width = this._params.gInput == 'high' ? 2048 : 1024;
-            light.shadow.mapSize.height = this._params.gInput == 'high' ? 2048 : 1024;
+            light.shadow.mapSize.width = this._params.graphics == 'high' ? 2048 : 1024;
+            light.shadow.mapSize.height = this._params.graphics == 'high' ? 2048 : 1024;
             light.shadow.camera.far = 1200;
             light.shadow.camera.near = 100;
             light.shadow.camera.left = 750;
@@ -197,7 +203,7 @@ class Game {
     _InitCharacter() {
         this._controls = new CharacterController({
             charName: this._params.charName,
-            keyboardType: this._params.kInput,
+            keyboardType: this._params.keyboard,
             camera: this._camera,
             scene: this._scene,
             cameraControl: this._cameraControl,
@@ -210,6 +216,7 @@ class Game {
             target: this._controls,
         });
     }
+
     _InitEnv() {
         this._environment = new EnvController({
             scene: this._scene,
@@ -217,6 +224,7 @@ class Game {
             character: this._controls,
         });
     }
+
     _InitQuest() {
         this._quests = new QuestController({
             environment: this._environment,
@@ -224,11 +232,13 @@ class Game {
             magicCube: this._magicCube,
         });
     }
+
     _OnWindowResize() {
         this._camera.aspect = window.innerWidth / window.innerHeight;
         this._camera.updateProjectionMatrix();
         this._threejs.setSize(window.innerWidth, window.innerHeight);
     }
+
     _RAF() {
         requestAnimationFrame((t) => {
             stats.begin();
@@ -243,6 +253,7 @@ class Game {
             this._RAF();
         });
     }
+
     _Step(timeElapsed) {
         const timeElapsedS = timeElapsed * 0.001;
         //update character position/orientation/animation
