@@ -15,7 +15,7 @@ class EnvController {
     }
 
     _Init() {
-        const statics = this._params.customLoader._envModels.static;
+        const statics = this._params.assets.envModels.static;
         for (let modelName in statics) {
             switch (modelName) {
                 case 'platform':
@@ -99,7 +99,7 @@ class EnvController {
             }
         }
 
-        const animated = this._params.customLoader._envModels.animated;
+        const animated = this._params.assets.envModels.animated;
         for (let modelName in animated) {
             switch (modelName) {
                 case 'treasureChest':
@@ -140,7 +140,7 @@ class EnvController {
         const root = new THREE.Object3D();
         root.add(clonedScene);
 
-        this._treasure = root;
+        this.treasure = root;
         this._params.scene.add(root);
 
         root.traverse((obj) => {

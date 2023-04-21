@@ -33,9 +33,9 @@ class QuestController {
             elem: treasureQuest,
             condition() {
                 return (
-                    this._params.environment._treasure.position.distanceToSquared(
-                        this._params.character.Position
-                    ) < 3000
+                    this._params.environment.treasure.position.distanceToSquared(
+                        this._params.character.position
+                    ) <= 3000
                 );
             },
             effect(t, questName) {
@@ -59,7 +59,7 @@ class QuestController {
             text: 'Open the mystery box',
             elem: mysteryBoxQuest,
             condition() {
-                return this._params.magicCube?._opened;
+                return this._params.magicCube.isOpened;
             },
             effect(t, questName) {
                 alertText.style.color =

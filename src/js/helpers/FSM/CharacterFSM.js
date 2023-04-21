@@ -4,16 +4,16 @@ import { IdleState, WalkState, WalkBackwardsState, RunState, FallingState } from
 class CharacterFSM extends FiniteStateMachine {
     constructor(proxy) {
         super();
-        this._proxy = proxy;
-        this._Init();
+        this.proxy = proxy;
+        this._init();
     }
 
-    _Init() {
-        this._AddState('idle', IdleState);
-        this._AddState('walk', WalkState);
-        this._AddState('walkingBackwards', WalkBackwardsState);
-        this._AddState('run', RunState);
-        this._AddState('falling', FallingState);
+    _init() {
+        this._addState('idle', IdleState);
+        this._addState('walk', WalkState);
+        this._addState('walkingBackwards', WalkBackwardsState);
+        this._addState('run', RunState);
+        this._addState('falling', FallingState);
     }
 }
 

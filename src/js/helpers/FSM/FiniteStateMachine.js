@@ -1,29 +1,29 @@
 class FiniteStateMachine {
     constructor() {
         this._states = {};
-        this._currentState = null;
+        this.currentState = null;
     }
 
-    _AddState(name, type) {
+    _addState(name, type) {
         this._states[name] = type;
     }
 
-    SetState(name) {
-        const prevState = this._currentState;
+    setState(name) {
+        const prevState = this.currentState;
 
         if (prevState) {
-            if (prevState.Name == name) return;
-            prevState.Exit();
+            if (prevState.name == name) return;
+            prevState.exit();
         }
 
         const state = new this._states[name](this);
 
-        this._currentState = state;
-        state.Enter(prevState);
+        this.currentState = state;
+        state.enter(prevState);
     }
 
-    Update(timeElapsed, input) {
-        if (this._currentState) this._currentState.Update(timeElapsed, input);
+    update(timeElapsed, input) {
+        if (this.currentState) this.currentState.update(timeElapsed, input);
     }
 }
 

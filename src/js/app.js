@@ -1,5 +1,5 @@
 import CharacterSelection from 'components/CharacterSelectionScene';
-import CustomAssetsLoader from './CustomAssetsLoader';
+import CustomAssetLoader from './helpers/miscellaneous/CustomAssetLoader';
 import Game from 'components/Game';
 
 const LOADING_ELEMENT = document.querySelector('#loading');
@@ -20,7 +20,7 @@ const AZERTY_CONTROLS = ['D', 'Q', 'Z', 'S'];
 const QWERTY_CONTROLS = ['D', 'A', 'W', 'S'];
 let CHAR_NAME = '';
 
-const assetLoader = new CustomAssetsLoader();
+const assetLoader = new CustomAssetLoader();
 
 LOADING_ELEMENT.style.display = 'flex';
 
@@ -79,10 +79,6 @@ assetLoader
 
             SETTINGS.remove();
 
-            new Game(assetLoader, {
-                charName: CHAR_NAME,
-                graphics: graphics_input,
-                keyboard: keyboard_input,
-            }).launchScene();
+            new Game(assetLoader, CHAR_NAME, graphics_input, keyboard_input).launchScene();
         });
     });

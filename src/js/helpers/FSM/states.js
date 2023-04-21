@@ -1,201 +1,170 @@
 import State from './State';
 
 export class WalkState extends State {
-    constructor(parent) {
-        super(parent);
+    constructor(fsm) {
+        super(fsm);
     }
 
-    get Name() {
+    get name() {
         return 'walk';
     }
 
-    Enter(prevState) {
-        const curAction = this._parent._proxy._animations['walk'].action;
-        if (prevState) {
-            const prevAction = this._parent._proxy._animations[prevState.Name].action;
-            curAction.enabled = true;
+    enter(prevState) {
+        const currentAction = this._fsm.proxy.animations['walk'].action;
 
-            if (prevState.Name == 'run' || prevState.Name == 'walkingBackwards') {
-                const ratio = curAction.getClip().duration / prevAction.getClip().duration;
-                curAction.time = prevAction.time * ratio;
-            } else {
-                curAction.time = 0.0;
-                curAction.setEffectiveTimeScale(1.0);
-                curAction.setEffectiveWeight(1.0);
-            }
+        if (!prevState) return currentAction.play();
 
-            curAction.crossFadeFrom(prevAction, 0.5, true);
-            curAction.play();
+        const prevAction = this._fsm.proxy.animations[prevState.name].action;
+        currentAction.enabled = true;
+
+        if (prevState.name == 'run' || prevState.name == 'walkingBackwards') {
+            const ratio = currentAction.getClip().duration / prevAction.getClip().duration;
+            currentAction.time = prevAction.time * ratio;
         } else {
-            curAction.play();
+            currentAction.time = 0.0;
+            currentAction.setEffectiveTimeScale(1.0);
+            currentAction.setEffectiveWeight(1.0);
         }
+
+        currentAction.crossFadeFrom(prevAction, 0.5, true);
+        currentAction.play();
     }
 
-    Exit() {}
-
-    Update(timeElapsed, input) {
-        if (input._keys.forward) {
-            if (input._keys.shift) this._parent.SetState('run');
-            return;
+    update(timeElapsed, input) {
+        if (input.keys.forward) {
+            if (input.keys.shift) this._fsm.setState('run');
+        } else {
+            this._fsm.setState('idle');
         }
-        this._parent.SetState('idle');
     }
 }
 
 export class WalkBackwardsState extends State {
-    constructor(parent) {
-        super(parent);
+    constructor(fsm) {
+        super(fsm);
     }
 
-    get Name() {
+    get name() {
         return 'walkingBackwards';
     }
 
-    Enter(prevState) {
-        const curAction = this._parent._proxy._animations['walkingBackwards'].action;
+    enter(prevState) {
+        const currentAction = this._fsm.proxy.animations['walkingBackwards'].action;
 
-        if (prevState) {
-            const prevAction = this._parent._proxy._animations[prevState.Name].action;
-            curAction.enabled = true;
+        if (!prevState) return currentAction.play();
 
-            if (prevState.Name == 'walk' || prevState.Name == 'run') {
-                const ratio = curAction.getClip().duration / prevAction.getClip().duration;
-                curAction.time = prevAction.time * ratio;
-            } else {
-                curAction.time = 0.0;
-                curAction.setEffectiveTimeScale(1.0);
-                curAction.setEffectiveWeight(1.0);
-            }
+        const prevAction = this._fsm.proxy.animations[prevState.name].action;
+        currentAction.enabled = true;
 
-            curAction.crossFadeFrom(prevAction, 0.5, true);
-            curAction.play();
+        if (prevState.name == 'walk' || prevState.name == 'run') {
+            const ratio = currentAction.getClip().duration / prevAction.getClip().duration;
+            currentAction.time = prevAction.time * ratio;
         } else {
-            curAction.play();
+            currentAction.time = 0.0;
+            currentAction.setEffectiveTimeScale(1.0);
+            currentAction.setEffectiveWeight(1.0);
         }
+
+        currentAction.crossFadeFrom(prevAction, 0.5, true);
+        currentAction.play();
     }
 
-    Exit() {}
-
-    Update(timeElapsed, input) {
-        if (input._keys.forward) this._parent.SetState('walk');
-        else if (input._keys.backward) return;
-        else this._parent.SetState('idle');
+    update(timeElapsed, input) {
+        if (input.keys.forward) this._fsm.setState('walk');
+        else if (input.keys.backward) return;
+        else this._fsm.setState('idle');
     }
 }
 
 export class RunState extends State {
-    constructor(parent) {
-        super(parent);
+    constructor(fsm) {
+        super(fsm);
     }
 
-    get Name() {
+    get name() {
         return 'run';
     }
 
-    Enter(prevState) {
-        const curAction = this._parent._proxy._animations['run'].action;
+    enter(prevState) {
+        const currentAction = this._fsm.proxy.animations['run'].action;
 
-        if (prevState) {
-            const prevAction = this._parent._proxy._animations[prevState.Name].action;
-            curAction.enabled = true;
+        if (!prevState) return currentAction.play();
 
-            if (prevState.Name == 'walk') {
-                const ratio = curAction.getClip().duration / prevAction.getClip().duration;
-                curAction.time = prevAction.time * ratio;
-            } else {
-                curAction.time = 0.0;
-                curAction.setEffectiveTimeScale(1.0);
-                curAction.setEffectiveWeight(1.0);
-            }
+        const prevAction = this._fsm.proxy.animations[prevState.name].action;
+        currentAction.enabled = true;
 
-            curAction.crossFadeFrom(prevAction, 0.5, true);
-            curAction.play();
+        if (prevState.name == 'walk') {
+            const ratio = currentAction.getClip().duration / prevAction.getClip().duration;
+            currentAction.time = prevAction.time * ratio;
         } else {
-            curAction.play();
+            currentAction.time = 0.0;
+            currentAction.setEffectiveTimeScale(1.0);
+            currentAction.setEffectiveWeight(1.0);
         }
+
+        currentAction.crossFadeFrom(prevAction, 0.5, true);
+        currentAction.play();
     }
 
-    Exit() {}
-
-    Update(timeElapsed, input) {
-        if (input._keys.forward) {
-            if (!input._keys.shift) this._parent.SetState('walk');
-            return;
+    update(timeElapsed, input) {
+        if (input.keys.forward) {
+            if (!input.keys.shift) this._fsm.setState('walk');
+        } else {
+            this._fsm.setState('idle');
         }
-        this._parent.SetState('idle');
     }
 }
 
 export class IdleState extends State {
-    constructor(parent) {
-        super(parent);
+    constructor(fsm) {
+        super(fsm);
     }
 
-    get Name() {
+    get name() {
         return 'idle';
     }
 
-    Enter(prevState) {
-        const idleAction = this._parent._proxy._animations['idle'].action;
+    enter(prevState) {
+        const currentAction = this._fsm.proxy.animations['idle'].action;
 
-        if (prevState) {
-            const prevAction = this._parent._proxy._animations[prevState.Name].action;
-            idleAction.time = 0.0;
-            idleAction.enabled = true;
-            idleAction.setEffectiveTimeScale(1.0);
-            idleAction.setEffectiveWeight(1.0);
-            idleAction.crossFadeFrom(prevAction, 0.5, true);
-            idleAction.play();
-        } else {
-            idleAction.play();
-        }
+        if (!prevState) return currentAction.play();
+
+        const prevAction = this._fsm.proxy.animations[prevState.name].action;
+        currentAction.time = 0.0;
+        currentAction.enabled = true;
+        currentAction.setEffectiveTimeScale(1.0);
+        currentAction.setEffectiveWeight(1.0);
+        currentAction.crossFadeFrom(prevAction, 0.5, true);
+        currentAction.play();
     }
 
-    Exit() {}
-
-    Update(_, input) {
-        if (input._keys.forward) {
-            this._parent.SetState('walk');
-            return;
-        }
-        if (input._keys.space) {
-            this._parent.SetState('openingALid');
-            return;
-        } //only dealing with opening for now
-        if (input._keys.backward) {
-            this._parent.SetState('walkingBackwards');
-            return;
-        }
+    update(timeElapsed, input) {
+        if (input.keys.forward) this._fsm.setState('walk');
+        else if (input.keys.backward) this._fsm.setState('walkingBackwards');
     }
 }
 
-//dead end state, no key press can update it, it can only be set back to idle on game restart
+// Dead end state, no key press can update it, it can only be set back to idle on game restart
 export class FallingState extends State {
-    constructor(parent) {
-        super(parent);
+    constructor(fsm) {
+        super(fsm);
     }
 
-    get Name() {
+    get name() {
         return 'falling';
     }
 
-    Enter(prevState) {
-        const idleAction = this._parent._proxy._animations['falling'].action;
+    enter(prevState) {
+        const currentAction = this._fsm.proxy.animations['falling'].action;
 
-        if (prevState) {
-            const prevAction = this._parent._proxy._animations[prevState.Name].action;
-            idleAction.time = 0.0;
-            idleAction.enabled = true;
-            idleAction.setEffectiveTimeScale(1.0);
-            idleAction.setEffectiveWeight(1.0);
-            idleAction.crossFadeFrom(prevAction, 0.5, true);
-            idleAction.play();
-        } else {
-            idleAction.play();
-        }
+        if (!prevState) return currentAction.play();
+
+        const prevAction = this._fsm.proxy.animations[prevState.name].action;
+        currentAction.time = 0.0;
+        currentAction.enabled = true;
+        currentAction.setEffectiveTimeScale(1.0);
+        currentAction.setEffectiveWeight(1.0);
+        currentAction.crossFadeFrom(prevAction, 0.5, true);
+        currentAction.play();
     }
-
-    Exit() {}
-
-    Update(_, input) {}
 }

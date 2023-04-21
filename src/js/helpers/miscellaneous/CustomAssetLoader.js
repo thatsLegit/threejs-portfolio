@@ -22,7 +22,7 @@ class CustomAssetsLoader {
         ];
 
         this._magicCubeTextureLoader = new THREE.TextureLoader(this._magicCubeManager);
-        this._magicCubeTexture = {
+        this.magicCubeTexture = {
             interrogation: { path: './assets/cube_textures/interrogation.png' }, //texture is loader here thereafter
             aboutMe: { path: './assets/cube_textures/aboutMe.png' },
             projects: { path: './assets/cube_textures/projects.png' },
@@ -34,7 +34,7 @@ class CustomAssetsLoader {
 
         this._envModelsManager = new THREE.LoadingManager();
         this._envModelsLoader = new GLTFLoader(this._envModelsManager);
-        this._envModels = {
+        this.envModels = {
             animated: {
                 treasureChest: {
                     path: './assets/blender_models/treasure-chest/treasureChest.glb',
@@ -76,7 +76,7 @@ class CustomAssetsLoader {
 
         this._characterAnimationsManager = new THREE.LoadingManager();
         this._charAnimationsLoader = new FBXLoader(this._characterAnimationsManager);
-        this._charAnimations = ['megan', 'brian'].reduce(
+        this.charAnimations = ['megan', 'brian'].reduce(
             (acc, current) => ({
                 ...acc,
                 ...{
@@ -114,7 +114,7 @@ class CustomAssetsLoader {
 
             PROGRESS_BAR_TITLE.textContent = 'Loading background...';
 
-            this._bgTexture = this._bgTextureLoader.load(
+            this.bgTexture = this._bgTextureLoader.load(
                 this._bgTextureFiles,
                 resolve,
                 this._onProgress,
@@ -129,7 +129,7 @@ class CustomAssetsLoader {
 
             PROGRESS_BAR_TITLE.textContent = 'Loading magic cube textures...';
 
-            const allTextures = Object.values(this._magicCubeTexture);
+            const allTextures = Object.values(this.magicCubeTexture);
 
             allTextures.forEach((obj, idx) => {
                 this._magicCubeTextureLoader.load(
@@ -157,11 +157,11 @@ class CustomAssetsLoader {
             this._envModelsManager.onError = () =>
                 reject(new Error("Oops, environment models coudln't have been loaded :/."));
 
-            Object.values(this._envModels).forEach((m, idx) => {
+            Object.values(this.envModels).forEach((m, idx) => {
                 const type = idx == 0 ? 'animated' : 'static';
                 for (let model in m) {
-                    this._envModelsLoader.load(this._envModels[type][model].path, (gltf) => {
-                        this._envModels[type][model].gltf = gltf;
+                    this._envModelsLoader.load(this.envModels[type][model].path, (gltf) => {
+                        this.envModels[type][model].gltf = gltf;
                     });
                 }
             });
@@ -198,12 +198,11 @@ class CustomAssetsLoader {
             this._characterAnimationsManager.onError = () =>
                 reject(new Error("Oops, character animations coudln't have been loaded :/."));
 
-            for (let animName in this._charAnimations[charName]) {
+            for (let animName in this.charAnimations[charName]) {
                 this._charAnimationsLoader.load(
-                    this._charAnimations[charName][animName].path,
+                    this.charAnimations[charName][animName].path,
                     (a) => {
-                        console.log(a);
-                        this._charAnimations[charName][animName].anim = a;
+                        this.charAnimations[charName][animName].anim = a;
                     }
                 );
             }

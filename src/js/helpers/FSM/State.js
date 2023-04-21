@@ -1,11 +1,11 @@
 class State {
-    constructor(parent) {
-        this._parent = parent;
+    constructor(fsm) {
+        this._fsm = fsm;
     }
 
-    Enter() {}
-    Exit() {}
-    Update() {}
+    enter() {}
+    exit() {}
+    update() {}
 }
 
 export default State;

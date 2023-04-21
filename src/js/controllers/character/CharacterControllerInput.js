@@ -3,11 +3,11 @@
 class CharacterControllerInput {
     constructor(keyboardType) {
         this._keyboardType = keyboardType;
-        this._Init();
+        this._init();
     }
 
-    _Init() {
-        this._keys = {
+    _init() {
+        this.keys = {
             forward: false,
             backward: false,
             left: false,
@@ -29,25 +29,25 @@ class CharacterControllerInput {
         switch (event.key) {
             case this._forwardK: // w or z
             case this._forwardK.toUpperCase(): // W or Z
-                this._keys.forward = true;
+                this.keys.forward = true;
                 break;
             case this._leftK: // a or q
             case this._leftK.toUpperCase(): //A or Q
-                this._keys.left = true;
+                this.keys.left = true;
                 break;
             case this._backwardK: // s
             case this._backwardK.toUpperCase(): //S
-                this._keys.backward = true;
+                this.keys.backward = true;
                 break;
             case this._rightK: // d
             case this._rightK.toUpperCase(): // D
-                this._keys.right = true;
+                this.keys.right = true;
                 break;
             case 'f': // f: switch free camera
-                this._keys.freeCamera = !this._keys.freeCamera;
+                this.keys.freeCamera = !this.keys.freeCamera;
                 break;
             case 'Shift': // SHIFT
-                this._keys.shift = true;
+                this.keys.shift = true;
                 break;
         }
     }
@@ -55,22 +55,22 @@ class CharacterControllerInput {
         switch (event.key) {
             case this._forwardK: // w or z
             case this._forwardK.toUpperCase(): // W or Z
-                this._keys.forward = false;
+                this.keys.forward = false;
                 break;
             case this._leftK: // a or q
             case this._leftK.toUpperCase(): //A or Q
-                this._keys.left = false;
+                this.keys.left = false;
                 break;
             case this._backwardK: // s
             case this._backwardK.toUpperCase(): //S
-                this._keys.backward = false;
+                this.keys.backward = false;
                 break;
             case this._rightK: // d
             case this._rightK.toUpperCase(): // D
-                this._keys.right = false;
+                this.keys.right = false;
                 break;
             case 'Shift': // SHIFT
-                this._keys.shift = false;
+                this.keys.shift = false;
                 break;
         }
     }
