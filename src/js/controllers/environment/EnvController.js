@@ -1,133 +1,83 @@
-//Set the initial position, rotation, scale of each loaded model
-//wether it's animated or not.
-
 import * as THREE from 'three';
 import * as SkeletonUtils from 'three/examples/jsm/utils/SkeletonUtils';
 
-//une sorte d'ecran géant pour afficher le content avec le cube un peu comme une télécommande
-//tout ça avec un passage en pov
-
 class EnvController {
     constructor(params) {
-        this._params = params; //scene, customLoader, character
+        this._params = params;
+        this._mixers = [];
+        this._animations = {};
         this._treasureOpened = false;
-        this._Init();
+        this._init();
     }
 
-    _Init() {
-        const statics = this._params.assets.envModels.static;
-        for (let modelName in statics) {
-            switch (modelName) {
-                case 'platform':
-                    this._SetModel.call(
-                        this,
-                        statics[modelName],
-                        100,
-                        new THREE.Vector3(0, -245, 0),
-                        null,
-                        true,
-                        false
-                    );
-                    break;
-                case 'smallPlatform':
-                    this._SetModel.call(
-                        this,
-                        statics[modelName],
-                        60,
-                        new THREE.Vector3(40, -52, -720),
-                        null,
-                        true
-                    );
-                    break;
-                case 'iceWorld':
-                    this._SetModel.call(
-                        this,
-                        statics[modelName],
-                        0.35,
-                        new THREE.Vector3(-30, -21, 70),
-                        null,
-                        true,
-                        true
-                    );
-                    break;
-                case 'bridge':
-                    this._SetModel.call(
-                        this,
-                        statics[modelName],
-                        5,
-                        new THREE.Vector3(-30, -28, 70),
-                        null,
-                        true
-                    );
-                    break;
-                case 'trees':
-                    this._SetModel.call(
-                        this,
-                        statics[modelName],
-                        0.1,
-                        new THREE.Vector3(-150, 0, 0),
-                        null,
-                        true,
-                        true
-                    );
-                    break;
-                case 'arch':
-                    this._SetModel.call(
-                        this,
-                        statics[modelName],
-                        100,
-                        new THREE.Vector3(40, 0, -350),
-                        new THREE.Vector3(0, Math.PI / 2, 0),
-                        true,
-                        true
-                    );
-                    break;
-                case 'foliage':
-                    this._SetModel.call(this, statics[modelName], 0.1);
-                    break;
-                case 'ship':
-                    this._SetModel.call(
-                        this,
-                        statics[modelName],
-                        5,
-                        new THREE.Vector3(0, 100, 1300),
-                        new THREE.Vector3(0, -Math.PI / 2, 0)
-                    );
-                    break;
-                default:
-                    break;
-            }
-        }
-
+    _init() {
+        const staticModels = this._params.assets.envModels.static;
         const animated = this._params.assets.envModels.animated;
-        for (let modelName in animated) {
-            switch (modelName) {
-                case 'treasureChest':
-                    this._SetTreasureChest.call(this, animated[modelName]);
-                    break;
-                default:
-                    break;
-            }
-        }
+
+        // static models
+        this._setModel(
+            staticModels['platform'],
+            100,
+            new THREE.Vector3(0, -245, 0),
+            null,
+            true,
+            false
+        );
+        this._setModel(
+            staticModels['smallPlatform'],
+            60,
+            new THREE.Vector3(40, -52, -720),
+            null,
+            true
+        );
+        this._setModel(
+            staticModels['iceWorld'],
+            0.35,
+            new THREE.Vector3(-30, 25, 70),
+            null,
+            true,
+            true
+        );
+        this._setModel(staticModels['bridge'], 5, new THREE.Vector3(-30, -28, 70), null, true);
+        this._setModel(staticModels['trees'], 0.1, new THREE.Vector3(-150, 0, 0), null, true, true);
+        this._setModel(
+            staticModels['arch'],
+            100,
+            new THREE.Vector3(40, 0, -350),
+            new THREE.Vector3(0, Math.PI / 2, 0),
+            true,
+            true
+        );
+        this._setModel(staticModels['foliage'], 0.1);
+        this._setModel(
+            staticModels['ship'],
+            5,
+            new THREE.Vector3(0, 100, 1300),
+            new THREE.Vector3(0, -Math.PI / 2, 0)
+        );
+
+        // animated models
+        this._setTreasureChest(animated['treasureChest']);
     }
-    _SetModel(
+
+    _setModel(
         model,
         scalar = null,
         initWorldPos = null,
         rotation = null,
-        receiveSh = false,
-        castSh = false
+        receiveShadow = false,
+        castShadow = false
     ) {
-        const clonedScene = SkeletonUtils.clone(model.gltf.scene);
+        const scene = SkeletonUtils.clone(model.gltf.scene);
+        scene.matrixAutoUpdate = false;
         const root = new THREE.Object3D();
-        clonedScene.matrixAutoUpdate = false;
-        root.add(clonedScene);
+        root.add(scene);
         this._params.scene.add(root);
 
-        if (receiveSh || castSh) {
+        if (receiveShadow || castShadow) {
             root.traverse((obj) => {
-                castSh && (obj.castShadow = true);
-                receiveSh && (obj.receiveShadow = true);
+                castShadow && (obj.castShadow = true);
+                receiveShadow && (obj.receiveShadow = true);
             });
         }
 
@@ -135,13 +85,13 @@ class EnvController {
         rotation && root.rotation.setFromVector3(rotation);
         initWorldPos && root.position.copy(initWorldPos);
     }
-    _SetTreasureChest(model) {
-        const clonedScene = SkeletonUtils.clone(model.gltf.scene);
-        const root = new THREE.Object3D();
-        root.add(clonedScene);
 
-        this.treasure = root;
+    _setTreasureChest(model) {
+        const scene = SkeletonUtils.clone(model.gltf.scene);
+        const root = new THREE.Object3D();
+        root.add(scene);
         this._params.scene.add(root);
+        this.treasure = root; /* accessed in QuestController */
 
         root.traverse((obj) => {
             obj.castShadow = true;
@@ -151,25 +101,26 @@ class EnvController {
         root.scale.setScalar(0.25);
         root.position.set(40, 38, -720);
 
-        //Animation to open the treasure
-        this._mixer = new THREE.AnimationMixer(clonedScene);
-        const action = this._mixer.clipAction(Object.values(model.gltf.animations)[1]); //2nd clip: openBox
+        // Animation to open the treasure
+        const mixer = new THREE.AnimationMixer(scene);
+        this._mixers.push(mixer);
+        const action = mixer.clipAction(Object.values(model.gltf.animations)[1]);
 
-        this._mixer.addEventListener('finished', callback.bind(this));
-        function callback() {
-            this._treasureOpened = true;
-            action.getMixer().removeEventListener('finished', callback);
-        }
-
-        action.reset();
-        action.setEffectiveTimeScale(0.25);
-        action.setEffectiveWeight(1.0);
-        action.setLoop(THREE.LoopOnce);
-        action.play();
+        // dirty fix, allows starting of the lid with a closed paused animation
+        setTimeout(() => {
+            action.reset();
+            action.setEffectiveTimeScale(0.01);
+            action.setEffectiveWeight(1);
+            action.setLoop(THREE.LoopOnce);
+            action.play();
+            setTimeout(() => {
+                action.paused = true;
+            }, 0);
+        }, 0);
     }
 
-    _Update(deltaTime) {
-        this._mixer.update(deltaTime);
+    update(deltaTime) {
+        this._mixers.forEach((m) => m.update(deltaTime));
     }
 }
 

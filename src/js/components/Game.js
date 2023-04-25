@@ -8,6 +8,9 @@ import EnvController from '../controllers/environment/EnvController';
 import QuestController from '../controllers/quests/QuestController';
 import MagicCube from './MagicCube';
 import Ground from './Ground';
+import CharacterControllerProxy from '../controllers/character/CharacterControllerProxy';
+import EnvControllerProxy from '../controllers/environment/EnvControllerProxy';
+import SoundController from '../controllers/sound/SoundController';
 
 const CANVAS = document.querySelector('#c');
 const CONTROLS_ELEMENT = document.querySelector('#controls-container');
@@ -92,60 +95,16 @@ class Game {
 
         window.addEventListener('resize', this._onWindowResize.bind(this));
 
-        this._initMagicCube();
         this._initCharacter();
+        this._initMagicCube();
         this._initEnv();
         this._initQuest();
+        this._initSound();
         this._RAF();
     }
 
-    _initMagicCube() {
-        // Hides the cube at first
-        this._magicCube = new MagicCube({
-            position: new THREE.Vector3(40, 60, -720),
-            scene: this._scene,
-            camera: this._camera,
-            textures: this._assets.magicCubeTexture,
-        });
-
-        // TODO: all below should be handled in magic cube
-
-        this._magicCube.mysteryCube.visible = false;
-
-        // Release of any key close enough to the magic cube will make it appear
-        let onAnyKeyUp = () => {
-            if (
-                this._environment.treasure.position.distanceToSquared(this._controls.position) >
-                4000
-            )
-                return;
-
-            this._magicCube.mysteryCube.visible = true;
-            document.removeEventListener('keyup', onAnyKeyUp);
-
-            // pressing space should make the cube appear/flip sides
-            let onKeyDown = (e) => {
-                if (
-                    e.key !== ' ' ||
-                    this._environment.treasure.position.distanceToSquared(this._controls.position) >
-                        4000
-                )
-                    return;
-
-                this._magicCube.transiting = true; /* initiates the sides flipping */
-                document.removeEventListener('keydown', onKeyDown);
-            };
-
-            onKeyDown = onKeyDown.bind(this);
-            document.addEventListener('keydown', onKeyDown);
-        };
-
-        onAnyKeyUp = onAnyKeyUp.bind(this);
-        document.addEventListener('keyup', onAnyKeyUp);
-    }
-
     _initCharacter() {
-        this._controls = new CharacterController({
+        this._characterControls = new CharacterController({
             keyboardType: this._keyboardOption,
             scene: this._scene,
             characterModel: this._assets.characterModels[this._charName],
@@ -156,7 +115,18 @@ class Game {
         this._thirdPersonCamera = new ThirdPersonCamera({
             camera: this._camera,
             cameraControl: this._cameraControl,
-            target: this._controls,
+            target: this._characterControls,
+        });
+    }
+
+    _initMagicCube() {
+        // Hides the cube at first
+        this._magicCube = new MagicCube({
+            position: new THREE.Vector3(40, 60, -720),
+            scene: this._scene,
+            camera: this._camera,
+            textures: this._assets.magicCubeTexture,
+            characterControlsProxy: new CharacterControllerProxy(this._characterControls),
         });
     }
 
@@ -164,16 +134,19 @@ class Game {
         this._environment = new EnvController({
             scene: this._scene,
             assets: this._assets,
-            character: this._controls,
         });
     }
 
     _initQuest() {
         this._quests = new QuestController({
-            environment: this._environment,
-            character: this._controls,
+            envProxy: new EnvControllerProxy(this._environment),
+            character: this._characterControls,
             magicCube: this._magicCube,
         });
+    }
+
+    _initSound() {
+        this._sound = new SoundController(this._camera);
     }
 
     _onWindowResize() {
@@ -189,7 +162,7 @@ class Game {
 
             this._step(t - (this._previousRAF || 0));
 
-            this._quests._Update(t); /* TODO: why is this not using delta t ? */
+            this._quests.update(t); /* TODO: why is this not using delta t ? */
 
             this._previousRAF = t;
             this._threejs.render(this._scene, this._camera);
@@ -199,12 +172,9 @@ class Game {
 
     _step(timeElapsed) {
         const timeElapsedinSec = timeElapsed * 0.001;
-        //update character position/orientation/animation
-        this._controls.update(timeElapsedinSec);
-        //update camera position/lookAt
+        this._characterControls.update(timeElapsedinSec);
         this._thirdPersonCamera.update(timeElapsedinSec);
-        //update the treasure animation (optional)
-        if (!this._environment._treasureOpened) this._environment._Update(timeElapsedinSec);
+        this._environment.update(timeElapsedinSec);
         this._magicCube.update(timeElapsedinSec);
     }
 }

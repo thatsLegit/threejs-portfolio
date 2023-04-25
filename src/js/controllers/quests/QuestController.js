@@ -33,7 +33,7 @@ class QuestController {
             elem: treasureQuest,
             condition() {
                 return (
-                    this._params.environment.treasure.position.distanceToSquared(
+                    this._params.envProxy.treasurePosition.distanceToSquared(
                         this._params.character.position
                     ) <= 3000
                 );
@@ -109,7 +109,7 @@ class QuestController {
         delete this._quests[questName];
     }
 
-    _Update(t) {
+    update(t) {
         for (const questName in this._quests) {
             if (this._quests[questName].condition.call(this)) {
                 this._quests[questName].effect.call(this, t, questName);

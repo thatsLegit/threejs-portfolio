@@ -1,11 +1,16 @@
-//represents a single animated character
+import CharacterController from './CharacterController';
+
 class CharacterControllerProxy {
-    constructor(animations) {
-        this._animations = animations;
+    constructor(target) {
+        this.target = target || new CharacterController();
     }
 
     get animations() {
-        return this._animations;
+        return this.target.animations;
+    }
+
+    get position() {
+        return this.target.position;
     }
 }
 

@@ -13,6 +13,9 @@ class CharacterController {
         this._init(params);
     }
 
+    get animations() {
+        return this._animations;
+    }
     get position() {
         return this._position;
     }
@@ -39,6 +42,7 @@ class CharacterController {
 
         this.input = new CharacterControllerInput(this._params.keyboardType);
 
+        this._animations = {};
         this._characterBox = new THREE.Box3();
         this._characterHitBox = [new THREE.Vector3(0, 20, 0), new THREE.Vector3(10, 45, 10)];
 
@@ -68,18 +72,17 @@ class CharacterController {
         this._mixer = new THREE.AnimationMixer(this._target);
 
         // animations/states
-        let animations = {};
         for (const animName in this._params.characterAnimations) {
             const clip = this._params.characterAnimations[animName].anim.animations[0];
             const action = this._mixer.clipAction(clip);
 
-            animations[animName] = {
+            this._animations[animName] = {
                 clip: clip,
                 action: action,
             };
         }
 
-        this._stateMachine = new CharacterFSM(new CharacterControllerProxy(animations));
+        this._stateMachine = new CharacterFSM(new CharacterControllerProxy(this));
 
         // default beginning state
         this._stateMachine.setState('idle');
