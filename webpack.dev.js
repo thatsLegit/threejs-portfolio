@@ -22,6 +22,7 @@ module.exports = {
     },
     compress: true,
     hot: true,
+    open: false,
   },
   plugins: [
     new HtmlWebpackPlugin({

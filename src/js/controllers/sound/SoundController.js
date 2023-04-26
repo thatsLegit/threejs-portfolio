@@ -19,7 +19,7 @@ class SoundController {
         audioLoader.load('./assets/audio/wind1.wav', function (buffer) {
             sound.setBuffer(buffer);
             sound.setLoop(true);
-            sound.setVolume(0.5);
+            sound.setVolume(0.1);
             sound.play();
         });
     }

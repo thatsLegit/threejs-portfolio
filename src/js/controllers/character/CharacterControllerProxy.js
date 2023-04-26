@@ -2,15 +2,15 @@ import CharacterController from './CharacterController';
 
 class CharacterControllerProxy {
     constructor(target) {
-        this.target = target || new CharacterController();
+        this._target = target || new CharacterController();
     }
 
     get animations() {
-        return this.target.animations;
+        return this._target.animations;
     }
 
     get position() {
-        return this.target.position;
+        return this._target.position;
     }
 }
 

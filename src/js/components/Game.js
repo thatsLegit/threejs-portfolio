@@ -6,7 +6,7 @@ import CharacterController from '../controllers/character/CharacterController';
 import ThirdPersonCamera from '../cameras/ThirdPersonCamera';
 import EnvController from '../controllers/environment/EnvController';
 import QuestController from '../controllers/quests/QuestController';
-import MagicCube from './MagicCube';
+import MagicCubeController from '../controllers/magicCube/MagicCubeController';
 import Ground from './Ground';
 import CharacterControllerProxy from '../controllers/character/CharacterControllerProxy';
 import EnvControllerProxy from '../controllers/environment/EnvControllerProxy';
@@ -121,8 +121,7 @@ class Game {
 
     _initMagicCube() {
         // Hides the cube at first
-        this._magicCube = new MagicCube({
-            position: new THREE.Vector3(40, 60, -720),
+        this._magicCube = new MagicCubeController({
             scene: this._scene,
             camera: this._camera,
             textures: this._assets.magicCubeTexture,
@@ -140,8 +139,7 @@ class Game {
     _initQuest() {
         this._quests = new QuestController({
             envProxy: new EnvControllerProxy(this._environment),
-            character: this._characterControls,
-            magicCube: this._magicCube,
+            characterControlsProxy: new CharacterControllerProxy(this._characterControls),
         });
     }
 
@@ -155,34 +153,30 @@ class Game {
         this._threejs.setSize(window.innerWidth, window.innerHeight);
     }
 
-    _RAF() {
+    _RAF(previousT = 0) {
         requestAnimationFrame((t) => {
             stats.begin();
             stats.end();
 
-            this._step(t - (this._previousRAF || 0));
+            this._step((t - previousT) * 0.001);
 
-            this._quests.update(t); /* TODO: why is this not using delta t ? */
-
-            this._previousRAF = t;
             this._threejs.render(this._scene, this._camera);
-            this._RAF();
+            this._RAF(t);
         });
     }
 
-    _step(timeElapsed) {
-        const timeElapsedinSec = timeElapsed * 0.001;
-        this._characterControls.update(timeElapsedinSec);
-        this._thirdPersonCamera.update(timeElapsedinSec);
-        this._environment.update(timeElapsedinSec);
-        this._magicCube.update(timeElapsedinSec);
+    _step(deltaT) {
+        this._characterControls.update(deltaT);
+        this._thirdPersonCamera.update(deltaT);
+        this._environment.update(deltaT);
+        this._magicCube.update(deltaT);
     }
 }
 
 export default Game;
 
 // Collision strategy:
-// using chararcter's box3 with intersection with planes and triangles representing the surface of the island
+// using character's box3 with intersection with planes and triangles representing the surface of the island
 // the box3 is defined using:
 
 // .setFromCenterAndSize ( center : Vector3, size : Vector3 ) : this

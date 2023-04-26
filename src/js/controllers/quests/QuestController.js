@@ -1,120 +1,102 @@
-const treasureQuest = document
+import commonEmitter from '../../helpers/miscellaneous/commonEmitter';
+
+const TREASURE_QUEST_CHECKMARK = document
     .querySelector('#treasure-quest > div')
     .querySelector('div')
     .querySelector('svg');
-const mysteryBoxQuest = document
+const MYSTERY_BOX_QUEST_CHECKMARK = document
     .querySelector('#mystery-box-quest > div')
     .querySelector('div')
     .querySelector('svg');
-const treasureBoxQuest = document
+const TREASURE_BOX_QUEST_CHECKMARK = document
     .querySelector('#treasure-box-quest > div')
     .querySelector('div')
     .querySelector('svg');
-const proQuest = document
+const PRO_QUEST_CHECKMARK = document
     .querySelector('#pro-quest > div')
     .querySelector('div')
     .querySelector('svg');
 
-const alert = document.querySelector('#alert');
-alert.style.display = 'none';
-const alertText = document.querySelector('#alert-text');
+const ALERT = document.querySelector('#alert');
+ALERT.style.display = 'none';
+const ALERT_TEXT = document.querySelector('#alert-text');
+
+export const FIND_TREASURE = 'find treasure';
+export const OPEN_CUBE = 'open cube';
+export const FIRST_FACE = 'first face';
+export const DISCOVER_ALL_FACES = 'discover all faces';
 
 class QuestController {
     constructor(params) {
-        this._params = params; //env, character
+        this._params = params;
         this._quests = {};
-        this._alertOpacity = 0;
-        this._Init();
+        this._init();
+        this._initEvents();
     }
-    _Init() {
-        this._AddQuest({
-            name: 'treasure-quest',
+
+    _init() {
+        this._addQuest({
+            name: FIND_TREASURE,
             text: 'Find the treasure chest',
-            elem: treasureQuest,
-            condition() {
-                return (
-                    this._params.envProxy.treasurePosition.distanceToSquared(
-                        this._params.character.position
-                    ) <= 3000
-                );
-            },
-            effect(t, questName) {
-                alertText.style.color =
-                    'rgba(255,255,255,' + 0.5 * (1 + Math.cos(this._alertOpacity));
-                if (this._alertOpacity == 0) {
-                    alert.style.display = 'block';
-                    alertText.textContent = 'Press Spacebar to use the cube.';
-                    setTimeout(cleanup.bind(this), 7000);
-                }
+            elem: TREASURE_QUEST_CHECKMARK,
+            effect() {
+                ALERT.style.display = 'block';
+                ALERT_TEXT.textContent = 'Press Spacebar to use the cube.';
+                setTimeout(cleanup.bind(this), 5000);
+
                 function cleanup() {
-                    alert.style.display = 'none';
-                    this._alertOpacity = 0;
-                    this._Complete.call(this, questName);
+                    ALERT.style.display = 'none';
+                    this._complete(FIND_TREASURE);
                 }
-                this._alertOpacity = t / 400; //frame-rate independant
             },
         });
-        this._AddQuest({
-            name: 'mystery-box-quest',
+        this._addQuest({
+            name: OPEN_CUBE,
             text: 'Open the mystery box',
-            elem: mysteryBoxQuest,
-            condition() {
-                return this._params.magicCube.isOpened;
-            },
-            effect(t, questName) {
-                alertText.style.color =
-                    'rgba(255,255,255,' + 0.5 * (1 + Math.cos(this._alertOpacity));
-                if (this._alertOpacity == 0) {
-                    alert.style.display = 'block';
-                    alertText.textContent = 'Double click on the faces of the cube to display';
-                    setTimeout(cleanup.bind(this), 7000);
-                }
+            elem: MYSTERY_BOX_QUEST_CHECKMARK,
+            effect() {
+                ALERT.style.display = 'block';
+                ALERT_TEXT.textContent = 'Double click on the faces of the cube to display';
+                setTimeout(cleanup.bind(this), 5000);
+
                 function cleanup() {
-                    alert.style.display = 'none';
-                    this._Complete.call(this, questName);
+                    ALERT.style.display = 'none';
+                    this._complete(OPEN_CUBE);
                 }
-                this._alertOpacity = t / 400; //frame-rate independant
             },
         });
-        this._AddQuest({
-            name: 'treasure-box-quest',
+        this._addQuest({
+            name: FIRST_FACE,
             text: 'Browse at least one face of the cube',
-            elem: treasureBoxQuest,
-            condition() {
-                return this._params.magicCube?._visited?.size;
-            },
-            effect(t, questName) {
-                this._Complete.call(this, questName);
+            elem: TREASURE_BOX_QUEST_CHECKMARK,
+            effect() {
+                this._complete(FIRST_FACE);
             },
         });
-        this._AddQuest({
-            name: 'pro-quest',
+        this._addQuest({
+            name: DISCOVER_ALL_FACES,
             text: 'Discover all faces of the cube',
-            elem: proQuest,
-            condition() {
-                return this._params.magicCube?._visited?.size == 6;
-            },
-            effect(t, questName) {
-                this._Complete.call(this, questName);
+            elem: PRO_QUEST_CHECKMARK,
+            effect() {
+                this._complete(DISCOVER_ALL_FACES);
             },
         });
     }
 
-    _AddQuest(quest) {
-        this._quests = { ...this._quests, [quest.name]: quest };
+    _initEvents() {
+        commonEmitter.on(FIND_TREASURE, this._quests[FIND_TREASURE].effect);
+        commonEmitter.on(OPEN_CUBE, this._quests[OPEN_CUBE].effect);
+        commonEmitter.on(FIRST_FACE, this._quests[FIRST_FACE].effect);
+        commonEmitter.on(DISCOVER_ALL_FACES, this._quests[DISCOVER_ALL_FACES].effect);
     }
 
-    _Complete(questName) {
+    _addQuest(quest) {
+        quest.effect = quest.effect.bind(this);
+        this._quests[quest.name] = quest;
+    }
+
+    _complete(questName) {
         this._quests[questName].elem.style.display = 'block';
-        delete this._quests[questName];
-    }
-
-    update(t) {
-        for (const questName in this._quests) {
-            if (this._quests[questName].condition.call(this)) {
-                this._quests[questName].effect.call(this, t, questName);
-            }
-        }
     }
 }
 

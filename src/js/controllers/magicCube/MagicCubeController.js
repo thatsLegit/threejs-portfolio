@@ -1,6 +1,14 @@
 import * as THREE from 'three';
 import * as SceneUtils from 'three/examples/jsm/utils/SceneUtils';
+import commonEmitter from '../../helpers/miscellaneous/commonEmitter';
+import {
+    FIND_TREASURE,
+    OPEN_CUBE,
+    FIRST_FACE,
+    DISCOVER_ALL_FACES,
+} from '../quests/QuestController';
 
+const RESUME_LINK = 'https://thatsLegit.github.io/resume/cv_english.png';
 const CANVAS = document.querySelector('#c');
 const IFRAMES = {
     cv: document.querySelector('#cv'),
@@ -17,7 +25,7 @@ class MagicCube {
 
         // keeping track of cube's faces
         this._faces = ['aboutMe', 'projects', 'cv', 'skills', 'hireMe', 'smallGames'];
-        this._visited = new Set();
+        this.visited = new Set();
         this._selected = null;
 
         // mysteryCube to magicCube transition. 6 planes cube, not a "real" cube
@@ -36,7 +44,7 @@ class MagicCube {
         ]);
 
         // the "real" cube
-        this._cube = null;
+        this.cube = null;
         this._rotationMatrix = new THREE.Matrix4();
         this._xAxis = new THREE.Vector3(0, 1, 0);
         this._yAxis = new THREE.Vector3(1, 0, 0);
@@ -49,10 +57,6 @@ class MagicCube {
         this._initMouseEvents();
         this._initMysteryCube();
         this._initCubeEvents();
-    }
-
-    get isOpened() {
-        return !!this._cube;
     }
 
     _initMouseEvents() {
@@ -93,7 +97,7 @@ class MagicCube {
         this._mysteryCubeComponents[5].rotation.y = Math.PI / 1.33;
 
         this._mysteryCubeComponents.forEach((plane) => this.mysteryCube.add(plane));
-        this.mysteryCube.position.copy(this._params.position.add(new THREE.Vector3(5, 0, 0)));
+        this.mysteryCube.position.copy(new THREE.Vector3(45, 70, -720));
         this._params.scene.add(this.mysteryCube);
     }
 
@@ -104,9 +108,10 @@ class MagicCube {
                 e.key === ' ' &&
                 this.mysteryCube.position.distanceToSquared(
                     this._params.characterControlsProxy.position
-                ) < 6000
+                ) < 7000
             ) {
                 this.transiting = true;
+                commonEmitter.emit(OPEN_CUBE);
                 document.removeEventListener('keydown', onKeyDown);
             }
         };
@@ -116,9 +121,10 @@ class MagicCube {
             if (
                 this.mysteryCube.position.distanceToSquared(
                     this._params.characterControlsProxy.position
-                ) < 6000
+                ) < 7000
             ) {
                 this.mysteryCube.visible = true;
+                commonEmitter.emit(FIND_TREASURE);
                 document.removeEventListener('keyup', onAnyKeyUp);
                 document.addEventListener('keydown', onKeyDown);
             }
@@ -204,17 +210,17 @@ class MagicCube {
             (face) => new THREE.MeshBasicMaterial({ map: this._params.textures[face].texture })
         );
 
-        this._cube = new THREE.Mesh(new THREE.BoxGeometry(20, 20, 20), materials);
-        this._cube.position.copy(this._params.position.sub(new THREE.Vector3(5, 0, 0)));
-        this._cube.overdraw = true;
-        this._params.scene.add(this._cube);
+        this.cube = new THREE.Mesh(new THREE.BoxGeometry(20, 20, 20), materials);
+        this.cube.position.copy(new THREE.Vector3(40, 65, -720));
+        this.cube.overdraw = true;
+        this._params.scene.add(this.cube);
 
         document.addEventListener('dblclick', this._selectIframe.bind(this));
     }
 
     _selectIframe() {
         this._raycaster.setFromCamera(this._mouse, this._params.camera);
-        const isIntersected = this._raycaster.intersectObject(this._cube);
+        const isIntersected = this._raycaster.intersectObject(this.cube);
 
         if (!isIntersected.length) return;
 
@@ -223,18 +229,26 @@ class MagicCube {
     }
 
     _openIframe(name) {
-        closeFullscreen(); // canvas go out of full screen to see iframe if needed
-        if (this?._selected) IFRAMES[this._selected].style.display = 'none';
-        IFRAMES[name].style.display = 'block';
+        if (!this.visited.size) commonEmitter.emit(FIRST_FACE);
+        if (this.visited.size === 5 && !this.visited.has(name)) {
+            commonEmitter.emit(DISCOVER_ALL_FACES);
+        }
         this._selected = name;
-        this._visited.add(name);
+        this.visited.add(name);
+        if (name === 'cv') {
+            return window.open(RESUME_LINK, '_blank');
+        }
+
+        closeFullscreen(); // canvas go out of full screen to see iframe if needed
+        if (this._selected) IFRAMES[this._selected].style.display = 'none';
+        IFRAMES[name].style.display = 'block';
     }
 
     // clicking on the cube event
     _onHandleMouseDown(e) {
         this._raycaster.setFromCamera(this._mouse, this._params.camera);
 
-        const isIntersected = this._raycaster.intersectObject(this._cube);
+        const isIntersected = this._raycaster.intersectObject(this.cube);
         if (!isIntersected.length) return;
 
         const mouseXOnMouseDown = e.clientX - this._canvasHalfX;
@@ -267,8 +281,8 @@ class MagicCube {
 
         // should probably be frame rate dependent but it runs in browsers
         // with fps caped to 60 so doesn't really matter...
-        this._rotateAroundWorldAxis(this._cube, this._xAxis, targetRotationX);
-        this._rotateAroundWorldAxis(this._cube, this._yAxis, targetRotationY);
+        this._rotateAroundWorldAxis(this.cube, this._xAxis, targetRotationX);
+        this._rotateAroundWorldAxis(this.cube, this._yAxis, targetRotationY);
     }
 
     // targetRotation is approximated to radians

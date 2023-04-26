@@ -106,7 +106,7 @@ class EnvController {
         this._mixers.push(mixer);
         const action = mixer.clipAction(Object.values(model.gltf.animations)[1]);
 
-        // dirty fix, allows starting of the lid with a closed paused animation
+        // TODO: dirty fix, allows starting of the lid with a closed paused animation
         setTimeout(() => {
             action.reset();
             action.setEffectiveTimeScale(0.01);
