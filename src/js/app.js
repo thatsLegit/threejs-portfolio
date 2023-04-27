@@ -1,6 +1,15 @@
+import '../index.css';
+
 import CharacterSelection from 'components/CharacterSelectionScene';
 import CustomAssetLoader from './helpers/miscellaneous/CustomAssetLoader';
 import Game from 'components/Game';
+
+require.context('../assets', true, /\.bin$/);
+require.context('../assets', true, /\.glb$/);
+require.context('../assets', true, /\.gltf$/);
+require.context('../assets', true, /\.fbx$/);
+require.context('../assets', true, /\.bmp$/);
+require.context('../assets', true, /\.png$/);
 
 const LOADING_ELEMENT = document.querySelector('#loading');
 

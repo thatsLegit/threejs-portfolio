@@ -1,48 +1,56 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = {
-  mode: 'development',
-  entry: './src/js/App.js',
-  devtool: 'inline-source-map',
-  output: {
-    //should probably set a publicPath.
-    path: path.resolve(__dirname, 'dist', 'js'),
-    filename: 'bundle.js',
-  },
-  devServer: {
-    static: {
-      directory: path.join(__dirname, 'dist'),
+    mode: 'development',
+    entry: './src/js/App.js',
+    devtool: 'inline-source-map',
+    output: {
+        path: path.resolve(__dirname, 'dist'),
+        filename: 'bundle.js',
+        assetModuleFilename: 'assets/[name][hash][ext]',
     },
-    port: 9000,
-    devMiddleware: {
-      publicPath: '/dist/', // here's the change
-      writeToDisk: true,
+    devServer: {
+        static: {
+            directory: path.join(__dirname, 'dist'),
+        },
+        port: 9000,
+        devMiddleware: {
+            publicPath: '/dist/', // here's the change
+            writeToDisk: true,
+        },
+        compress: true,
+        hot: true,
+        open: false,
     },
-    compress: true,
-    hot: true,
-    open: false,
-  },
-  plugins: [
-    new HtmlWebpackPlugin({
-      template: './src/index.html',
-      filename: '../index.html',
-    }),
-    new CopyPlugin({
-      patterns: [
-        { from: './src/html', to: '../html' },
-        { from: './src/css', to: '../css' },
-        { from: './src/assets', to: '../assets' },
-      ],
-    }),
-  ],
-  // options for resolving module requests
-  // (does not apply to resolving to loaders)
-  resolve: {
-    // directories where to look for modules,
-    modules: ['node_modules', path.resolve(__dirname, 'src', 'js')],
-    // extensions that are used
-    extensions: ['.js', '.json'],
-  },
+    module: {
+        rules: [
+            {
+                test: /\.css$/,
+                use: ['style-loader', 'css-loader'],
+            },
+            {
+                test: /\.(glb|gltf|fbx|bmp|bin)$/,
+                type: 'asset/resource',
+            },
+            {
+                test: /\.png$/,
+                type: 'asset/resource',
+                generator: {
+                    filename: 'assets/[name][hash][ext]',
+                },
+            },
+        ],
+    },
+    plugins: [
+        new HtmlWebpackPlugin({
+            template: './src/index.html',
+            filename: 'index.html',
+        }),
+    ],
+    // options for resolving module requests (does not apply to resolving to loaders)
+    resolve: {
+        modules: ['node_modules', path.resolve(__dirname, 'src', 'js')],
+        extensions: ['.js', '.json'],
+    },
 };

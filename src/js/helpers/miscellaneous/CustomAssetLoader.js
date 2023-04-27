@@ -2,6 +2,47 @@ import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader';
 
+import clouds1East from '../../../assets/textures/sandbox/clouds1_east.bmp';
+import clouds1West from '../../../assets/textures/sandbox/clouds1_west.bmp';
+import clouds1Up from '../../../assets/textures/sandbox/clouds1_up.bmp';
+import clouds1Down from '../../../assets/textures/sandbox/clouds1_down.bmp';
+import clouds1North from '../../../assets/textures/sandbox/clouds1_north.bmp';
+import clouds1South from '../../../assets/textures/sandbox/clouds1_south.bmp';
+
+import aboutMe from '../../../assets/textures/cube_textures/aboutMe.png';
+import skills from '../../../assets/textures/cube_textures/skills.png';
+import cv from '../../../assets/textures/cube_textures/cv.png';
+import hireMe from '../../../assets/textures/cube_textures/hireMe.png';
+import interrogation from '../../../assets/textures/cube_textures/interrogation.png';
+import projects from '../../../assets/textures/cube_textures/projects.png';
+import smallGames from '../../../assets/textures/cube_textures/smallGames.png';
+
+import treasureChest from '../../../assets/models/treasure-chest/treasureChest.glb';
+import ship from '../../../assets/models/ship/ship.glb';
+import desertPlatform from '../../../assets/models/platform/desert/scene.gltf';
+import smallPlatform from '../../../assets/models/platform/small/smallPlatform.glb';
+import iceWorld from '../../../assets/models/iceWorld/ice.glb';
+import bridge from '../../../assets/models/iceWorld/bridge.glb';
+import trees from '../../../assets/models/forest/trees/trees.glb';
+import arch from '../../../assets/models/forest/arch/arch.glb';
+import foliage from '../../../assets/models/forest/foliage/foliage.glb';
+
+import brian from '../../../assets/models/characters/brian/brian.fbx';
+import brianSpecular from '../../../assets/models/characters/brian/Ch01_1001_Specular.png';
+import megan from '../../../assets/models/characters/megan/megan.fbx';
+import meganSpecular from '../../../assets/models/characters/megan/Ch22_1001_Specular.png';
+
+import brianWalk from '../../../assets/models/characters/brian/animations/brianWalk.fbx';
+import brianWalkingBackwards from '../../../assets/models/characters/brian/animations/brianWalkingBackwards.fbx';
+import brianRun from '../../../assets/models/characters/brian/animations/brianRun.fbx';
+import brianIdle from '../../../assets/models/characters/brian/animations/brianIdle.fbx';
+import brianFalling from '../../../assets/models/characters/brian/animations/brianFalling.fbx';
+import meganWalk from '../../../assets/models/characters/megan/animations/meganWalk.fbx';
+import meganWalkingBackwards from '../../../assets/models/characters/megan/animations/meganWalkingBackwards.fbx';
+import meganRun from '../../../assets/models/characters/megan/animations/meganRun.fbx';
+import meganIdle from '../../../assets/models/characters/megan/animations/meganIdle.fbx';
+import meganFalling from '../../../assets/models/characters/megan/animations/meganFalling.fbx';
+
 const PROGRESS_BAR = document.querySelector('.progressBar');
 const PROGRESS_BAR_TITLE = document.querySelector('.progressTitle');
 
@@ -13,23 +54,23 @@ class CustomAssetsLoader {
     _init() {
         this._bgTextureLoader = new THREE.CubeTextureLoader();
         this._bgTextureFiles = [
-            './assets/clouds1/clouds1_east.bmp',
-            './assets/clouds1/clouds1_west.bmp',
-            './assets/clouds1/clouds1_up.bmp',
-            './assets/clouds1/clouds1_down.bmp',
-            './assets/clouds1/clouds1_north.bmp',
-            './assets/clouds1/clouds1_south.bmp',
+            clouds1East,
+            clouds1West,
+            clouds1Up,
+            clouds1Down,
+            clouds1North,
+            clouds1South,
         ];
 
         this._magicCubeTextureLoader = new THREE.TextureLoader(this._magicCubeManager);
         this.magicCubeTexture = {
-            interrogation: { path: './assets/cube_textures/interrogation.png' }, //texture is loader here thereafter
-            aboutMe: { path: './assets/cube_textures/aboutMe.png' },
-            projects: { path: './assets/cube_textures/projects.png' },
-            cv: { path: './assets/cube_textures/cv.png' },
-            skills: { path: './assets/cube_textures/skills.png' },
-            hireMe: { path: './assets/cube_textures/hireMe.png' },
-            smallGames: { path: './assets/cube_textures/smallGames.png' },
+            interrogation: { path: interrogation }, // texture is loaded here thereafter
+            aboutMe: { path: aboutMe },
+            projects: { path: projects },
+            cv: { path: cv },
+            skills: { path: skills },
+            hireMe: { path: hireMe },
+            smallGames: { path: smallGames },
         };
 
         this._envModelsManager = new THREE.LoadingManager();
@@ -37,20 +78,18 @@ class CustomAssetsLoader {
         this.envModels = {
             animated: {
                 treasureChest: {
-                    path: './assets/blender_models/treasure-chest/treasureChest.glb',
+                    path: treasureChest,
                 },
             },
             static: {
-                platform: { path: './assets/blender_models/platform/desert/scene.gltf' },
-                smallPlatform: {
-                    path: './assets/blender_models/platform/small/smallPlatform.glb',
-                },
-                iceWorld: { path: './assets/blender_models/iceWorld/ice.glb' },
-                bridge: { path: './assets/blender_models/iceWorld/bridge.glb' },
-                trees: { path: './assets/blender_models/forest/trees/trees.glb' },
-                foliage: { path: './assets/blender_models/forest/foliage/foliage.glb' },
-                arch: { path: './assets/blender_models/forest/arch/arch.glb' },
-                ship: { path: './assets/blender_models/ship/ship.glb' },
+                platform: { path: desertPlatform },
+                smallPlatform: { path: smallPlatform },
+                iceWorld: { path: iceWorld },
+                bridge: { path: bridge },
+                trees: { path: trees },
+                foliage: { path: foliage },
+                arch: { path: arch },
+                ship: { path: ship },
             },
         };
 
@@ -58,49 +97,36 @@ class CustomAssetsLoader {
         this._characterLoader = new FBXLoader(this._characterModelManager);
         this.characterModels = {
             megan: {
-                path: './assets/blender_models/characters/megan/megan.fbx',
-                //this fixes the character 'shininess', for some reason the specular map is not loaded automatically
-                specularMap: new THREE.TextureLoader().load(
-                    './assets/blender_models/characters/megan/Ch22_1001_Specular.png'
-                ),
+                path: megan,
+                // This fixes the character 'shininess', for some reason the specular map is not loaded automatically
+                specularMap: new THREE.TextureLoader().load(meganSpecular),
                 gender: 'female',
             },
             brian: {
-                path: './assets/blender_models/characters/brian/brian.fbx',
-                specularMap: new THREE.TextureLoader().load(
-                    './assets/blender_models/characters/brian/Ch01_1001_Specular.png'
-                ),
+                path: brian,
+                specularMap: new THREE.TextureLoader().load(brianSpecular),
                 gender: 'male',
             },
         };
 
         this._characterAnimationsManager = new THREE.LoadingManager();
         this._charAnimationsLoader = new FBXLoader(this._characterAnimationsManager);
-        this.charAnimations = ['megan', 'brian'].reduce(
-            (acc, current) => ({
-                ...acc,
-                ...{
-                    [current]: {
-                        walk: {
-                            path: `./assets/blender_models/characters/${current}/animations/walk.fbx`,
-                        },
-                        walkingBackwards: {
-                            path: `./assets/blender_models/characters/${current}/animations/walkingBackwards.fbx`,
-                        },
-                        run: {
-                            path: `./assets/blender_models/characters/${current}/animations/run.fbx`,
-                        },
-                        idle: {
-                            path: `./assets/blender_models/characters/${current}/animations/idle.fbx`,
-                        },
-                        falling: {
-                            path: `./assets/blender_models/characters/${current}/animations/falling.fbx`,
-                        },
-                    },
-                },
-            }),
-            {}
-        );
+        this.charAnimations = {
+            brian: {
+                walk: { path: brianWalk },
+                walkingBackwards: { path: brianWalkingBackwards },
+                run: { path: brianRun },
+                idle: { path: brianIdle },
+                falling: { path: brianFalling },
+            },
+            megan: {
+                walk: { path: meganWalk },
+                walkingBackwards: { path: meganWalkingBackwards },
+                run: { path: meganRun },
+                idle: { path: meganIdle },
+                falling: { path: meganFalling },
+            },
+        };
     }
 
     _onProgress(url, itemsLoaded, itemsTotal) {
