@@ -4,12 +4,8 @@ import CharacterSelection from 'components/CharacterSelectionScene';
 import CustomAssetLoader from './helpers/miscellaneous/CustomAssetLoader';
 import Game from 'components/Game';
 
-require.context('../assets', true, /\.bin$/);
-require.context('../assets', true, /\.glb$/);
-require.context('../assets', true, /\.gltf$/);
-require.context('../assets', true, /\.fbx$/);
-require.context('../assets', true, /\.bmp$/);
-require.context('../assets', true, /\.png$/);
+// loading all assets to dist when webpacking
+require.context('../assets', true, /\.(glb|gltf|fbx|bmp|png|bin)$/);
 
 const LOADING_ELEMENT = document.querySelector('#loading');
 

@@ -8,17 +8,16 @@ module.exports = {
     output: {
         path: path.resolve(__dirname, 'dist'),
         filename: 'bundle.js',
-        assetModuleFilename: 'assets/[name][hash][ext]',
+        assetModuleFilename: (pathData) => {
+            const filepath = path.dirname(pathData.filename).split('/').slice(1).join('/');
+            return `${filepath}/[name][ext]`;
+        },
     },
     devServer: {
         static: {
             directory: path.join(__dirname, 'dist'),
         },
         port: 9000,
-        devMiddleware: {
-            publicPath: '/dist/', // here's the change
-            writeToDisk: true,
-        },
         compress: true,
         hot: true,
         open: false,
@@ -30,15 +29,8 @@ module.exports = {
                 use: ['style-loader', 'css-loader'],
             },
             {
-                test: /\.(glb|gltf|fbx|bmp|bin)$/,
+                test: /\.(glb|gltf|fbx|bmp|png|wav|bin)$/,
                 type: 'asset/resource',
-            },
-            {
-                test: /\.png$/,
-                type: 'asset/resource',
-                generator: {
-                    filename: 'assets/[name][hash][ext]',
-                },
             },
         ],
     },
