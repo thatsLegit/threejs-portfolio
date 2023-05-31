@@ -4,8 +4,8 @@ import CharacterFSM from '../../helpers/FSM/CharacterFSM';
 import CharacterControllerProxy from './CharacterControllerProxy';
 import CharacterControllerInput from './CharacterControllerInput';
 
-const overlay = document.querySelector('.overlay');
-const overlayContent = document.querySelector('.overlay-content');
+const overlay = document.querySelector('#go-overlay');
+const overlayContent = document.querySelector('#go-overlay #content');
 
 class CharacterController {
     constructor(params) {

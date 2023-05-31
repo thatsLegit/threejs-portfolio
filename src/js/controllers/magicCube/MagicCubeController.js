@@ -7,17 +7,10 @@ import {
     FIRST_FACE,
     DISCOVER_ALL_FACES,
 } from '../quests/QuestController';
+import { cubeWindowSingleton } from '../../components/Windows';
 
 const RESUME_LINK = 'https://thatsLegit.github.io/resume/cv_english.png';
 const CANVAS = document.querySelector('#c');
-const IFRAMES = {
-    cv: document.querySelector('#cv'),
-    aboutMe: document.querySelector('#aboutMe'),
-    hireMe: document.querySelector('#hireMe'),
-    skills: document.querySelector('#skills'),
-    projects: document.querySelector('#projects'),
-    smallGames: document.querySelector('#smallGames'),
-};
 
 class MagicCube {
     constructor(params) {
@@ -215,33 +208,30 @@ class MagicCube {
         this.cube.overdraw = true;
         this._params.scene.add(this.cube);
 
-        document.addEventListener('dblclick', this._selectIframe.bind(this));
+        document.addEventListener('dblclick', this._openCubeWindow.bind(this));
     }
 
-    _selectIframe() {
+    _openCubeWindow() {
         this._raycaster.setFromCamera(this._mouse, this._params.camera);
         const isIntersected = this._raycaster.intersectObject(this.cube);
 
         if (!isIntersected.length) return;
 
         const index = isIntersected[0].face.materialIndex;
-        this._openIframe(this._faces[index]);
-    }
+        const faceId = this._faces[index];
 
-    _openIframe(name) {
+        // for quests
         if (!this.visited.size) commonEmitter.emit(FIRST_FACE);
-        if (this.visited.size === 5 && !this.visited.has(name)) {
+        if (this.visited.size === 5 && !this.visited.has(faceId)) {
             commonEmitter.emit(DISCOVER_ALL_FACES);
         }
-        this._selected = name;
-        this.visited.add(name);
-        if (name === 'cv') {
-            return window.open(RESUME_LINK, '_blank');
-        }
 
-        closeFullscreen(); // canvas go out of full screen to see iframe if needed
-        if (this._selected) IFRAMES[this._selected].style.display = 'none';
-        IFRAMES[name].style.display = 'block';
+        this._selected = faceId;
+        this.visited.add(faceId);
+
+        if (faceId === 'cv') return window.open(RESUME_LINK, '_blank');
+
+        cubeWindowSingleton.open(this._faces[index]);
     }
 
     // clicking on the cube event

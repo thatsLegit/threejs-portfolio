@@ -5,64 +5,35 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Ilya's portfolio</title>
         <link rel="icon" href="./assets/content/block.png" />
+        <link
+            type="text/css"
+            rel="stylesheet"
+            href="https://api.mqcdn.com/sdk/mapquest-js/v1.3.2/mapquest.css"
+        />
     </head>
 
     <body>
-        <div class="container">
+        <div id="main-container">
             <!-- full screen button -->
-            <img src="./assets/content/full-screen.png" alt="full-screen" id="full-screen" />
+            <img src="./assets/content/full-screen.png" alt="full-screen" id="full-screen-img" />
             <!-- magic cube alerts -->
-            <div class="alert" id="alert">
-                <div id="alert-text" class="unselectable"></div>
+            <div id="alert">
+                <div class="alert-text" class="unselectable"></div>
             </div>
             <!-- game over screen overlay -->
-            <div class="overlay">
-                <div class="overlay-content">
-                    <p id="try-again-text">Try again</p>
+            <div id="go-overlay">
+                <div id="content">
+                    <p>Try again</p>
                 </div>
             </div>
             <!-- cube faces iframes -->
-            <!-- <iframe
-        id="aboutMe"
-        class="iframe-general"
-        width="600"
-        height="600"
-        src="html/about-me.html"
-      ></iframe>
-      <iframe
-        id="hireMe"
-        class="iframe-general"
-        width="550"
-        height="600"
-        src="html/hire-me.html"
-      ></iframe>
-      <iframe
-        id="skills"
-        class="iframe-general"
-        width="750"
-        height="500"
-        src="html/skills.html"
-      ></iframe>
-      <iframe
-        id="projects"
-        class="iframe-general"
-        width="750"
-        height="550"
-        src="html/projects.html"
-      ></iframe>
-      <iframe
-        id="smallGames"
-        class="iframe-general"
-        width="550"
-        height="550"
-        src="html/small-games.html"
-      ></iframe> -->
+            <div id="cube-window"></div>
             <!-- controls indication in the bottom left corner -->
             <div id="controls-container" class="unselectable">
                 <p class="default-text title">Controls:</p>
-                <div class="flex-column-space" style="height: 70%; width: 250px">
-                    <div class="flex-row-space">
-                        <div class="flex-row-space" style="width: 50%">
+                <div class="flex-column justify-space-between" style="height: 70%; width: 250px">
+                    <div class="flex-row justify-space-between">
+                        <div class="flex-row justify-space-between" style="width: 50%">
                             <div class="white-button square">
                                 <div id="forward" class="white-button-text"></div>
                             </div>
@@ -79,21 +50,21 @@
                         <div class="default-text">Movement</div>
                     </div>
 
-                    <div class="flex-row-space">
+                    <div class="flex-row justify-space-between">
                         <div class="white-button rectangle">
                             <div class="white-button-text">Shift</div>
                         </div>
                         <div class="default-text">Sprint</div>
                     </div>
 
-                    <div class="flex-row-space">
+                    <div class="flex-row justify-space-between">
                         <div class="white-button square">
                             <div class="white-button-text">F</div>
                         </div>
                         <div class="default-text">Free camera</div>
                     </div>
 
-                    <div class="flex-row-space">
+                    <div class="flex-row justify-space-between">
                         <div class="white-button rectangle">
                             <div class="white-button-text">Space</div>
                         </div>
@@ -104,8 +75,8 @@
             <!-- quests -->
             <div id="quests-container" class="unselectable">
                 <p class="default-text title">Objectives:</p>
-                <div class="flex-column-space" style="height: 70%; width: 400px">
-                    <div id="treasure-quest" class="flex-row-start" style="align-items: center">
+                <div class="flex-column justify-space-between" style="height: 70%; width: 400px">
+                    <div id="treasure-quest" class="flex-row justify-start align-center">
                         <div class="white-button square">
                             <div class="white-button-text">
                                 <svg
@@ -128,7 +99,7 @@
                         </div>
                     </div>
 
-                    <div id="mystery-box-quest" class="flex-row-start">
+                    <div id="mystery-box-quest" class="flex-row justify-start">
                         <div class="white-button square">
                             <div class="white-button-text">
                                 <svg
@@ -151,7 +122,7 @@
                         </div>
                     </div>
 
-                    <div id="treasure-box-quest" class="flex-row-start">
+                    <div id="treasure-box-quest" class="flex-row justify-start">
                         <div class="white-button square">
                             <div class="white-button-text">
                                 <svg
@@ -174,7 +145,7 @@
                         </div>
                     </div>
 
-                    <div id="pro-quest" class="flex-row-start">
+                    <div id="pro-quest" class="flex-row justify-start">
                         <div class="white-button square">
                             <div class="white-button-text">
                                 <svg
@@ -200,9 +171,9 @@
             </div>
             <!-- character selection screen -->
             <div id="character-selection">
-                <div id="character-selection-title">Select your character :</div>
-                <canvas id="character-selection-canvas"></canvas>
-                <button id="character-selection-validate" class="validate">Validate</button>
+                <div>Select your character :</div>
+                <canvas></canvas>
+                <button class="validate-button">Validate</button>
             </div>
             <canvas id="c"></canvas>
             <!-- allows responsive design -->
@@ -244,28 +215,19 @@
                     </form>
                 </div>
 
-                <button id="submit-settings" class="validate">Validate</button>
+                <button id="submit-settings" class="validate-button">Validate</button>
             </div>
         </div>
 
-        <!-- global script -->
+        <!-- global script for entering/exitting fullscreen -->
         <script>
-            function closeIFrame(name) {
-                this.focus(); //allows the main window frame to recover the focus.
-                const selector = '#' + name;
-                document.querySelector(selector).style.display = 'none';
-            }
+            const CANVAS = document.getElementById('c');
+            const FULL_SCREEN_BUTTON = document.getElementById('full-screen-img');
 
-            const canvas = document.getElementById('c');
-            const fullScreen = document.getElementById('full-screen');
-            fullScreen.addEventListener('click', (e) => openFullscreen());
-
-            function openFullscreen() {
-                if (canvas.requestFullscreen) canvas.requestFullscreen();
-            }
-            function closeFullscreen() {
-                if (document.fullscreenElement) document.exitFullscreen();
-            }
+            FULL_SCREEN_BUTTON.addEventListener('click', () => {
+                if (CANVAS.requestFullscreen) CANVAS.requestFullscreen();
+            });
         </script>
+        <script src="https://api.mqcdn.com/sdk/mapquest-js/v1.3.2/mapquest-maps.js"></script>
     </body>
 </html>

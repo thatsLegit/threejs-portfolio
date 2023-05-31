@@ -19,7 +19,7 @@ const PRO_QUEST_CHECKMARK = document
 
 const ALERT = document.querySelector('#alert');
 ALERT.style.display = 'none';
-const ALERT_TEXT = document.querySelector('#alert-text');
+const ALERT_TEXT = document.querySelector('#alert .alert-text');
 
 export const FIND_TREASURE = 'find treasure';
 export const OPEN_CUBE = 'open cube';

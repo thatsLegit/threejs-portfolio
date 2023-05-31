@@ -1,271 +1,360 @@
-/* general */
+/* GENERAL */
 html,
 body {
-  height: 100%;
-  margin: 0;
-  background-color: burlywood;
+    height: 100%;
+    margin: 0;
+    background-color: burlywood;
 }
 
-/* canvas */
-#c {
-  /* position: fixed; if you want to use the canvas as a bg */
-  width: 100%;
-  height: 100%;
-  display: none;
+/* SCROLLBAR */
+/* width */
+div::-webkit-scrollbar {
+    width: 6px;
 }
-
-/* layout */
-.container {
-  width: 100%;
-  height: 100%;
-  position: relative;
+/* Track */
+div::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey;
+    border-radius: 12px;
 }
-
-/* full screen image */
-#full-screen {
-  position: absolute;
-  cursor: pointer;
-  top: 15px;
-  right: 15px;
-  z-index: 2;
-}
-
-/* overlay */
-.overlay {
-  position: absolute; /* Sit on top of the page content */
-  display: none;
-  width: 100%; /* Full width (cover the whole page) */
-  height: 100%; /* Full height (cover the whole page) */
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
-  background-color: black;
-}
-.overlay-content {
-  position: relative;
-  margin: auto;
-  width: 20%;
-  height: 10%;
-  top: 40%;
-}
-#try-again-text {
-  color: rgb(235, 16, 16);
-  text-align: center;
-  cursor: pointer;
-  font-size: 2.5rem;
-  font-weight: bold;
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
-  text-shadow: 5px 5px 10px black;
-}
-
-/* controls + space indications */
-#controls-container {
-  display: none;
-  position: absolute;
-  bottom: 10px;
-  left: 10px;
-  height: 200px;
-}
-.default-text {
-  position: relative;
-  font-size: 1.5em;
-  font-family: 'Times New Roman', Times, serif;
-  font-weight: bold;
-  color: white;
-  text-shadow: 2px 2px 5px black;
-  -webkit-text-stroke-width: 0.25px;
-  -webkit-text-stroke-color: black;
-}
-.title {
-  height: 7.5%;
-}
-.white-button {
-  color: black;
-  background-color: white;
-  font-size: 1em;
-  box-shadow: 1px 1px 2px black;
-  border-radius: 5px;
-  border: 0.5px solid black;
-}
-.white-button-text {
-  text-align: center;
-  padding: 3px;
-  position: relative;
-  text-shadow: 0.05px 0.05px 0.25px black;
-}
-.flex-column-space {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-.flex-row-space {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-}
-.flex-row-start {
-  display: flex;
-  flex-direction: row;
-  justify-content: start;
-}
-.rectangle {
-  width: 3em;
-  height: 1.5em;
-}
-.square {
-  width: 1.5em;
-  height: 1.5em;
-}
-#quests-container {
-  display: none;
-  position: absolute;
-  bottom: 10px;
-  right: 10px;
-  height: 200px;
-}
-
-/* character selection */
-#character-selection {
-  display: none;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  width: 100%;
-  height: 100%;
-}
-#character-selection-title {
-  font-size: 2em;
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
-  font-weight: bold;
-  position: relative;
-  margin: 50px 0px 50px 0px;
-}
-#character-selection-canvas {
-  width: 50vw;
-  height: 50vh;
-}
-.validate {
-  margin-top: 10px;
-  background: linear-gradient(to bottom, #ffec64 5%, #ffab23 100%);
-  background-color: #ffec64;
-  border: 1px solid #ffaa22;
-  display: inline-block;
-  cursor: pointer;
-  color: #333333;
-  font-family: Arial;
-  font-size: 15px;
-  font-weight: bold;
-  padding: 10px 20px;
-  text-decoration: none;
-  text-shadow: 0px 0px 0px #ffee66;
-}
-.validate:hover {
-  background: linear-gradient(to bottom, #ffab23 5%, #ffec64 100%);
-  background-color: #ffab23;
-}
-.validate:active {
-  position: relative;
-  top: 1px;
-}
-
-/* loading textures progress bar */
-#loading {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: none;
-  flex-direction: column;
-  justify-content: space-evenly;
-  align-items: center;
-}
-#loading .progress {
-  margin: 1.5em;
-  border: 1px solid black;
-  width: 50%;
-}
-#loading .progressBar {
-  margin: 2px;
-  background: blue;
-  height: 1em;
-  transform-origin: top left;
-  transform: scaleX(0);
-}
-#loading .progressTitle {
-  text-align: center;
-  font-weight: bold;
-  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-}
-#loading .loading-legend {
-  font-size: 1rem;
-  font-style: italic;
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
-  width: 50%;
-}
-
-/* Settings screen */
-#settings-container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: none;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-#settings {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-  align-items: baseline;
-  width: 50%;
-  margin-bottom: 1rem;
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
-}
-#graphics > p,
-#keyboard > p {
-  font-weight: bold;
-}
-
-/* magicCube indications */
-.alert {
-  display: none;
-  position: absolute;
-  width: 100%;
-  height: 25%;
-}
-#alert-text {
-  position: relative;
-  text-align: center;
-  width: 100%;
-  height: 100%;
-  top: 10%;
-  color: rgba(255, 255, 255);
-  font-size: 2rem;
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
+/* Handle */
+div::-webkit-scrollbar-thumb {
+    background: #333333;
+    border-radius: 12px;
 }
 
 .unselectable {
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
-/* iframes */
-.iframe-general {
-  display: none;
-  position: absolute;
-  top: 10%;
-  left: 30%;
-  z-index: 3;
-  box-shadow: 2px 2px 5px;
+/* CANVAS */
+#c {
+    /* position: fixed; if you want to use the canvas as a bg */
+    width: 100%;
+    height: 100%;
+    display: none;
+}
+
+/* TEXT */
+.default-text {
+    position: relative;
+    font-size: 1.5em;
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: bold;
+    color: white;
+    text-shadow: 2px 2px 5px black;
+    -webkit-text-stroke-width: 0.25px;
+    -webkit-text-stroke-color: black;
+}
+.title {
+    height: 7.5%;
+}
+
+/* LAYOUT */
+#main-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+.flex-column {
+    display: flex;
+    flex-direction: column;
+}
+.flex-row {
+    display: flex;
+    flex-direction: row;
+}
+.justify-space-between {
+    justify-content: space-between;
+}
+.justify-space-around {
+    justify-content: space-around;
+}
+.justify-start {
+    justify-content: start;
+}
+.justify-space-center {
+    justify-content: center;
+}
+.align-center {
+    align-items: center;
+}
+.align-start {
+    align-items: flex-start;
+}
+
+/* BUTTONS */
+.validate-button {
+    margin-top: 10px;
+    background: linear-gradient(to bottom, #ffec64 5%, #ffab23 100%);
+    background-color: #ffec64;
+    border: 1px solid #ffaa22;
+    display: inline-block;
+    cursor: pointer;
+    color: #333333;
+    font-family: Arial;
+    font-size: 15px;
+    font-weight: bold;
+    padding: 10px 20px;
+    text-decoration: none;
+    text-shadow: 0px 0px 0px #ffee66;
+}
+.validate-button:hover {
+    background: linear-gradient(to bottom, #ffab23 5%, #ffec64 100%);
+    background-color: #ffab23;
+}
+.validate-button:active {
+    position: relative;
+    top: 1px;
+}
+.close-button {
+    cursor: pointer;
+    width: 20px;
+}
+
+.white-button {
+    color: black;
+    background-color: white;
+    font-size: 1em;
+    box-shadow: 1px 1px 2px black;
+    border-radius: 5px;
+    border: 0.5px solid black;
+}
+.white-button-text {
+    text-align: center;
+    padding: 3px;
+    position: relative;
+    text-shadow: 0.05px 0.05px 0.25px black;
+}
+.rectangle {
+    width: 3em;
+    height: 1.5em;
+}
+.square {
+    width: 1.5em;
+    height: 1.5em;
+}
+
+/* FULL SCREEN ICON */
+#full-screen-img {
+    position: absolute;
+    cursor: pointer;
+    top: 15px;
+    right: 15px;
+    z-index: 2;
+}
+
+/* TOOLTIP */
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    bottom: 110%;
+    left: 50%;
+    margin-left: -60px;
+    opacity: 0;
+    transition: opacity 0.6s;
+}
+.tooltip .tooltiptext::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: black transparent transparent transparent;
+}
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 0.75rem;
+    padding: 1px;
+    opacity: 0.8;
+}
+
+/* GAME OVER OVERLAY */
+#go-overlay {
+    position: absolute; /* Sit on top of the page content */
+    display: none;
+    width: 100%; /* Full width (cover the whole page) */
+    height: 100%; /* Full height (cover the whole page) */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
+    background-color: black;
+}
+#go-overlay #content {
+    position: relative;
+    margin: auto;
+    width: 20%;
+    height: 10%;
+    top: 40%;
+}
+#go-overlay > p {
+    color: rgb(235, 16, 16);
+    text-align: center;
+    cursor: pointer;
+    font-size: 2.5rem;
+    font-weight: bold;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    text-shadow: 5px 5px 10px black;
+}
+
+/* CONTROLS + QUESTS */
+#controls-container {
+    display: none;
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    height: 200px;
+}
+#quests-container {
+    display: none;
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    height: 200px;
+}
+
+/* CHARACTER SELECTION */
+#character-selection {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+#character-selection > div {
+    font-size: 2em;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: bold;
+    position: relative;
+    margin: 50px 0px 50px 0px;
+}
+#character-selection > canvas {
+    width: 50vw;
+    height: 50vh;
+}
+
+/* PROGRESS BAR FROM LOADING TEXTURES */
+#loading {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+}
+#loading .progress {
+    margin: 1.5em;
+    border: 1px solid black;
+    width: 50%;
+}
+#loading .progressBar {
+    margin: 2px;
+    background: blue;
+    height: 1em;
+    transform-origin: top left;
+    transform: scaleX(0);
+}
+#loading .progressTitle {
+    text-align: center;
+    font-weight: bold;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+#loading .loading-legend {
+    font-size: 1rem;
+    font-style: italic;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    width: 50%;
+}
+
+/* SETTINGS SCREEN */
+#settings-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+#settings {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: baseline;
+    width: 50%;
+    margin-bottom: 1rem;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+#graphics > p,
+#keyboard > p {
+    font-weight: bold;
+}
+
+/* ALERTS */
+#alert {
+    display: none;
+    position: absolute;
+    width: 100%;
+    height: 25%;
+}
+.alert-text {
+    position: relative;
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    top: 10%;
+    color: rgba(255, 255, 255);
+    font-size: 2rem;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+/* CUBE WINDOW TEMPLATES */
+#cube-window {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 3;
+    box-shadow: 2px 2px 5px;
+}
+.template-container {
+    padding: 5px;
+    height: 100%;
+    margin: 0;
+    background: white url('./assets/content/scroll.jpg') repeat;
+    background-size: cover;
+}
+.template-inner-container {
+    position: relative;
+    width: 100%;
+}
+.template-container p {
+    margin: 0px;
+}
+#github-link {
+    text-decoration: none;
 }

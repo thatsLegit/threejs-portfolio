@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import soundTrack from '../../../assets/audio/wind1.wav';
 
 class SoundController {
     constructor(camera) {
@@ -16,7 +17,7 @@ class SoundController {
 
         // load a sound and set it as the Audio object's buffer
         const audioLoader = new THREE.AudioLoader();
-        audioLoader.load('./assets/audio/wind1.wav', function (buffer) {
+        audioLoader.load(soundTrack, function (buffer) {
             sound.setBuffer(buffer);
             sound.setLoop(true);
             sound.setVolume(0.1);

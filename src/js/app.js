@@ -1,11 +1,13 @@
+// loading all assets to dist when webpacking
+// Remember to add an asset extension here everytime you add it to webpack config
+// if an asset is not imported in any js file, it won't be shipped to bundle.js
+require.context('../assets', true, /\.(glb|gltf|fbx|bmp|png|jpg|jpeg|bin)$/);
+
 import '../index.css';
 
 import CharacterSelection from 'components/CharacterSelectionScene';
 import CustomAssetLoader from './helpers/miscellaneous/CustomAssetLoader';
 import Game from 'components/Game';
-
-// loading all assets to dist when webpacking
-require.context('../assets', true, /\.(glb|gltf|fbx|bmp|png|bin)$/);
 
 const LOADING_ELEMENT = document.querySelector('#loading');
 
@@ -19,7 +21,9 @@ const BACKWARD = document.querySelector('#controls-container #backward');
 const LEFT = document.querySelector('#controls-container #left');
 const RIGHT = document.querySelector('#controls-container #right');
 
-const CHARACTER_SELECTION_SUBMIT_BUTTON = document.querySelector('#character-selection-validate');
+const CHARACTER_SELECTION_SUBMIT_BUTTON = document.querySelector(
+    '#character-selection > .validate-button'
+);
 
 const AZERTY_CONTROLS = ['D', 'Q', 'Z', 'S'];
 const QWERTY_CONTROLS = ['D', 'A', 'W', 'S'];

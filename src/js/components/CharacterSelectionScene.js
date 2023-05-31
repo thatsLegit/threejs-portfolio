@@ -1,8 +1,10 @@
 import * as THREE from 'three';
 
 const CHARACTER_SELECTION = document.querySelector('#character-selection');
-const CHARACTER_SELECTION_C = document.querySelector('#character-selection-canvas');
-const CHARACTER_SELECTION_SUBMIT_BUTTON = document.querySelector('#character-selection-validate');
+const CHARACTER_SELECTION_C = document.querySelector('#character-selection > canvas');
+const CHARACTER_SELECTION_SUBMIT_BUTTON = document.querySelector(
+    '#character-selection > .validate-button'
+);
 
 class CharacterSelection {
     constructor(assetLoader) {

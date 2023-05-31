@@ -20,7 +20,7 @@ module.exports = {
                 use: ['style-loader', 'css-loader'],
             },
             {
-                test: /\.(glb|gltf|fbx|bmp|png|wav|bin)$/,
+                test: /\.(glb|gltf|fbx|bmp|png|jpg|jpeg|wav|bin)$/,
                 type: 'asset/resource',
             },
         ],
