@@ -1,39 +1,40 @@
 import WindowTemplate from './WindowTemplate';
+import alarm from '../../../assets/content/alarm.png';
 
 class SmallGames extends WindowTemplate {
     constructor(window) {
-        super(window, 'skills');
+        super(window, 'smallGames');
     }
 
     cssTemplate() {
-        return ``;
+        return `
+            ${super.cssTemplate()}
+            #${this.id} .text {
+                font-family: Verdana, Geneva, Tahoma, sans-serif;
+                font-size: 1rem;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+            }
+            
+            #${this.id} .content {
+                width: 600px;
+            }
+        `;
     }
 
     htmlTemplate() {
-        return ``;
-    }
-
-    enable() {
-        this.element.style.display = 'block';
-    }
-
-    disable() {
-        this.element.style.display = 'none';
-    }
-
-    generate() {
-        // append css/html to index.html (into #cube-window)
-        const style = document.createElement('style');
-        document.head.append(style);
-        style.textContent = this.cssTemplate();
-
-        this.window.element.insertAdjacentElement('afterend', this.htmlTemplate());
-
-        this.element = document.querySelector('#skills');
-
-        const closeButton = document.querySelector('#skills .closeButton');
-        closeButton.addEventListener('click', this.window.close.bind(this.window));
+        return `
+            ${super.htmlTemplate()}
+            <div class="content">
+                <div class="text">
+                    <img src=${alarm} alt="alarm" />
+                    <b>Ongoing development</b>
+                </div>
+            </div>
+        `;
     }
 }
 
-export default Skills;
+export default SmallGames;

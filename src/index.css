@@ -333,7 +333,7 @@ div::-webkit-scrollbar-thumb {
 
 /* CUBE WINDOW TEMPLATES */
 #cube-window {
-    display: none;
+    display: block;
     position: absolute;
     top: 50%;
     left: 50%;
