@@ -149,6 +149,9 @@ div::-webkit-scrollbar-thumb {
 }
 
 /* TOOLTIP */
+.tooltip img {
+    width: 100%;
+}
 .tooltip .tooltiptext {
     visibility: hidden;
     width: 120px;
@@ -357,4 +360,106 @@ div::-webkit-scrollbar-thumb {
 }
 #github-link {
     text-decoration: none;
+}
+
+/* SLIDESHOWS USED IN PROJECTS SHOWCASING */
+/* A bit ugly but I really need to have all these scoped to a slideshow-container div */
+.slideshow-container {
+    position: relative;
+    width: 85%;
+    margin: auto;
+}
+.slideshow-container img {
+    vertical-align: middle;
+}
+/* Next & previous buttons */
+.slideshow-container .prev,
+.slideshow-container .next {
+    cursor: pointer;
+    position: absolute;
+    top: 30%;
+    width: auto;
+    padding: 16px;
+    color: white;
+    font-weight: bold;
+    font-size: 15px;
+    transition: 0.6s ease;
+    border-radius: 0 3px 3px 0;
+    user-select: none;
+}
+/* Position the "next button" to the right */
+.slideshow-container .next {
+    right: 0;
+    border-radius: 3px 0 0 3px;
+}
+/* On hover, add a grey background color */
+.slideshow-container .prev:hover,
+.slideshow-container .next:hover {
+    background-color: rgba(255, 255, 255, 0.5);
+    color: black;
+}
+/* Caption text */
+.slideshow-container .text {
+    color: black;
+    font-size: 15px;
+    font-style: italic;
+    padding: 8px 12px;
+    position: absolute;
+    bottom: -30px;
+    width: 100%;
+    text-align: center;
+}
+/* On smaller screens, decrease text size */
+@media only screen and (max-width: 300px) {
+    .prev,
+    .next,
+    .text {
+        font-size: 11px;
+    }
+}
+/* The dots/bullets/indicators */
+.slideshow-container .dot,
+.slideshow-container .dot0,
+.slideshow-container .dot1,
+.slideshow-container .dot2 {
+    cursor: pointer;
+    height: 15px;
+    width: 15px;
+    margin: 10px 2px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+    transition: background-color 0.6s ease;
+}
+
+.slideshow-container .active,
+.slideshow-container .dot:hover {
+    background-color: #717171;
+}
+
+/* ANIMATIONS */
+/* primarily used in slideshow */
+.fade {
+    -webkit-animation-name: fade;
+    -webkit-animation-duration: 1.5s;
+    animation-name: fade;
+    animation-duration: 1.5s;
+}
+
+@-webkit-keyframes fade {
+    from {
+        opacity: 0.4;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fade {
+    from {
+        opacity: 0.4;
+    }
+    to {
+        opacity: 1;
+    }
 }

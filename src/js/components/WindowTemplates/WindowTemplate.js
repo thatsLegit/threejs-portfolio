@@ -30,11 +30,13 @@ class WindowTemplate {
     }
 
     enable() {
-        this.element.style.display = 'block';
+        const element = document.querySelector(`#${this.id}`);
+        element.style.display = 'block';
     }
 
     disable() {
-        this.element.style.display = 'none';
+        const element = document.querySelector(`#${this.id}`);
+        element.style.display = 'none';
     }
 
     generate() {
