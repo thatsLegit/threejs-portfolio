@@ -53,6 +53,22 @@ div::-webkit-scrollbar-thumb {
 .title {
     height: 7.5%;
 }
+.projects-title {
+    margin: 2rem 0px 1rem 1rem;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: large;
+    font-weight: bold;
+    text-align: center;
+}
+/* Caption text */
+.slideshow-container .caption {
+    color: black;
+    font-size: 15px;
+    font-style: italic;
+    margin: 25px auto 0px auto;
+    width: 100%;
+    text-align: center;
+}
 
 /* LAYOUT */
 #main-container {
@@ -115,7 +131,9 @@ div::-webkit-scrollbar-thumb {
     cursor: pointer;
     width: 20px;
 }
-
+.back-button {
+    cursor: pointer;
+}
 .white-button {
     color: black;
     background-color: white;
@@ -162,7 +180,7 @@ div::-webkit-scrollbar-thumb {
     padding: 5px 0;
     position: absolute;
     z-index: 1;
-    bottom: 110%;
+    bottom: 100%;
     left: 50%;
     margin-left: -60px;
     opacity: 0;
@@ -355,11 +373,27 @@ div::-webkit-scrollbar-thumb {
     position: relative;
     width: 100%;
 }
-.template-container p {
-    margin: 0px;
+.github-link-container {
+    float: right;
+    padding: 0.5rem;
 }
-#github-link {
+.github-link {
     text-decoration: none;
+}
+.projects-container {
+    padding: 1rem;
+    margin: auto;
+}
+.projects-container .template-inner-container {
+    margin: 1rem auto;
+}
+.project-presentation {
+    font-family: Verdana, sans-serif;
+    margin: 50px auto;
+}
+.project-explanation {
+    font-family: Verdana, sans-serif;
+    margin: 1rem auto 2rem auto;
 }
 
 /* SLIDESHOWS USED IN PROJECTS SHOWCASING */
@@ -369,20 +403,24 @@ div::-webkit-scrollbar-thumb {
     width: 85%;
     margin: auto;
 }
+.slideshow-container video,
 .slideshow-container img {
-    vertical-align: middle;
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    margin: 15px auto;
 }
 /* Next & previous buttons */
 .slideshow-container .prev,
 .slideshow-container .next {
     cursor: pointer;
     position: absolute;
-    top: 30%;
+    top: 40%;
     width: auto;
     padding: 16px;
     color: white;
     font-weight: bold;
-    font-size: 15px;
+    font-size: 14px;
     transition: 0.6s ease;
     border-radius: 0 3px 3px 0;
     user-select: none;
@@ -398,17 +436,7 @@ div::-webkit-scrollbar-thumb {
     background-color: rgba(255, 255, 255, 0.5);
     color: black;
 }
-/* Caption text */
-.slideshow-container .text {
-    color: black;
-    font-size: 15px;
-    font-style: italic;
-    padding: 8px 12px;
-    position: absolute;
-    bottom: -30px;
-    width: 100%;
-    text-align: center;
-}
+
 /* On smaller screens, decrease text size */
 @media only screen and (max-width: 300px) {
     .prev,
@@ -418,10 +446,10 @@ div::-webkit-scrollbar-thumb {
     }
 }
 /* The dots/bullets/indicators */
-.slideshow-container .dot,
-.slideshow-container .dot0,
-.slideshow-container .dot1,
-.slideshow-container .dot2 {
+.dot-container {
+    text-align: center;
+}
+.dot-container .dot {
     cursor: pointer;
     height: 15px;
     width: 15px;

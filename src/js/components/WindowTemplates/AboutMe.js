@@ -12,7 +12,7 @@ import happy from '../../../assets/content/happy.png';
 
 class AboutMe extends WindowTemplate {
     constructor(window) {
-        super(window, 'aboutMe');
+        super(window, null, 'aboutMe');
     }
 
     cssTemplate() {

@@ -3,7 +3,7 @@ import WindowTemplate from './WindowTemplate';
 
 class Skills extends WindowTemplate {
     constructor(window) {
-        super(window, 'skills');
+        super(window, null, 'skills');
     }
 
     cssTemplate() {

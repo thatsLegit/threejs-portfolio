@@ -3,6 +3,7 @@ import AboutMe from './WindowTemplates/AboutMe';
 import SmallGames from './WindowTemplates/SmallGames';
 import Skills from './WindowTemplates/Skills';
 import Projects from './WindowTemplates/Projects';
+import CoWorkers from './WindowTemplates/CoWorkers';
 
 class Window {
     constructor(element) {
@@ -51,7 +52,9 @@ class CubeWindow extends Window {
         // this.addTemplate(new AboutMe(this));
         // this.addTemplate(new SmallGames(this));
         // this.addTemplate(new Skills(this));
-        this.addTemplate(new Projects(this));
+        const projectsTemplate = new Projects(this);
+        this.addTemplate(projectsTemplate);
+        this.addTemplate(new CoWorkers(this, projectsTemplate));
 
         this.injectAllTemplates();
     }

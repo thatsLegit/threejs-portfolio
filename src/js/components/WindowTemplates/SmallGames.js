@@ -3,7 +3,7 @@ import alarm from '../../../assets/content/alarm.png';
 
 class SmallGames extends WindowTemplate {
     constructor(window) {
-        super(window, 'smallGames');
+        super(window, null, 'smallGames');
     }
 
     cssTemplate() {

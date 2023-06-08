@@ -7,7 +7,7 @@ import happy from '../../../assets/content/happy.png';
 
 class HireMe extends WindowTemplate {
     constructor(window) {
-        super(window, 'hireMe');
+        super(window, null, 'hireMe');
         this.github = 'https://github.com/thatsLegit';
         this.linkedin = 'https://linkedin.com/in/stepanov-ilya';
         this.email = 'iliastepanov1996@gmail.com';

@@ -1,8 +1,9 @@
 import cancel from '../../../assets/content/cancel.png';
 
 class WindowTemplate {
-    constructor(window, id) {
+    constructor(window, parent, id) {
         this.window = window;
+        this.parent = parent;
         this.id = id;
     }
 
@@ -39,7 +40,7 @@ class WindowTemplate {
         element.style.display = 'none';
     }
 
-    generate() {
+    generate(isClosable = true) {
         // append style
         const style = document.createElement('style');
         document.head.append(style);
@@ -54,6 +55,7 @@ class WindowTemplate {
         this.element = document.querySelector(`#${this.id}`);
 
         // add behavior to closeButton
+        if (!isClosable) return;
         const closeButton = document.querySelector(`#${this.id} .close-button`);
         closeButton.addEventListener('click', this.window.close.bind(this.window));
     }

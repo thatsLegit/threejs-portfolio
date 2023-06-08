@@ -18,31 +18,45 @@ import screen4 from '../../../assets/content/projects/mobile/screen4.jpg';
 
 import noImage from '../../../assets/content/projects/ai/no-image.jpeg';
 
+/* 
+section
+    title
+    slideshow-container
+        image1
+        image2
+        image3
+        ...
+        prev + next buttons
+*/
+
 class Projects extends WindowTemplate {
     constructor(window) {
-        super(window, 'projects');
+        super(window, null, 'projects');
 
+        // sections gather multiple projects within a common category
+        // one slide represents one project
+        // meaning that every image of the slide opens the same template
         this.sections = [
             {
                 id: 'web',
                 title: 'Web development',
                 slideshows: [
                     {
-                        id: `${this.id}-slide-2`,
+                        id: `${this.id}-slide-1`,
                         images: [cwLanding, home, rooms],
-                        linksTo: './projects/co-workers.html',
+                        linksTo: 'co-workers',
                         tooltipText: 'Co-workers: web and IoT',
                     },
                     {
-                        id: `${this.id}-slide-3`,
+                        id: `${this.id}-slide-2`,
                         images: [porcLanding, graphs, search, fiches],
-                        linksTo: './projects/oporctunite.html',
+                        linksTo: 'oporctunite',
                         tooltipText: "Oporctunite: disrupt'Campus collaborative project",
                     },
                     {
-                        id: `${this.id}-slide-4`,
+                        id: `${this.id}-slide-3`,
                         images: [characterSelect, globalView],
-                        linksTo: './projects/portfolio.html',
+                        linksTo: 'portfolio',
                         tooltipText: 'Portfolio project with Three.js',
                     },
                 ],
@@ -52,9 +66,9 @@ class Projects extends WindowTemplate {
                 title: 'Mobile Development',
                 slideshows: [
                     {
-                        id: `${this.id}-slide-5`,
+                        id: `${this.id}-slide-4`,
                         images: [screen2, screen4, screen3, screen1],
-                        linksTo: './projects/react-native.html',
+                        linksTo: 'react-native',
                         tooltipText: 'React native mobile app',
                     },
                 ],
@@ -64,22 +78,22 @@ class Projects extends WindowTemplate {
                 title: 'AI',
                 slideshows: [
                     {
-                        id: `${this.id}-slide-6`,
+                        id: `${this.id}-slide-5`,
                         images: [noImage],
-                        linksTo: './projects/periodontal-diagnosis.html',
+                        linksTo: 'periodontal-diagnosis',
                         tooltipText: 'Machine Learning collaborative project',
                     },
                     {
-                        id: `${this.id}-slide-7`,
+                        id: `${this.id}-slide-6`,
                         images: [noImage],
-                        linksTo: './projects/twitter-scrapping.html',
+                        linksTo: 'twitter-scrapping',
                         tooltipText: 'Twitter scrapping',
                     },
                 ],
             },
         ];
 
-        // Currently displayed index+1 of each slideshow
+        // Currently displayed image of each slideshow
         this.slides = {
             [`${this.id}-slide-1`]: 0,
             [`${this.id}-slide-2`]: 0,
@@ -94,7 +108,7 @@ class Projects extends WindowTemplate {
         const slideElements = document.querySelectorAll(`#${slideId} > div`);
         const elemLength = slideElements.length;
 
-        if (slideIndex > elemLength) this.slides[slideId] = 0; // Wfhen next the last elem go back to first elem
+        if (slideIndex >= elemLength) this.slides[slideId] = 0; // When next the last elem go back to first elem
         if (slideIndex < 0) this.slides[slideId] = elemLength - 1; // When prev the first elem go back to last elem
 
         for (let i = 0; i < elemLength; i++) {
@@ -116,18 +130,13 @@ class Projects extends WindowTemplate {
             }
             #${this.id} img {
                 cursor: pointer;
-                margin: 15px auto;
             }
             #${this.id} section {
-                width: 25%
+                width: 33%
             }
             #${this.id} .heading {
                 padding: 1em 1em 3em 1em; 
                 font-weight: bold;
-            }
-            #${this.id} #web img {
-                width: 200px;
-                height: 150px;
             }
             #${this.id} .title {
                 text-align: center;
@@ -153,10 +162,10 @@ class Projects extends WindowTemplate {
         return slideshows
             .map((slideshow) => {
                 return `
-                <div id=${slideshow.id} class="slideshow-container">
-                    ${this.slideShowImagesTemplate(slideshow)}
-                </div>
-            `;
+                    <div id=${slideshow.id} class="slideshow-container">
+                        ${this.slideShowImagesTemplate(slideshow)}
+                    </div>
+                `;
             })
             .join('');
     }
@@ -165,13 +174,17 @@ class Projects extends WindowTemplate {
         return slideshow.images
             .map((image) => {
                 return `
-                <div onclick="window.location.href = ${slideshow.linksTo}">
-                    <div class="tooltip">
-                        <img src=${image} />
-                        <span class="tooltiptext">${slideshow.tooltipText}</span>
+                    <div onclick="
+                            document.querySelector('#${this.id}').style.display = 'none'; 
+                            document.querySelector('#${slideshow.linksTo}').style.display = 'block'
+                        "
+                    >
+                        <div class="tooltip">
+                            <img src=${image} />
+                            <span class="tooltiptext">${slideshow.tooltipText}</span>
+                        </div>
                     </div>
-                </div>
-            `;
+                `;
             })
             .join('');
     }
@@ -195,6 +208,20 @@ class Projects extends WindowTemplate {
 
         for (let slideId in this.slides) {
             this.showSlides(0, slideId); // Set initial image in each container
+            const slideShow = document.querySelector(`#${slideId}`);
+
+            const prev = document.createElement('a');
+            prev.className = 'prev';
+            prev.innerHTML = '&#10094';
+            prev.addEventListener('click', () => this.updateSlides(-1, slideId));
+
+            const next = document.createElement('a');
+            next.className = 'next';
+            next.innerHTML = '&#10095';
+            next.addEventListener('click', () => this.updateSlides(1, slideId));
+
+            slideShow.insertAdjacentElement('beforeend', prev);
+            slideShow.insertAdjacentElement('beforeend', next);
         }
     }
 }
