@@ -373,7 +373,7 @@ div::-webkit-scrollbar-thumb {
     position: relative;
     width: 100%;
 }
-.github-link-container {
+.project-links-container {
     float: right;
     padding: 0.5rem;
 }
@@ -407,7 +407,7 @@ div::-webkit-scrollbar-thumb {
 .slideshow-container img {
     width: 100%;
     height: auto;
-    object-fit: cover;
+    object-fit: contain;
     margin: 15px auto;
 }
 /* Next & previous buttons */
@@ -415,12 +415,12 @@ div::-webkit-scrollbar-thumb {
 .slideshow-container .next {
     cursor: pointer;
     position: absolute;
-    top: 40%;
+    top: 50%;
     width: auto;
     padding: 16px;
     color: white;
     font-weight: bold;
-    font-size: 14px;
+    font-size: 16px;
     transition: 0.6s ease;
     border-radius: 0 3px 3px 0;
     user-select: none;

@@ -1,7 +1,7 @@
 // loading all assets to dist when webpacking
 // Remember to add an asset extension here everytime you add it to webpack config
 // if an asset is not imported in any js file, it won't be shipped to bundle.js
-require.context('../assets', true, /\.(glb|gltf|fbx|bmp|png|jpg|jpeg|bin)$/);
+require.context('../assets', true, /\.(glb|gltf|fbx|bmp|png|jpg|jpeg|svg|wav|mp4|bin)$/);
 
 import '../index.css';
 

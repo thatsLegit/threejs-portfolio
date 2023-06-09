@@ -4,6 +4,11 @@ import SmallGames from './WindowTemplates/SmallGames';
 import Skills from './WindowTemplates/Skills';
 import Projects from './WindowTemplates/Projects';
 import CoWorkers from './WindowTemplates/CoWorkers';
+import Oporctunite from './WindowTemplates/Oporctunite';
+import PeriodontalDiagnosis from './WindowTemplates/PeriodontalDiagnosis';
+import Portfolio from './WindowTemplates/Portfolio';
+import OporctuniteMobile from './WindowTemplates/OporctuniteMobile';
+import TwitterScrapping from './WindowTemplates/TwitterScrapping';
 
 class Window {
     constructor(element) {
@@ -55,6 +60,11 @@ class CubeWindow extends Window {
         const projectsTemplate = new Projects(this);
         this.addTemplate(projectsTemplate);
         this.addTemplate(new CoWorkers(this, projectsTemplate));
+        this.addTemplate(new Oporctunite(this, projectsTemplate));
+        this.addTemplate(new PeriodontalDiagnosis(this, projectsTemplate));
+        this.addTemplate(new Portfolio(this, projectsTemplate));
+        this.addTemplate(new OporctuniteMobile(this, projectsTemplate));
+        this.addTemplate(new TwitterScrapping(this, projectsTemplate));
 
         this.injectAllTemplates();
     }

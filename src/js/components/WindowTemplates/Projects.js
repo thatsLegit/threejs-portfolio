@@ -16,6 +16,7 @@ import screen2 from '../../../assets/content/projects/mobile/screen2.jpg';
 import screen3 from '../../../assets/content/projects/mobile/screen3.jpg';
 import screen4 from '../../../assets/content/projects/mobile/screen4.jpg';
 
+import twitterLogo from '../../../assets/content/projects/ai/twitter-logo.svg';
 import noImage from '../../../assets/content/projects/ai/no-image.jpeg';
 
 /* 
@@ -68,7 +69,7 @@ class Projects extends WindowTemplate {
                     {
                         id: `${this.id}-slide-4`,
                         images: [screen2, screen4, screen3, screen1],
-                        linksTo: 'react-native',
+                        linksTo: 'oporctunite-mobile',
                         tooltipText: 'React native mobile app',
                     },
                 ],
@@ -85,7 +86,7 @@ class Projects extends WindowTemplate {
                     },
                     {
                         id: `${this.id}-slide-6`,
-                        images: [noImage],
+                        images: [twitterLogo],
                         linksTo: 'twitter-scrapping',
                         tooltipText: 'Twitter scrapping',
                     },
@@ -141,6 +142,21 @@ class Projects extends WindowTemplate {
             #${this.id} .title {
                 text-align: center;
                 position: relative;
+            }
+            /* Next & previous buttons */
+            #${this.id} .slideshow-container .prev,
+            #${this.id} .slideshow-container .next {
+                cursor: pointer;
+                position: absolute;
+                top: 40%;
+                width: auto;
+                padding: 12px;
+                color: white;
+                font-weight: bold;
+                font-size: 12px;
+                transition: 0.6s ease;
+                border-radius: 0 3px 3px 0;
+                user-select: none;
             }
         `;
     }

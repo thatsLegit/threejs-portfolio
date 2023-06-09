@@ -3,32 +3,29 @@ import back from '../../../assets/content/back.png';
 import github from '../../../assets/content/github.png';
 import reactLogo from '../../../assets/content/projects/mobile/react-logo.png';
 import nodejs from '../../../assets/content/projects/mobile/nodejs.png';
-import mongoose from '../../../assets/content/projects/web/co-workers/mongoose.png';
-import landing from '../../../assets/content/projects/web/co-workers/landing.png';
-import home from '../../../assets/content/projects/web/co-workers/home.png';
-import rooms from '../../../assets/content/projects/web/co-workers/rooms.png';
-import video from '../../../assets/content/projects/web/co-workers/video.mp4';
-import architecture from '../../../assets/content/projects/web/co-workers/architecture.png';
-import postman from '../../../assets/content/projects/web/co-workers/cw-postman.png';
-import facerec from '../../../assets/content/projects/web/co-workers/cw-facerec.png';
-import rfid from '../../../assets/content/projects/web/co-workers/cw-rfid.png';
+import sequelize from '../../../assets/content/projects/mobile/sequelize.png';
+import screen2 from '../../../assets/content/projects/mobile/screen2.jpg';
+import screen3 from '../../../assets/content/projects/mobile/screen3.jpg';
+import screen1 from '../../../assets/content/projects/mobile/screen1.jpg';
+import screen4 from '../../../assets/content/projects/mobile/screen4.jpg';
+import drawings from '../../../assets/content/projects/mobile/drawings.png';
+import architecture from '../../../assets/content/projects/mobile/architecture.jpeg';
+import apiDocumentation from '../../../assets/content/projects/mobile/api-documentation.png';
 
-// structure: project presentation (?), slideshow, dots, project explanation (?)
-
-class CoWorkers extends WindowTemplate {
+class OporctuniteMobile extends WindowTemplate {
     constructor(window, parent) {
-        super(window, parent, 'co-workers');
+        super(window, parent, 'oporctunite-mobile');
 
-        this.githubLink = 'https://github.com/go-roots';
-        this.reactLink = 'https://reactjs.org';
+        this.githubLink = 'https://github.com/thatsLegit/oporctunite-react-native';
+        this.rnLink = 'https://reactnative.dev';
         this.nodeLink = 'https://nodejs.org';
-        this.mongooseLink = 'https://mongoosejs.com';
+        this.sequelizeLink = 'https://github.com/sequelize/sequelize';
+        this.webSocketsLink = 'https://www.npmjs.com/package/ws';
 
         // Currently displayed image of each slideshow
         this.slides = {
             [`${this.id}-slide-1`]: 0,
             [`${this.id}-slide-2`]: 0,
-            [`${this.id}-slide-3`]: 0,
         };
     }
 
@@ -84,103 +81,102 @@ class CoWorkers extends WindowTemplate {
                 </a>
             </div>
 
-            <p class="projects-title">Co-workers: Web and IoT project (masters project)</p>
+            <p class="projects-title">Oporctunite mobile react native app</p>
 
             <div class="projects-container">
                 <div class="template-inner-container flex-row justify-space-around align-center">
-                    <a href=${this.reactLink} target="_blank" rel="noopener noreferrer">
-                        <img
-                            src=${reactLogo}
-                            alt="react" width="200" height="150"
-                        >
+                    <a href=${this.rnLink} target="_blank" rel="noopener noreferrer">
+                    <img 
+                        src=${reactLogo}
+                        alt="webgl" width="200" height="150"
+                    >
                     </a>
                     <a href=${this.nodeLink} target="_blank" rel="noopener noreferrer">
                         <img 
                             src=${nodejs}
-                            alt="nodejs" width="200" height="150"
+                            alt="disrupt-campus" width="200" height="150"
                         >
                     </a>
-                    <a href=${this.mongooseLink} target="_blank" rel="noopener noreferrer">
+                    <a href=${this.sequelizeLink} target="_blank" rel="noopener noreferrer">
                         <img 
-                            src=${mongoose}
-                            alt="mongoose" width="200" height="100"
+                            src=${sequelize}
+                            alt="disrupt-campus" width="250" height="100"
                         >
                     </a>
                 </div>
 
                 <!-- slideshow 1-->
                 <p class="project-presentation">
-                    Co-Workers is the result of three weeks of collaborative work.<br>
-                    We were asked to improve co-working spaces and our decision was to focus on social networking in order to encourage interactions between users.<br><br>
-                    The App includes a help-from-peers system, events, profiles and the possibility to redeem point you gained by being social.
+                    4 months internship following the <b>Disrupt'Campus project</b>. This time, I had to do a mobile app to allow breeders make evaluations on their cattle.
+                    <br><br>
+                    A prototype was delivered at the end of the internship but we didn't have the time to prepare the app for publication to the store (Apple Store and Google Play).
                 </p>
                 <div id="${this.id}-slide-1" class="slideshow-container">
                     <div class="fade">
-                        <div class="caption">Presentation video clip</div>
-                        <video controls>
-                            <source src=${video} type="video/mp4">
-                            Your browser does not support the video tag.
-                        </video>
+                        <div class="caption">Drawer navigation</div>
+                        <img src=${screen2}>
                     </div>
                     <div class="fade">
-                        <div class="caption">Landing page</div>
-                        <img src=${landing}>
+                        <div class="caption">Evaluation screen</div>
+                        <img src=${screen4}>
                     </div>
                     <div class="fade">
-                        <div class="caption">Home page</div>
-                        <img src=${home}>
+                        <div class="caption">Results vizualisation</div>
+                        <img src=${screen3}>
                     </div>
                     <div class="fade">
-                        <div class="caption">Rooms browsing</div>
-                        <img src=${rooms}>
+                        <div class="caption">Advice sheets</div>
+                        <img src=${screen1}>
                     </div>
                 </div>
                 <div class="project-explanation">
-                    <p style="text-decoration: underline;">Work done</p><br>
-                    We started by developping the html/css theme with <b>Bootstrap Studio</b> which I found to be very nice if you like using <b>Bootstrap</b> for your projects.<br>
-                    It's indeed a sort of <b>WYSIWYG</b> software focus on the <b>Bootstrap CSS framework</b> and it really allowed us to have something to deliver very quickly.<br><br>
-                    Then we just had to transform the theme into react components and create a <b>Redux</b> store for app level state management.<br><br>
-
-                    <p style="text-decoration: underline;">Features</p><br>
-                    One of the main feature of the app is the <a href="#${this.id}-slide-1">interactive, real-time, responsive map</a> which displays position of present users inside the co-working space.<br>
-                    This map was an essential feature of our app and it provided data about each user in the co-working space: their activity, the room they are in, their mood, etc…<br><br>
-                    We also developed a very complete <a href="#${this.id}-slide-1">filtering system</a> for viewing only specific types of users. A user could for instance see only the available lawyers or computer scientists in their friend list ! 
-                    To encourage interactions between co-workers we also had a "help request" button that would immediately send a notif to all concerned users.<br><br>
-                    Users have <a href="#${this.id}-slide-1">recommendations</a> based on their profile and the rooms busyness.<br><br>
-                    By helping others a user can receive points to redeem and also have their skills recommended on LinkedIn.
-                </div>
+                    <p style="text-decoration: underline;">Development choices</p><br>
+                    <i>Why did we need a mobile app ?</i> <br><br>
+                    A mobile device/tablet is the most practical for a breeder that would need to visit his farm to realize evaluations on his cattle.<br><br>
+                    Then what do we choose between a <b>PWA</b>, a fully responsive web site or a native mobile app ?<br><br>
+                    At the time this project was done <b>Progressive web apps</b> lacked support and documentation to propose this project to the veterinary school.<br>
+                    An app delivered on browser wouldn't have an offline mode which is very useful in farms where internet connection might sometimes be very poor.<br><br>
+                    Then a native mobile app seemed like the natural solution.<br><br>
+                    
+                    <i>Why React native ?</i> <br><br>
+                    As the PO wanted a mobile app that could be ran on <b>IOS</b> and <b>Android</b> in limited time and limited assets (2 interns basically),
+                    the only viable solution appeared to be <b>React Native</b>.<br>
+                    We had <b>Flutter</b> in mind also but we didn't really had time to learn the <b>Dart</b> language
+                    and I already had experience in React so again React Native seemed to be the most logical solution.<br><br>
         
+                    <p style="text-decoration: underline;">Organization</p><br>
+                    During this project we adopted a <b>SCRUM</b> organization (Agile), and we were assisted by a <b>SCRUM master</b> (our internship superviser as well).
+                </div>
+
                 <!-- slideshow 2-->
                 <div id="${this.id}-slide-2" class="slideshow-container">
                     <div class="fade">
-                        <div class="caption">Architecture</div>
+                        <div class="caption">Very low fi prototype of the app made in the early developments</div>
+                        <img src=${drawings}>
+                    </div>
+                    <div class="fade">
+                        <div class="caption">Back end simplified architecture</div>
                         <img src=${architecture}>
                     </div>
                     <div class="fade">
                         <div class="caption">DocGen api documentation</div>
-                        <img src=${postman}>
+                        <img src=${apiDocumentation}>
                     </div>
                 </div>
                 <div class="project-explanation">
                     All of these features were only possible with a solid back end <b>API</b> that we tested with <b>Postman</b>.<br>
                     For that, we used <b>NodeJs</b> coupled with <b>Mongoose ORM</b> to handle the <b>MongoDB</b> Database requests.
-                    The API is <b>RESTful</b> and securized as we implemented the <b>OAuth2</b> protocol. 
+                    The API is <b>RESTful</b> and securized as we implemented the <b>OAuth2</b> protocol.
                     Actually it was a mix between RESTful and <b>WebSockets</b> API because we used web sockets to push notifications, mesages, help-requests instantly to concerned users.
-                    We used <a href="https://www.npmjs.com/package/ws">ws</a>, a super light-weight and fast js library for web sockets connection.<br><br>
+                    We used <a href=${this.webSocketsLink}>ws</a>, a super light-weight and fast js library for web sockets connection.<br><br>
                     Along with this API, we also had a face recognition web service in <b>Flask</b> (Python) and on-board code for <b>raspberry pis</b>.<br>
                     Although, the Node API was the central node (no pun intended) between our <b>IoT devices</b>, the face reco web service and the web app.
                 </div>
 
-                <!-- slideshow 3-->
-                <div id="${this.id}-slide-3" class="slideshow-container">
-                    <div class="fade">
-                        <div class="caption">Our implementation of face recognition</div>
-                        <img src=${facerec}>
-                    </div>
-                    <div class="fade">
-                        <div class="caption">rfid payments with raspberry pi</div>
-                        <img src=${rfid}>
-                    </div>
+                <div class="project-explanation">
+                    The app was served by a <b>NodeJs API</b> with <b>Sequelize ORM</b> to facilitate the queries on the SQL database.
+                    The endpoints were tested using Postman.<br>
+                    We had to handle the hosting of the API, which we did with a <b>Nginx</b> server and <b>PM2</b> as a process manager.
                 </div>
             </div>
         `;
@@ -228,4 +224,4 @@ class CoWorkers extends WindowTemplate {
     }
 }
 
-export default CoWorkers;
+export default OporctuniteMobile;
