@@ -9,16 +9,6 @@ class TwitterScrapping extends WindowTemplate {
         this.githubLink = 'https://github.com/thatsLegit/twitter';
     }
 
-    // DONT FORGET TO REMOVE display: none;
-    cssTemplate() {
-        return `
-            ${super.cssTemplate()}
-            #${this.id} {
-                display: none;
-            }
-        `;
-    }
-
     htmlTemplate() {
         return `
             <img class="back-button" src=${back} alt="back">

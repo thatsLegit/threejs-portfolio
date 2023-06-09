@@ -11,7 +11,7 @@ class WindowTemplate {
         // some common css
         return `
             #${this.id} {
-                display: block;
+                display: none;
                 overflow-y: scroll;
                 overflow-x: hidden;
                 height: 600px;

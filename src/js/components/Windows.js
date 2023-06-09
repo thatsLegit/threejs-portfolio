@@ -53,10 +53,10 @@ class CubeWindow extends Window {
     }
 
     _init() {
-        // this.addTemplate(new HireMe(this));
-        // this.addTemplate(new AboutMe(this));
-        // this.addTemplate(new SmallGames(this));
-        // this.addTemplate(new Skills(this));
+        this.addTemplate(new HireMe(this));
+        this.addTemplate(new AboutMe(this));
+        this.addTemplate(new SmallGames(this));
+        this.addTemplate(new Skills(this));
         const projectsTemplate = new Projects(this);
         this.addTemplate(projectsTemplate);
         this.addTemplate(new CoWorkers(this, projectsTemplate));

@@ -15,16 +15,6 @@ class CoWorkers extends WindowTemplate {
         this.numpyLink = 'https://numpy.org';
     }
 
-    // DONT FORGET TO REMOVE display: none;
-    cssTemplate() {
-        return `
-            ${super.cssTemplate()}
-            #${this.id} {
-                display: none;
-            }
-        `;
-    }
-
     htmlTemplate() {
         return `
             <img class="back-button" src=${back} alt="back">

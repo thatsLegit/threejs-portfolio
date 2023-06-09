@@ -59,7 +59,7 @@
 
                     <div class="flex-row justify-space-between">
                         <div class="white-button square">
-                            <div class="white-button-text">F</div>
+                            <div class="white-button-text">C</div>
                         </div>
                         <div class="default-text">Free camera</div>
                     </div>
@@ -219,14 +219,21 @@
             </div>
         </div>
 
-        <!-- global script for entering/exitting fullscreen -->
+        <!-- global script for entering/exiting fullscreen -->
         <script>
-            const CANVAS = document.getElementById('c');
+            const SCREEN = document.getElementById('main-container');
             const FULL_SCREEN_BUTTON = document.getElementById('full-screen-img');
 
             FULL_SCREEN_BUTTON.addEventListener('click', () => {
-                if (CANVAS.requestFullscreen) CANVAS.requestFullscreen();
+                if (SCREEN.requestFullscreen) SCREEN.requestFullscreen();
             });
+            document.addEventListener(
+                'keyup',
+                (e) => {
+                    if (e.key === 'f' && SCREEN.requestFullscreen) SCREEN.requestFullscreen();
+                },
+                false
+            );
         </script>
         <script src="https://api.mqcdn.com/sdk/mapquest-js/v1.3.2/mapquest-maps.js"></script>
     </body>

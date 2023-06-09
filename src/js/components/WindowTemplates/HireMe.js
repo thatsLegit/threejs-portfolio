@@ -53,18 +53,7 @@ class HireMe extends WindowTemplate {
                     <img src=${alarm} alt="alarm" />
                     <b>Currently looking for a new working experience !</b>
                 </div>
-                <div class="text">
-                    I am in active search of a <b>5/6 months</b> internship to start on the
-                    <b>10th of March</b>.<br /><br />
-                    I am very willing to move outside France, as long as the Covid situation permits
-                    it obviously.<br /><br />
-                    Hopefully, you can find all infos you are looking for on this website. However
-                    don't hesitate to contact me via social links
-                    <img src=${happy} alt="happy" />.<br /><br />
-                    Native Russian and French speaker, fluent in English.
-                </div>
-            </div>
-            <div class="template-inner-container flex-row justify-space-center align-center">
+                <div class="template-inner-container flex-row justify-space-center align-center">
                 <button class="social-links" type="button">
                     <a
                         href=${this.github}
@@ -92,6 +81,17 @@ class HireMe extends WindowTemplate {
                         <img src=${email} alt="email" />
                     </a>
                 </button>
+            </div>
+                <div class="text">
+                    I am in active search of a <b>5/6 months</b> internship to start on the
+                    <b>10th of March</b>.<br /><br />
+                    I am very willing to move outside France, as long as the Covid situation permits
+                    it obviously.<br /><br />
+                    Hopefully, you can find all infos you are looking for on this website. However
+                    don't hesitate to contact me via social links
+                    <img src=${happy} alt="happy" />.<br /><br />
+                    Native Russian and French speaker, fluent in English.
+                </div>
             </div>
         `;
     }

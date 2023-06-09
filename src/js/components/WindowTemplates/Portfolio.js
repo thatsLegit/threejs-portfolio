@@ -51,13 +51,9 @@ class CoWorkers extends WindowTemplate {
         this.showSlides((this.slide = index));
     }
 
-    // DONT FORGET TO REMOVE display: none;
     cssTemplate() {
         return `
             ${super.cssTemplate()}
-            #${this.id} {
-                display: none;
-            }
             #${this.id} img {
                 vertical-align: middle;
             }

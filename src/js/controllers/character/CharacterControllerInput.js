@@ -43,7 +43,7 @@ class CharacterControllerInput {
             case this._rightK.toUpperCase(): // D
                 this.keys.right = true;
                 break;
-            case 'f': // f: switch free camera
+            case 'c': // c: switch free camera
                 this.keys.freeCamera = !this.keys.freeCamera;
                 break;
             case 'Shift': // SHIFT
