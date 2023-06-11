@@ -26,9 +26,10 @@ export const OPEN_CUBE = 'open cube';
 export const FIRST_FACE = 'first face';
 export const DISCOVER_ALL_FACES = 'discover all faces';
 
+// Holds event listeners for each quest, waiting to be emitted when completed
+
 class QuestController {
-    constructor(params) {
-        this._params = params;
+    constructor() {
         this._quests = {};
         this._init();
         this._initEvents();

@@ -10,11 +10,11 @@ export class WalkState extends State {
     }
 
     enter(prevState) {
-        const currentAction = this._fsm.proxy.animations['walk'].action;
+        const currentAction = this._fsm.proxy.animations['walk'];
 
         if (!prevState) return currentAction.play();
 
-        const prevAction = this._fsm.proxy.animations[prevState.name].action;
+        const prevAction = this._fsm.proxy.animations[prevState.name];
         currentAction.enabled = true;
 
         if (prevState.name == 'run' || prevState.name == 'walkingBackwards') {
@@ -49,11 +49,11 @@ export class WalkBackwardsState extends State {
     }
 
     enter(prevState) {
-        const currentAction = this._fsm.proxy.animations['walkingBackwards'].action;
+        const currentAction = this._fsm.proxy.animations['walkingBackwards'];
 
         if (!prevState) return currentAction.play();
 
-        const prevAction = this._fsm.proxy.animations[prevState.name].action;
+        const prevAction = this._fsm.proxy.animations[prevState.name];
         currentAction.enabled = true;
 
         if (prevState.name == 'walk' || prevState.name == 'run') {
@@ -86,11 +86,11 @@ export class RunState extends State {
     }
 
     enter(prevState) {
-        const currentAction = this._fsm.proxy.animations['run'].action;
+        const currentAction = this._fsm.proxy.animations['run'];
 
         if (!prevState) return currentAction.play();
 
-        const prevAction = this._fsm.proxy.animations[prevState.name].action;
+        const prevAction = this._fsm.proxy.animations[prevState.name];
         currentAction.enabled = true;
 
         if (prevState.name == 'walk') {
@@ -125,11 +125,11 @@ export class IdleState extends State {
     }
 
     enter(prevState) {
-        const currentAction = this._fsm.proxy.animations['idle'].action;
+        const currentAction = this._fsm.proxy.animations['idle'];
 
         if (!prevState) return currentAction.play();
 
-        const prevAction = this._fsm.proxy.animations[prevState.name].action;
+        const prevAction = this._fsm.proxy.animations[prevState.name];
         currentAction.time = 0.0;
         currentAction.enabled = true;
         currentAction.setEffectiveTimeScale(1.0);
@@ -155,11 +155,11 @@ export class FallingState extends State {
     }
 
     enter(prevState) {
-        const currentAction = this._fsm.proxy.animations['falling'].action;
+        const currentAction = this._fsm.proxy.animations['falling'];
 
         if (!prevState) return currentAction.play();
 
-        const prevAction = this._fsm.proxy.animations[prevState.name].action;
+        const prevAction = this._fsm.proxy.animations[prevState.name];
         currentAction.time = 0.0;
         currentAction.enabled = true;
         currentAction.setEffectiveTimeScale(1.0);

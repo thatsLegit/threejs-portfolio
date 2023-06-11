@@ -96,8 +96,8 @@ class Game {
         window.addEventListener('resize', this._onWindowResize.bind(this));
 
         this._initCharacter();
-        this._initMagicCube();
         this._initEnv();
+        this._initMagicCube();
         this._initQuest();
         this._initSound();
         this._RAF();
@@ -119,16 +119,6 @@ class Game {
         });
     }
 
-    _initMagicCube() {
-        // Hides the cube at first
-        this._magicCube = new MagicCubeController({
-            scene: this._scene,
-            camera: this._camera,
-            textures: this._assets.magicCubeTexture,
-            characterControlsProxy: new CharacterControllerProxy(this._characterControls),
-        });
-    }
-
     _initEnv() {
         this._environment = new EnvController({
             scene: this._scene,
@@ -136,11 +126,19 @@ class Game {
         });
     }
 
-    _initQuest() {
-        this._quests = new QuestController({
-            envProxy: new EnvControllerProxy(this._environment),
+    _initMagicCube() {
+        // Hides the cube at first
+        this._magicCube = new MagicCubeController({
+            scene: this._scene,
+            camera: this._camera,
+            textures: this._assets.magicCubeTexture,
             characterControlsProxy: new CharacterControllerProxy(this._characterControls),
+            envProxy: new EnvControllerProxy(this._environment),
         });
+    }
+
+    _initQuest() {
+        this._quests = new QuestController();
     }
 
     _initSound() {

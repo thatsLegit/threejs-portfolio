@@ -76,10 +76,7 @@ class CharacterController {
             const clip = this._params.characterAnimations[animName].anim.animations[0];
             const action = this._mixer.clipAction(clip);
 
-            this._animations[animName] = {
-                clip: clip,
-                action: action,
-            };
+            this._animations[animName] = action;
         }
 
         this._stateMachine = new CharacterFSM(new CharacterControllerProxy(this));
@@ -164,10 +161,10 @@ class CharacterController {
 
         // adding frame dependent frame acceleration to the velocity
         // character move speed
-        if (this.input.keys.shift) this._acceleration.multiplyScalar(5.0);
+        if (this.input.keys.shift) this._acceleration.multiplyScalar(2.0);
         if (this.input.keys.forward) this._velocity.z += this._acceleration.z * timeInSeconds;
         if (this.input.keys.backward) this._velocity.z -= this._acceleration.z * timeInSeconds;
-        if (this.input.keys.shift) this._acceleration.multiplyScalar(0.2);
+        if (this.input.keys.shift) this._acceleration.multiplyScalar(0.5);
 
         // gravity
         if (this._stateMachine.currentState.name == 'falling')

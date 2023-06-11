@@ -6,6 +6,10 @@ class EnvControllerProxy {
     get treasurePosition() {
         return this._target.treasure.position;
     }
+
+    get animations() {
+        return this._target._animations;
+    }
 }
 
 export default EnvControllerProxy;

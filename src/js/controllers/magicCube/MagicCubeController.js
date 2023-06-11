@@ -116,7 +116,16 @@ class MagicCube {
                     this._params.characterControlsProxy.position
                 ) < 7000
             ) {
-                this.mysteryCube.visible = true;
+                const openLidAction = this._params.envProxy.animations['treasureChest'];
+
+                openLidAction.clampWhenFinished = true;
+                openLidAction.setLoop(THREE.LoopOnce);
+                openLidAction.play();
+
+                openLidAction
+                    .getMixer()
+                    .addEventListener('finished', () => (this.mysteryCube.visible = true));
+
                 commonEmitter.emit(FIND_TREASURE);
                 document.removeEventListener('keyup', onAnyKeyUp);
                 document.addEventListener('keydown', onKeyDown);

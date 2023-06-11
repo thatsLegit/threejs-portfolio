@@ -104,19 +104,14 @@ class EnvController {
         // Animation to open the treasure
         const mixer = new THREE.AnimationMixer(scene);
         this._mixers.push(mixer);
-        const action = mixer.clipAction(Object.values(model.gltf.animations)[1]);
 
-        // TODO: dirty fix, allows starting of the lid with a closed paused animation
-        setTimeout(() => {
-            action.reset();
-            action.setEffectiveTimeScale(0.01);
-            action.setEffectiveWeight(1);
-            action.setLoop(THREE.LoopOnce);
-            action.play();
-            setTimeout(() => {
-                action.paused = true;
-            }, 0);
-        }, 0);
+        const close = mixer.clipAction(Object.values(model.gltf.animations)[0]);
+        close.clampWhenFinished = true;
+        close.setLoop(THREE.LoopOnce);
+        close.play();
+
+        const open = mixer.clipAction(Object.values(model.gltf.animations)[1]);
+        this._animations['treasureChest'] = open;
     }
 
     update(deltaTime) {
