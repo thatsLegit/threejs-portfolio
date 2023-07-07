@@ -34,10 +34,10 @@ class CoWorkers extends WindowTemplate {
             <div class="projects-container">
                 <div class="template-inner-container">
                     <a href=${this.scikitLearnLink} target="_blank" rel="noopener noreferrer">
-                    <img
-                        src=${scikitLearn}
-                        alt="scikit-learn" width="200" height="100"
-                    >
+                        <img
+                            src=${scikitLearn}
+                            alt="scikit-learn" width="200" height="100"
+                        >
                     </a>
                     <a href=${this.matplotlibLink} target="_blank" rel="noopener noreferrer">
                         <img 

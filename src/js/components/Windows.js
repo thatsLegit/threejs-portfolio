@@ -9,6 +9,9 @@ import PeriodontalDiagnosis from './WindowTemplates/PeriodontalDiagnosis';
 import Portfolio from './WindowTemplates/Portfolio';
 import OporctuniteMobile from './WindowTemplates/OporctuniteMobile';
 import TwitterScrapping from './WindowTemplates/TwitterScrapping';
+import Bespoke from './WindowTemplates/Bespoke';
+import Talent from './WindowTemplates/Talent';
+import ChessEngine from './WindowTemplates/ChessEngine';
 
 class Window {
     constructor(element) {
@@ -58,6 +61,7 @@ class CubeWindow extends Window {
         this.addTemplate(new SmallGames(this));
         this.addTemplate(new Skills(this));
         const projectsTemplate = new Projects(this);
+        // nesting projects template with these templates is only for the go back button
         this.addTemplate(projectsTemplate);
         this.addTemplate(new CoWorkers(this, projectsTemplate));
         this.addTemplate(new Oporctunite(this, projectsTemplate));
@@ -65,6 +69,9 @@ class CubeWindow extends Window {
         this.addTemplate(new Portfolio(this, projectsTemplate));
         this.addTemplate(new OporctuniteMobile(this, projectsTemplate));
         this.addTemplate(new TwitterScrapping(this, projectsTemplate));
+        this.addTemplate(new Bespoke(this, projectsTemplate));
+        this.addTemplate(new Talent(this, projectsTemplate));
+        this.addTemplate(new ChessEngine(this, projectsTemplate));
 
         this.injectAllTemplates();
     }

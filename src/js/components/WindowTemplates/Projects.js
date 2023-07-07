@@ -7,17 +7,25 @@ import porcLanding from '../../../assets/content/projects/web/oporctunite/landin
 import graphs from '../../../assets/content/projects/web/oporctunite/graphs.png';
 import search from '../../../assets/content/projects/web/oporctunite/search.png';
 import fiches from '../../../assets/content/projects/web/oporctunite/fiches.png';
+import talent from '../../../assets/content/projects/web/talent/talent.png';
 
 import characterSelect from '../../../assets/content/projects/web/threejs/character-select.png';
 import globalView from '../../../assets/content/projects/web/threejs/global-view.png';
 
-import screen1 from '../../../assets/content/projects/mobile/screen1.jpg';
-import screen2 from '../../../assets/content/projects/mobile/screen2.jpg';
-import screen3 from '../../../assets/content/projects/mobile/screen3.jpg';
-import screen4 from '../../../assets/content/projects/mobile/screen4.jpg';
+import oporctunite1 from '../../../assets/content/projects/mobile/oporctunite/screen1.jpg';
+import oporctunite2 from '../../../assets/content/projects/mobile/oporctunite/screen2.jpg';
+import oporctunite3 from '../../../assets/content/projects/mobile/oporctunite/screen3.jpg';
+import oporctunite4 from '../../../assets/content/projects/mobile/oporctunite/screen4.jpg';
+
+import bespoke1 from '../../../assets/content/projects/mobile/bespoke/screen1.png';
+import bespoke2 from '../../../assets/content/projects/mobile/bespoke/screen2.png';
+import bespoke3 from '../../../assets/content/projects/mobile/bespoke/screen3.png';
+import bespoke4 from '../../../assets/content/projects/mobile/bespoke/screen4.png';
+import bespoke5 from '../../../assets/content/projects/mobile/bespoke/screen5.png';
 
 import twitterLogo from '../../../assets/content/projects/ai/twitter-logo.svg';
-import noImage from '../../../assets/content/projects/ai/no-image.jpeg';
+import noImage from '../../../assets/content/projects/no-image.jpeg';
+import chess from '../../../assets/content/projects/ai/chess.png';
 
 /* 
 section
@@ -44,21 +52,27 @@ class Projects extends WindowTemplate {
                 slideshows: [
                     {
                         id: `${this.id}-slide-1`,
-                        images: [cwLanding, home, rooms],
-                        linksTo: 'co-workers',
-                        tooltipText: 'Co-workers: web and IoT',
+                        images: [talent],
+                        linksTo: 'talent',
+                        tooltipText: 'Talent.io recruitment platform',
                     },
                     {
                         id: `${this.id}-slide-2`,
+                        images: [characterSelect, globalView],
+                        linksTo: 'portfolio',
+                        tooltipText: 'Portfolio project with Three.js',
+                    },
+                    {
+                        id: `${this.id}-slide-3`,
                         images: [porcLanding, graphs, search, fiches],
                         linksTo: 'oporctunite',
                         tooltipText: "Oporctunite: disrupt'Campus collaborative project",
                     },
                     {
-                        id: `${this.id}-slide-3`,
-                        images: [characterSelect, globalView],
-                        linksTo: 'portfolio',
-                        tooltipText: 'Portfolio project with Three.js',
+                        id: `${this.id}-slide-4`,
+                        images: [cwLanding, home, rooms],
+                        linksTo: 'co-workers',
+                        tooltipText: 'Co-workers: web and IoT',
                     },
                 ],
             },
@@ -67,8 +81,14 @@ class Projects extends WindowTemplate {
                 title: 'Mobile Development',
                 slideshows: [
                     {
-                        id: `${this.id}-slide-4`,
-                        images: [screen2, screen4, screen3, screen1],
+                        id: `${this.id}-slide-5`,
+                        images: [bespoke1, bespoke2, bespoke3, bespoke4, bespoke5],
+                        linksTo: 'bespoke',
+                        tooltipText: "Dior's Bespoke tablet app",
+                    },
+                    {
+                        id: `${this.id}-slide-6`,
+                        images: [oporctunite2, oporctunite4, oporctunite3, oporctunite1],
                         linksTo: 'oporctunite-mobile',
                         tooltipText: 'React native mobile app',
                     },
@@ -79,13 +99,19 @@ class Projects extends WindowTemplate {
                 title: 'AI',
                 slideshows: [
                     {
-                        id: `${this.id}-slide-5`,
+                        id: `${this.id}-slide-7`,
+                        images: [chess],
+                        linksTo: 'chess-engine',
+                        tooltipText: 'Expert Chess Engine',
+                    },
+                    {
+                        id: `${this.id}-slide-8`,
                         images: [noImage],
                         linksTo: 'periodontal-diagnosis',
                         tooltipText: 'Machine Learning collaborative project',
                     },
                     {
-                        id: `${this.id}-slide-6`,
+                        id: `${this.id}-slide-9`,
                         images: [twitterLogo],
                         linksTo: 'twitter-scrapping',
                         tooltipText: 'Twitter scrapping',
@@ -102,6 +128,9 @@ class Projects extends WindowTemplate {
             [`${this.id}-slide-4`]: 0,
             [`${this.id}-slide-5`]: 0,
             [`${this.id}-slide-6`]: 0,
+            [`${this.id}-slide-7`]: 0,
+            [`${this.id}-slide-8`]: 0,
+            [`${this.id}-slide-9`]: 0,
         };
     }
 

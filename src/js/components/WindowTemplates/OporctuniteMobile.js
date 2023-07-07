@@ -1,16 +1,16 @@
 import WindowTemplate from './WindowTemplate';
 import back from '../../../assets/content/back.png';
 import github from '../../../assets/content/github.png';
-import reactLogo from '../../../assets/content/projects/mobile/react-logo.png';
-import nodejs from '../../../assets/content/projects/mobile/nodejs.png';
-import sequelize from '../../../assets/content/projects/mobile/sequelize.png';
-import screen2 from '../../../assets/content/projects/mobile/screen2.jpg';
-import screen3 from '../../../assets/content/projects/mobile/screen3.jpg';
-import screen1 from '../../../assets/content/projects/mobile/screen1.jpg';
-import screen4 from '../../../assets/content/projects/mobile/screen4.jpg';
-import drawings from '../../../assets/content/projects/mobile/drawings.png';
-import architecture from '../../../assets/content/projects/mobile/architecture.jpeg';
-import apiDocumentation from '../../../assets/content/projects/mobile/api-documentation.png';
+import reactLogo from '../../../assets/content/projects/react.png';
+import nodejs from '../../../assets/content/projects/nodejs.svg';
+import sequelize from '../../../assets/content/projects/sequelize.png';
+import screen2 from '../../../assets/content/projects/mobile/oporctunite/screen2.jpg';
+import screen3 from '../../../assets/content/projects/mobile/oporctunite/screen3.jpg';
+import screen1 from '../../../assets/content/projects/mobile/oporctunite/screen1.jpg';
+import screen4 from '../../../assets/content/projects/mobile/oporctunite/screen4.jpg';
+import drawings from '../../../assets/content/projects/mobile/oporctunite/drawings.png';
+import architecture from '../../../assets/content/projects/mobile/oporctunite/architecture.jpeg';
+import apiDocumentation from '../../../assets/content/projects/mobile/oporctunite/api-documentation.png';
 
 class OporctuniteMobile extends WindowTemplate {
     constructor(window, parent) {
@@ -84,19 +84,19 @@ class OporctuniteMobile extends WindowTemplate {
                     <a href=${this.rnLink} target="_blank" rel="noopener noreferrer">
                     <img 
                         src=${reactLogo}
-                        alt="webgl" width="200" height="150"
+                        alt="react" width="200" height="150"
                     >
                     </a>
                     <a href=${this.nodeLink} target="_blank" rel="noopener noreferrer">
                         <img 
                             src=${nodejs}
-                            alt="disrupt-campus" width="200" height="150"
+                            alt="nodejs" width="200" height="150"
                         >
                     </a>
                     <a href=${this.sequelizeLink} target="_blank" rel="noopener noreferrer">
                         <img 
                             src=${sequelize}
-                            alt="disrupt-campus" width="250" height="100"
+                            alt="sequelize" width="250" height="100"
                         >
                     </a>
                 </div>
