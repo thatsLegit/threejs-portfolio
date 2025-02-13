@@ -44,7 +44,8 @@ class Window {
     }
 
     closeListenerCB(e) {
-        if (e.key.toString() === 'Escape') this.close();
+        if (e.key.toString() !== 'Escape') return;
+        this.close();
         document.removeEventListener('keydown', this.closeListenerCB);
     }
 }

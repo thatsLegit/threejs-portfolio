@@ -6,7 +6,7 @@ require.context('../assets', true, /\.(glb|gltf|fbx|bmp|png|jpg|jpeg|svg|wav|mp4
 import '../index.css';
 
 import CharacterSelection from 'components/CharacterSelectionScene';
-import CustomAssetLoader from './helpers/miscellaneous/CustomAssetLoader';
+import CustomAssetsBuilder from './helpers/miscellaneous/CustomAssetBuilder';
 import Game from 'components/Game';
 
 const LOADING_ELEMENT = document.querySelector('#loading');
@@ -29,7 +29,7 @@ const AZERTY_CONTROLS = ['D', 'Q', 'Z', 'S'];
 const QWERTY_CONTROLS = ['D', 'A', 'W', 'S'];
 let CHAR_NAME = '';
 
-const assetLoader = new CustomAssetLoader();
+const assetLoader = new CustomAssetsBuilder();
 
 LOADING_ELEMENT.style.display = 'flex';
 
