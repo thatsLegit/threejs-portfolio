@@ -47,11 +47,11 @@ class WindowTemplate {
         style.textContent = this.cssTemplate();
 
         // append html
-        const html = document.createElement('div');
-        html.id = this.id;
-        html.className = 'template-container';
-        html.innerHTML = this.htmlTemplate();
-        this.window.element.insertAdjacentElement('beforeend', html);
+        const div = document.createElement('div');
+        div.id = this.id;
+        div.className = 'template-container';
+        div.innerHTML = this.htmlTemplate();
+        this.window.element.insertAdjacentElement('beforeend', div);
         this.element = document.querySelector(`#${this.id}`);
 
         // add behavior to closeButton

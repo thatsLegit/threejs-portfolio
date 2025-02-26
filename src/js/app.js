@@ -6,7 +6,7 @@ require.context('../assets', true, /\.(glb|gltf|fbx|bmp|png|jpg|jpeg|svg|wav|mp4
 import '../index.css';
 
 import CharacterSelection from 'components/CharacterSelectionScene';
-import CustomAssetsBuilder from './helpers/miscellaneous/CustomAssetBuilder';
+import CustomAssetsBuilder from './helpers/miscellaneous/CustomAssetsBuilder';
 import Game from 'components/Game';
 
 const LOADING_ELEMENT = document.querySelector('#loading');

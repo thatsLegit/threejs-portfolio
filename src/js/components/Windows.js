@@ -12,6 +12,7 @@ import TwitterScrapping from './WindowTemplates/TwitterScrapping';
 import Bespoke from './WindowTemplates/Bespoke';
 import Talent from './WindowTemplates/Talent';
 import ChessEngine from './WindowTemplates/ChessEngine';
+import Unlockt from './WindowTemplates/Unlockt';
 
 class Window {
     constructor(element) {
@@ -72,6 +73,7 @@ class CubeWindow extends Window {
         this.addTemplate(new TwitterScrapping(this, projectsTemplate));
         this.addTemplate(new Bespoke(this, projectsTemplate));
         this.addTemplate(new Talent(this, projectsTemplate));
+        this.addTemplate(new Unlockt(this, projectsTemplate));
         this.addTemplate(new ChessEngine(this, projectsTemplate));
 
         this.injectAllTemplates();

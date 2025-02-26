@@ -1,4 +1,5 @@
 import WindowTemplate from './WindowTemplate';
+import Slider from '../Slider';
 
 import cwLanding from '../../../assets/content/projects/web/co-workers/landing.png';
 import home from '../../../assets/content/projects/web/co-workers/home.png';
@@ -23,132 +24,106 @@ import bespoke3 from '../../../assets/content/projects/mobile/bespoke/screen3.pn
 import bespoke4 from '../../../assets/content/projects/mobile/bespoke/screen4.png';
 import bespoke5 from '../../../assets/content/projects/mobile/bespoke/screen5.png';
 
+import unlockt1 from '../../../assets/content/projects/mobile/unlockt/home.png';
+import unlockt2 from '../../../assets/content/projects/mobile/unlockt/media.png';
+import unlockt3 from '../../../assets/content/projects/mobile/unlockt/link.png';
+import unlockt4 from '../../../assets/content/projects/mobile/unlockt/wallet.png';
+
 import twitterLogo from '../../../assets/content/projects/ai/twitter-logo.svg';
 import noImage from '../../../assets/content/projects/no-image.jpeg';
 import chess from '../../../assets/content/projects/ai/chess.png';
-
-/* 
-section
-    title
-    slideshow-container
-        image1
-        image2
-        image3
-        ...
-        prev + next buttons
-*/
 
 class Projects extends WindowTemplate {
     constructor(window) {
         super(window, null, 'projects');
 
-        // sections gather multiple projects within a common category
-        // one slide represents one project
-        // meaning that every image of the slide opens the same template
         this.sections = [
             {
                 id: 'web',
                 title: 'Web development',
-                slideshows: [
-                    {
-                        id: `${this.id}-slide-1`,
-                        images: [talent],
-                        linksTo: 'talent',
-                        tooltipText: 'Talent.io recruitment platform',
-                    },
-                    {
-                        id: `${this.id}-slide-2`,
-                        images: [characterSelect, globalView],
-                        linksTo: 'portfolio',
-                        tooltipText: 'Portfolio project with Three.js',
-                    },
-                    {
-                        id: `${this.id}-slide-3`,
-                        images: [porcLanding, graphs, search, fiches],
-                        linksTo: 'oporctunite',
-                        tooltipText: "Oporctunite: disrupt'Campus collaborative project",
-                    },
-                    {
-                        id: `${this.id}-slide-4`,
-                        images: [cwLanding, home, rooms],
-                        linksTo: 'co-workers',
-                        tooltipText: 'Co-workers: web and IoT',
-                    },
-                ],
             },
             {
                 id: 'mobile',
                 title: 'Mobile Development',
-                slideshows: [
-                    {
-                        id: `${this.id}-slide-5`,
-                        images: [bespoke1, bespoke2, bespoke3, bespoke4, bespoke5],
-                        linksTo: 'bespoke',
-                        tooltipText: "Dior's Bespoke tablet app",
-                    },
-                    {
-                        id: `${this.id}-slide-6`,
-                        images: [oporctunite2, oporctunite4, oporctunite3, oporctunite1],
-                        linksTo: 'oporctunite-mobile',
-                        tooltipText: 'React native mobile app',
-                    },
-                ],
             },
             {
                 id: 'ai',
                 title: 'AI',
-                slideshows: [
-                    {
-                        id: `${this.id}-slide-7`,
-                        images: [chess],
-                        linksTo: 'chess-engine',
-                        tooltipText: 'Expert Chess Engine',
-                    },
-                    {
-                        id: `${this.id}-slide-8`,
-                        images: [noImage],
-                        linksTo: 'periodontal-diagnosis',
-                        tooltipText: 'Machine Learning collaborative project',
-                    },
-                    {
-                        id: `${this.id}-slide-9`,
-                        images: [twitterLogo],
-                        linksTo: 'twitter-scrapping',
-                        tooltipText: 'Twitter scrapping',
-                    },
-                ],
             },
         ];
 
-        // Currently displayed image of each slideshow
-        this.slides = {
-            [`${this.id}-slide-1`]: 0,
-            [`${this.id}-slide-2`]: 0,
-            [`${this.id}-slide-3`]: 0,
-            [`${this.id}-slide-4`]: 0,
-            [`${this.id}-slide-5`]: 0,
-            [`${this.id}-slide-6`]: 0,
-            [`${this.id}-slide-7`]: 0,
-            [`${this.id}-slide-8`]: 0,
-            [`${this.id}-slide-9`]: 0,
-        };
-    }
-
-    showSlides(slideIndex, slideId) {
-        const slideElements = document.querySelectorAll(`#${slideId} > div`);
-        const elemLength = slideElements.length;
-
-        if (slideIndex >= elemLength) this.slides[slideId] = 0; // When next the last elem go back to first elem
-        if (slideIndex < 0) this.slides[slideId] = elemLength - 1; // When prev the first elem go back to last elem
-
-        for (let i = 0; i < elemLength; i++) {
-            if (i === this.slides[slideId]) slideElements[i].style.display = 'block';
-            else slideElements[i].style.display = 'none';
-        }
-    }
-
-    updateSlides(increment, slideId) {
-        this.showSlides((this.slides[slideId] += increment), slideId);
+        this.projects = [
+            {
+                sectionId: 'web',
+                id: `${this.id}-talent`,
+                images: [talent],
+                linksTo: 'talent',
+                tooltipText: 'Talent.io recruitment platform',
+            },
+            {
+                sectionId: 'web',
+                id: `${this.id}-portfolio`,
+                images: [characterSelect, globalView],
+                linksTo: 'portfolio',
+                tooltipText: 'Portfolio project with Three.js',
+            },
+            {
+                sectionId: 'web',
+                id: `${this.id}-oporctunite`,
+                images: [porcLanding, graphs, search, fiches],
+                linksTo: 'oporctunite',
+                tooltipText: "Oporctunite: disrupt'Campus collaborative project",
+            },
+            {
+                sectionId: 'web',
+                id: `${this.id}-co-workers`,
+                images: [cwLanding, home, rooms],
+                linksTo: 'co-workers',
+                tooltipText: 'Co-workers: web and IoT',
+            },
+            {
+                sectionId: 'mobile',
+                id: `${this.id}-unlockt`,
+                images: [unlockt1, unlockt2, unlockt3, unlockt4],
+                linksTo: 'unlockt',
+                tooltipText: 'Unlockt.me: media sharing mobile app',
+            },
+            {
+                sectionId: 'mobile',
+                id: `${this.id}-bespoke`,
+                images: [bespoke1, bespoke2, bespoke3, bespoke4, bespoke5],
+                linksTo: 'bespoke',
+                tooltipText: "Dior's Bespoke tablet app",
+            },
+            {
+                sectionId: 'mobile',
+                id: `${this.id}-oporctunite-mobile`,
+                images: [oporctunite2, oporctunite4, oporctunite3, oporctunite1],
+                linksTo: 'oporctunite-mobile',
+                tooltipText: 'React native mobile app',
+            },
+            {
+                sectionId: 'ai',
+                id: `${this.id}-chess-engine`,
+                images: [chess],
+                linksTo: 'chess-engine',
+                tooltipText: 'Expert Chess Engine',
+            },
+            {
+                sectionId: 'ai',
+                id: `${this.id}-periodontal-diagnosis`,
+                images: [noImage],
+                linksTo: 'periodontal-diagnosis',
+                tooltipText: 'Machine Learning collaborative project',
+            },
+            {
+                sectionId: 'ai',
+                id: `${this.id}-twitter-scrapping`,
+                images: [twitterLogo],
+                linksTo: 'twitter-scrapping',
+                tooltipText: 'Twitter scrapping',
+            },
+        ];
     }
 
     cssTemplate() {
@@ -165,10 +140,10 @@ class Projects extends WindowTemplate {
                 width: 33%
             }
             #${this.id} .heading {
-                padding: 1em 1em 3em 1em; 
+                padding: 1em; 
                 font-weight: bold;
             }
-            #${this.id} .title {
+            #${this.id} .projects-title {
                 text-align: center;
                 position: relative;
             }
@@ -180,7 +155,7 @@ class Projects extends WindowTemplate {
                 top: 40%;
                 width: auto;
                 padding: 12px;
-                color: white;
+                color: red;
                 font-weight: bold;
                 font-size: 12px;
                 transition: 0.6s ease;
@@ -190,50 +165,6 @@ class Projects extends WindowTemplate {
         `;
     }
 
-    sectionsTemplate() {
-        return this.sections
-            .map((section) => {
-                return `
-                    <section id=${section.id}>
-                        <p class="title">${section.title}</p>
-                        ${this.slideShowsTemplate(section.slideshows)}
-                    </section>
-                `;
-            })
-            .join('');
-    }
-
-    slideShowsTemplate(slideshows) {
-        return slideshows
-            .map((slideshow) => {
-                return `
-                    <div id=${slideshow.id} class="slideshow-container">
-                        ${this.slideShowImagesTemplate(slideshow)}
-                    </div>
-                `;
-            })
-            .join('');
-    }
-
-    slideShowImagesTemplate(slideshow) {
-        return slideshow.images
-            .map((image) => {
-                return `
-                    <div onclick="
-                            document.querySelector('#${this.id}').style.display = 'none'; 
-                            document.querySelector('#${slideshow.linksTo}').style.display = 'block'
-                        "
-                    >
-                        <div class="tooltip">
-                            <img src=${image} />
-                            <span class="tooltiptext">${slideshow.tooltipText}</span>
-                        </div>
-                    </div>
-                `;
-            })
-            .join('');
-    }
-
     htmlTemplate() {
         return `
             ${super.htmlTemplate()}
@@ -241,33 +172,66 @@ class Projects extends WindowTemplate {
                 Here are some of my projects ! You can click on the images to know more
                 about the project.
             </p>
-            <br>
             <div class="flex-row justify-space-around">
                 ${this.sectionsTemplate()}
             </div>
         `;
     }
 
+    sectionsTemplate() {
+        return this.sections
+            .map((section) => {
+                const projects = this.projects.filter(
+                    (project) => project.sectionId === section.id
+                );
+
+                return `
+                    <section id=${section.id}>
+                        <p class="projects-title">${section.title}</p>
+                        ${this.projectsTemplate(projects)}
+                    </section>
+                `;
+            })
+            .join('');
+    }
+
+    projectsTemplate(projects) {
+        return projects
+            .map((project) => {
+                return `
+                    <div id=${project.id} class="slideshow-container">
+                        ${this.projectImageTemplate(project)}
+                    </div>
+                `;
+            })
+            .join('');
+    }
+
+    projectImageTemplate(project) {
+        return project.images
+            .map((image) => {
+                return `
+                    <div onclick="
+                            document.querySelector('#${this.id}').style.display = 'none'; 
+                            document.querySelector('#${project.linksTo}').style.display = 'block'
+                        "
+                    >
+                        <div class="tooltip">
+                            <img src=${image} />
+                            <span class="tooltiptext">${project.tooltipText}</span>
+                        </div>
+                    </div>
+                `;
+            })
+            .join('');
+    }
+
     generate() {
         super.generate();
 
-        for (let slideId in this.slides) {
-            this.showSlides(0, slideId); // Set initial image in each container
-            const slideShow = document.querySelector(`#${slideId}`);
-
-            const prev = document.createElement('a');
-            prev.className = 'prev';
-            prev.innerHTML = '&#10094';
-            prev.addEventListener('click', () => this.updateSlides(-1, slideId));
-
-            const next = document.createElement('a');
-            next.className = 'next';
-            next.innerHTML = '&#10095';
-            next.addEventListener('click', () => this.updateSlides(1, slideId));
-
-            slideShow.insertAdjacentElement('beforeend', prev);
-            slideShow.insertAdjacentElement('beforeend', next);
-        }
+        this.projects.forEach((project) => {
+            new Slider(project.id);
+        });
     }
 }
 

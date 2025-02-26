@@ -20,6 +20,7 @@ import screen12 from '../../../assets/content/projects/mobile/bespoke/screen12.p
 import dior from '../../../assets/content/projects/mobile/bespoke/dior.jpg';
 import rzf from '../../../assets/content/projects/mobile/bespoke/rzf.jpg';
 import video from '../../../assets/content/projects/mobile/bespoke/bespoke_app.mp4';
+import Slider from '../Slider';
 
 class Bespoke extends WindowTemplate {
     constructor(window, parent) {
@@ -33,33 +34,7 @@ class Bespoke extends WindowTemplate {
         this.graphqlLink = 'https://graphql.org/';
         this.apolloLink = 'https://www.apollographql.com/';
 
-        // Currently displayed image of each slideshow
-        this.slides = {
-            [`${this.id}-slide-1`]: 0,
-            [`${this.id}-slide-2`]: 0,
-            [`${this.id}-slide-3`]: 0,
-        };
-    }
-
-    showSlides(slideIndex, slideId) {
-        const slideElements = document.querySelectorAll(`#${slideId} > div`);
-        const elemLength = slideElements.length;
-
-        if (slideIndex >= elemLength) this.slides[slideId] = 0; // When next the last elem go back to first elem
-        if (slideIndex < 0) this.slides[slideId] = elemLength - 1; // When prev the first elem go back to last elem
-
-        for (let i = 0; i < elemLength; i++) {
-            if (i === this.slides[slideId]) slideElements[i].style.display = 'block';
-            else slideElements[i].style.display = 'none';
-        }
-    }
-
-    updateSlides(increment, slideId) {
-        this.showSlides((this.slides[slideId] += increment), slideId);
-    }
-
-    setSlides(index, slideId) {
-        this.showSlides((this.slides[slideId] = index), slideId);
+        this.slideIds = [`${this.id}-slide-1`, `${this.id}-slide-2`, `${this.id}-slide-3`];
     }
 
     cssTemplate() {
@@ -106,7 +81,7 @@ class Bespoke extends WindowTemplate {
                     discussions and be a leading actor in the development choices.
                 </p>
 
-                    <div id="${this.id}-slide-1" class="slideshow-container">
+                    <div id="${this.slideIds[0]}" class="slideshow-container">
                         <div class="fade">
                             <div class="caption">User story</div>
                             <img src=${screen6}>
@@ -172,7 +147,7 @@ class Bespoke extends WindowTemplate {
                 </div>
 
                 <!-- slideshow 2-->
-                <div id="${this.id}-slide-2" class="slideshow-container">
+                <div id="${this.slideIds[1]}" class="slideshow-container">
                     <div class="fade">
                         <div class="caption">The login screen</div>
                         <img src=${screen1}>
@@ -204,7 +179,7 @@ class Bespoke extends WindowTemplate {
                 </div>
 
                 <!-- slideshow 3-->
-                <div id="${this.id}-slide-3" class="slideshow-container">
+                <div id="${this.slideIds[2]}" class="slideshow-container">
                     <div class="fade">
                         <div class="caption">The Back End for Front End</div>
                         <img src=${screen11}>
@@ -217,7 +192,6 @@ class Bespoke extends WindowTemplate {
 
                 <div class="project-explanation">
                     Below you can enjoy a demo video of the final app (at least at the moment I left the project) !
-                    
                     <video width="720" height="500" controls style="margin: 50px auto">
                         <source src=${video} type="video/mp4">
                         Your browser does not support the video tag.
@@ -236,36 +210,10 @@ class Bespoke extends WindowTemplate {
             this.parent.enable();
         });
 
-        for (let slideId in this.slides) {
-            this.showSlides(0, slideId); // Set initial image in each container
-            const slideShow = document.querySelector(`#${slideId}`);
-
-            const prev = document.createElement('a');
-            prev.className = 'prev';
-            prev.innerHTML = '&#10094';
-            prev.addEventListener('click', () => this.updateSlides(-1, slideId));
-
-            const next = document.createElement('a');
-            next.className = 'next';
-            next.innerHTML = '&#10095';
-            next.addEventListener('click', () => this.updateSlides(1, slideId));
-
-            slideShow.insertAdjacentElement('beforeend', prev);
-            slideShow.insertAdjacentElement('beforeend', next);
-
-            const dotContainer = document.createElement('div');
-            dotContainer.className = 'dot-container';
-            slideShow.insertAdjacentElement('afterend', dotContainer);
-
-            const images = document.querySelectorAll(`#${slideId} > div`);
-
-            for (let i = 0; i < images.length; i++) {
-                const dot = document.createElement('span');
-                dot.className = 'dot';
-                dot.addEventListener('click', () => this.setSlides(i, slideId));
-                dotContainer.insertAdjacentElement('beforeend', dot);
-            }
-        }
+        this.slideIds.forEach((slideId) => {
+            const slider = new Slider(slideId);
+            slider.generateDots();
+        });
     }
 }
 

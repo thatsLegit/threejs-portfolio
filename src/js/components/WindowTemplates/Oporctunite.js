@@ -1,4 +1,6 @@
 import WindowTemplate from './WindowTemplate';
+import Slider from '../Slider';
+
 import back from '../../../assets/content/back.png';
 import github from '../../../assets/content/github.png';
 import oporctuniteLogo from '../../../assets/content/projects/web/oporctunite/logo-oporctunite.png';
@@ -10,7 +12,7 @@ import fiches from '../../../assets/content/projects/web/oporctunite/fiches.png'
 import search from '../../../assets/content/projects/web/oporctunite/search.png';
 import adobeMockups from '../../../assets/content/projects/web/oporctunite/adobe-mockups.png';
 
-class CoWorkers extends WindowTemplate {
+class Oporctunite extends WindowTemplate {
     constructor(window, parent) {
         super(window, parent, 'oporctunite');
 
@@ -19,29 +21,7 @@ class CoWorkers extends WindowTemplate {
         this.webSiteLink = 'https://oporctunite.envt.fr';
         this.disruptCampusLink = 'https://www.disruptcampus-toulouse.fr';
 
-        this.slide = 0;
-        this.slideId = `${this.id}-slide`;
-    }
-
-    showSlides(slideIndex) {
-        const slideElements = document.querySelectorAll(`#${this.slideId} > div`);
-        const elemLength = slideElements.length;
-
-        if (slideIndex >= elemLength) this.slide = 0; // When next the last elem go back to first elem
-        if (slideIndex < 0) this.slide = elemLength - 1; // When prev the first elem go back to last elem
-
-        for (let i = 0; i < elemLength; i++) {
-            if (i === this.slide) slideElements[i].style.display = 'block';
-            else slideElements[i].style.display = 'none';
-        }
-    }
-
-    updateSlides(increment) {
-        this.showSlides((this.slide += increment));
-    }
-
-    setSlides(index) {
-        this.showSlides((this.slide = index));
+        this.slideIds = [`${this.id}-slide-1`];
     }
 
     cssTemplate() {
@@ -111,7 +91,7 @@ class CoWorkers extends WindowTemplate {
                 </p>
 
                 <!-- slideshow -->
-                <div id=${this.slideId} class="slideshow-container">
+                <div id="${this.slideIds[0]}" class="slideshow-container">
                     <div class="fade">
                         <div class="caption">Landing page</div>
                         <img src=${landingPage}>
@@ -146,35 +126,11 @@ class CoWorkers extends WindowTemplate {
             this.parent.enable();
         });
 
-        this.showSlides(0, this.slideId); // Set initial image
-        const slideShow = document.querySelector(`#${this.slideId}`);
-
-        const prev = document.createElement('a');
-        prev.className = 'prev';
-        prev.innerHTML = '&#10094';
-        prev.addEventListener('click', () => this.updateSlides(-1));
-
-        const next = document.createElement('a');
-        next.className = 'next';
-        next.innerHTML = '&#10095';
-        next.addEventListener('click', () => this.updateSlides(1));
-
-        slideShow.insertAdjacentElement('beforeend', prev);
-        slideShow.insertAdjacentElement('beforeend', next);
-
-        const dotContainer = document.createElement('div');
-        dotContainer.className = 'dot-container';
-        slideShow.insertAdjacentElement('afterend', dotContainer);
-
-        const images = document.querySelectorAll(`#${this.slideId} > div`);
-
-        for (let i = 0; i < images.length; i++) {
-            const dot = document.createElement('span');
-            dot.className = 'dot';
-            dot.addEventListener('click', () => this.setSlides(i));
-            dotContainer.insertAdjacentElement('beforeend', dot);
-        }
+        this.slideIds.forEach((slideId) => {
+            const slider = new Slider(slideId);
+            slider.generateDots();
+        });
     }
 }
 
-export default CoWorkers;
+export default Oporctunite;

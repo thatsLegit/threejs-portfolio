@@ -1,4 +1,6 @@
 import WindowTemplate from './WindowTemplate';
+import Slider from '../Slider';
+
 import back from '../../../assets/content/back.png';
 import github from '../../../assets/content/github.png';
 import reactLogo from '../../../assets/content/projects/react.png';
@@ -22,32 +24,7 @@ class OporctuniteMobile extends WindowTemplate {
         this.sequelizeLink = 'https://github.com/sequelize/sequelize';
         this.webSocketsLink = 'https://www.npmjs.com/package/ws';
 
-        // Currently displayed image of each slideshow
-        this.slides = {
-            [`${this.id}-slide-1`]: 0,
-            [`${this.id}-slide-2`]: 0,
-        };
-    }
-
-    showSlides(slideIndex, slideId) {
-        const slideElements = document.querySelectorAll(`#${slideId} > div`);
-        const elemLength = slideElements.length;
-
-        if (slideIndex >= elemLength) this.slides[slideId] = 0; // When next the last elem go back to first elem
-        if (slideIndex < 0) this.slides[slideId] = elemLength - 1; // When prev the first elem go back to last elem
-
-        for (let i = 0; i < elemLength; i++) {
-            if (i === this.slides[slideId]) slideElements[i].style.display = 'block';
-            else slideElements[i].style.display = 'none';
-        }
-    }
-
-    updateSlides(increment, slideId) {
-        this.showSlides((this.slides[slideId] += increment), slideId);
-    }
-
-    setSlides(index, slideId) {
-        this.showSlides((this.slides[slideId] = index), slideId);
+        this.slideIds = [`${this.id}-slide-1`, `${this.id}-slide-2`];
     }
 
     cssTemplate() {
@@ -107,7 +84,7 @@ class OporctuniteMobile extends WindowTemplate {
                     <br><br>
                     A prototype was delivered at the end of the internship but we didn't have the time to prepare the app for publication to the store (Apple Store and Google Play).
                 </p>
-                <div id="${this.id}-slide-1" class="slideshow-container">
+                <div id="${this.slideIds[0]}" class="slideshow-container">
                     <div class="fade">
                         <div class="caption">Drawer navigation</div>
                         <img src=${screen2}>
@@ -145,7 +122,7 @@ class OporctuniteMobile extends WindowTemplate {
                 </div>
 
                 <!-- slideshow 2-->
-                <div id="${this.id}-slide-2" class="slideshow-container">
+                <div id="${this.slideIds[1]}" class="slideshow-container">
                     <div class="fade">
                         <div class="caption">Very low fi prototype of the app made in the early developments</div>
                         <img src=${drawings}>
@@ -187,36 +164,10 @@ class OporctuniteMobile extends WindowTemplate {
             this.parent.enable();
         });
 
-        for (let slideId in this.slides) {
-            this.showSlides(0, slideId); // Set initial image in each container
-            const slideShow = document.querySelector(`#${slideId}`);
-
-            const prev = document.createElement('a');
-            prev.className = 'prev';
-            prev.innerHTML = '&#10094';
-            prev.addEventListener('click', () => this.updateSlides(-1, slideId));
-
-            const next = document.createElement('a');
-            next.className = 'next';
-            next.innerHTML = '&#10095';
-            next.addEventListener('click', () => this.updateSlides(1, slideId));
-
-            slideShow.insertAdjacentElement('beforeend', prev);
-            slideShow.insertAdjacentElement('beforeend', next);
-
-            const dotContainer = document.createElement('div');
-            dotContainer.className = 'dot-container';
-            slideShow.insertAdjacentElement('afterend', dotContainer);
-
-            const images = document.querySelectorAll(`#${slideId} > div`);
-
-            for (let i = 0; i < images.length; i++) {
-                const dot = document.createElement('span');
-                dot.className = 'dot';
-                dot.addEventListener('click', () => this.setSlides(i, slideId));
-                dotContainer.insertAdjacentElement('beforeend', dot);
-            }
-        }
+        this.slideIds.forEach((slideId) => {
+            const slider = new Slider(slideId);
+            slider.generateDots();
+        });
     }
 }
 
