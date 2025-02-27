@@ -4,6 +4,7 @@ import linkedin from '../../../assets/content/linkedin.png';
 import email from '../../../assets/content/email.png';
 import alarm from '../../../assets/content/alarm.png';
 import happy from '../../../assets/content/happy.png';
+import phone from '../../../assets/content/phone.png';
 
 class HireMe extends WindowTemplate {
     constructor(window) {
@@ -11,6 +12,7 @@ class HireMe extends WindowTemplate {
         this.github = 'https://github.com/thatsLegit';
         this.linkedin = 'https://linkedin.com/in/stepanov-ilya';
         this.email = 'iliastepanov1996@gmail.com';
+        this.phone = 'tel:+33660704671';
     }
 
     cssTemplate() {
@@ -37,7 +39,7 @@ class HireMe extends WindowTemplate {
                 border-left: 1px solid #cccccc;
             }
             #hire-me-presentation {
-                height: 70vh;
+                height: 55vh;
             }
         `;
     }
@@ -81,14 +83,22 @@ class HireMe extends WindowTemplate {
                         <img src=${email} alt="email" />
                     </a>
                 </button>
+                <button class="social-links" type="button">
+                    <a
+                        href="tel:${this.phone}"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        <img src=${phone} alt="phone" />
+                    </a>
+                </button>
             </div>
                 <div class="text">
-                    I am in active search of a <b>5/6 months</b> internship to start on the
-                    <b>10th of March</b>.<br /><br />
-                    I am very willing to move outside France, as long as the Covid situation permits
-                    it obviously.<br /><br />
+                    I am in active search of a <b>fulltime contract</b> or <b>freelance mission</b> in Paris or abroad.
+                    I am willing to start working from <b>March</b>, wether it's fully remote, hybrid or on-site in Paris.
+                    <br /><br />
                     Hopefully, you can find all infos you are looking for on this website. However
-                    don't hesitate to contact me via social links
+                    don't hesitate to contact me by mail, phone or linkedin.
                     <img src=${happy} alt="happy" />.<br /><br />
                     Native Russian and French speaker, fluent in English.
                 </div>

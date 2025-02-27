@@ -1,6 +1,6 @@
 import HireMe from './WindowTemplates/HireMe';
 import AboutMe from './WindowTemplates/AboutMe';
-import SmallGames from './WindowTemplates/SmallGames';
+import MiniGames from './WindowTemplates/MiniGames';
 import Skills from './WindowTemplates/Skills';
 import Projects from './WindowTemplates/Projects';
 import CoWorkers from './WindowTemplates/CoWorkers';
@@ -60,7 +60,7 @@ class CubeWindow extends Window {
     _init() {
         this.addTemplate(new HireMe(this));
         this.addTemplate(new AboutMe(this));
-        this.addTemplate(new SmallGames(this));
+        this.addTemplate(new MiniGames(this));
         this.addTemplate(new Skills(this));
         const projectsTemplate = new Projects(this);
         // nesting projects template with these templates is only for the go back button

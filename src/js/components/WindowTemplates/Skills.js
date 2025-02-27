@@ -25,13 +25,6 @@ class Skills extends WindowTemplate {
             <div class="chart-container">
                 <canvas id="back"></canvas>
             </div>
-
-            <div class="chart-container">
-                <canvas id="ai"></canvas>
-            </div>
-            <div class="chart-container">
-                <canvas id="soft-others"></canvas>
-            </div>
         `;
     }
 
@@ -41,46 +34,31 @@ class Skills extends WindowTemplate {
         this._createChart(
             'front',
             'Front-end development',
-            ['Javascript', 'React/React Native', 'Angular', 'Bootstrap/BSstudio', 'CSS3', 'HTML5'],
-            [9, 9, 6, 8, 8, 10]
+            [
+                'Typecript',
+                'React',
+                'UI/UX',
+                'React Native',
+                'Swift UI',
+                'TailWind CSS',
+                'CSS3/HTML5',
+            ],
+            [9, 9, 8, 9, 3, 8, 10]
         );
         this._createChart(
             'back',
             'Back-end development',
             [
                 'Node.js',
-                'PHP/CodeIgniter',
-                'Java/Sprint-boot',
-                'Python/Flask',
-                'Postman',
+                'Software design/architecture',
+                'Containers/orchestration',
+                'CI/CD/Cloud/hosting',
+                'Testing',
+                'REST API',
+                'GRAPHQL API',
                 'SQL/NoSQL',
             ],
-            [9, 8, 5, 7, 10, 9]
-        );
-        this._createChart(
-            'ai',
-            'Data science',
-            [
-                'Python',
-                'Machine Learning',
-                'Data structures',
-                'Deep learning',
-                'Data visualization',
-            ],
-            [8, 9, 8, 5, 7]
-        );
-        this._createChart(
-            'soft-others',
-            'Soft skills - others',
-            [
-                'Design/UI/UX',
-                'MS Excel/VB',
-                'Team player',
-                'Git',
-                'Agility',
-                'DevOps/Cloud/hosting',
-            ],
-            [9, 8, 9, 9, 9, 7]
+            [9, 7, 7, 6, 9, 10, 9, 8]
         );
     }
 

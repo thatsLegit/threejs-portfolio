@@ -1,9 +1,9 @@
 import WindowTemplate from './WindowTemplate';
 import alarm from '../../../assets/content/alarm.png';
 
-class SmallGames extends WindowTemplate {
+class MiniGames extends WindowTemplate {
     constructor(window) {
-        super(window, null, 'smallGames');
+        super(window, null, 'miniGames');
     }
 
     cssTemplate() {
@@ -37,4 +37,4 @@ class SmallGames extends WindowTemplate {
     }
 }
 
-export default SmallGames;
+export default MiniGames;

@@ -15,7 +15,7 @@ import cv from '../../../assets/textures/cube_textures/cv.png';
 import hireMe from '../../../assets/textures/cube_textures/hireMe.png';
 import interrogation from '../../../assets/textures/cube_textures/interrogation.png';
 import projects from '../../../assets/textures/cube_textures/projects.png';
-import smallGames from '../../../assets/textures/cube_textures/smallGames.png';
+import miniGames from '../../../assets/textures/cube_textures/miniGames.png';
 
 import treasureChest from '../../../assets/models/treasure-chest/treasureChest.glb';
 import ship from '../../../assets/models/ship/ship.glb';
@@ -70,7 +70,7 @@ class CustomAssetsBuilder {
             cv: { path: cv },
             skills: { path: skills },
             hireMe: { path: hireMe },
-            smallGames: { path: smallGames },
+            miniGames: { path: miniGames },
         };
 
         this._envModelsManager = new THREE.LoadingManager();

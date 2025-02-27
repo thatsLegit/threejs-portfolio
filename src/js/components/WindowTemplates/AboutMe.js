@@ -1,13 +1,11 @@
 import WindowTemplate from './WindowTemplate';
 import profile from '../../../assets/content/profile.jpg';
 import games from '../../../assets/content/games.png';
-import auction from '../../../assets/content/auction.png';
 import reading from '../../../assets/content/reading.png';
 import workout from '../../../assets/content/workout.png';
 import wordcloud from '../../../assets/content/wordcloud.png';
 import development from '../../../assets/content/development.png';
 import computer from '../../../assets/content/computer.png';
-import lawBook from '../../../assets/content/law-book.png';
 import happy from '../../../assets/content/happy.png';
 
 class AboutMe extends WindowTemplate {
@@ -114,14 +112,15 @@ class AboutMe extends WindowTemplate {
                 <div class="flex-column align-center" style="flex: 2">
                     <div id="about-me-presentation">
                         Hey!<br /><br />
-                        My name is Ilja (pronounce Ilya) and as you may have guessed, I am a computer science
-                        student <img src=${happy} alt="happy" />. <br /><br />
-                        I am currently involved in the M2 Innovative Information Systems in the Capitole
-                        University of Toulouse, France.<br /><br />
-                        I study various topics such as web development, machine/deep learning, data science, IoT
-                        and more !<br /><br />
-                        Apart from classes I like exploring new technologies by my own and recently I've been very
-                        excited about 3d which led to this portfolio website !<br /><br />
+                        My name is Ilja (pronounce Ilya) and as you may have guessed, I am a software developer 
+                        <img src=${happy} alt="happy" />. <br /><br />
+                        For the past 4 years of my professional experience, I focused mainly on the font end development
+                        using React, React Native and Swift UI. <br /><br />
+                        Even though all my experiences where full stack, the back end languages where not my primary focus.
+                        So, I am currently looking for new challenges and opportunities in the software development field
+                        as a Typescript full stack developer. <br /><br />
+                        In my free time, I like exploring new technologies and reading materials about software design 
+                        and architecture. <br /><br />
                     </div>
 
                     <img class="wordcloud" src=${wordcloud} />
@@ -139,14 +138,6 @@ class AboutMe extends WindowTemplate {
                 <div class="timeline-item">
                     <p class="timeline-text">Bachelor (3rd y.) in computer science (<i>2018</i>)</p>
                     <img class="timeline-image" src=${computer} alt="computer" />
-                </div>
-                    <div class="timeline-item">
-                    <p class="timeline-text">Master in Business law (<i>2017</i>)</p>
-                    <img class="timeline-image" src=${auction} alt="contract" />
-                </div>
-                <div class="timeline-item">
-                    <p class="timeline-text">Law and economics Bachelor (<i>2014</i>)</p>
-                    <img class="timeline-image" src=${lawBook} alt="law-book" />
                 </div>
             </div>
         `;

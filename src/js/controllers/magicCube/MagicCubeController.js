@@ -17,7 +17,7 @@ class MagicCube {
         this._params = params;
 
         // keeping track of cube's faces
-        this._faces = ['aboutMe', 'projects', 'cv', 'skills', 'hireMe', 'smallGames'];
+        this._faces = ['aboutMe', 'projects', 'cv', 'skills', 'hireMe', 'miniGames'];
         this.visited = new Set();
         this._selected = null;
 

@@ -16,7 +16,6 @@ class Slider {
     }
 
     selectSlide(slideIndex) {
-        console.log(slideIndex, this.slidesNumber);
         if (slideIndex >= this.slidesNumber) {
             this.currentSlide = 0;
         } else if (slideIndex < 0) {
